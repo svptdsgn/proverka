@@ -3,1349 +3,840 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>МувиМуд — Кино на вечер</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>МувиМуд — Фильм</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #08080a;
-    --surface: #FAFAFA;
-    --surface-dark: #0E0E0F;
-    --text-main: #FAFAFA;
-    --text-dark: #050505;
-    --text-muted: #8A8A8A;
-    --border-color: rgba(255,255,255,0.08);
-    --border-light: rgba(255,255,255,0.16);
-    --accent: #D4A017;
-    --purple: #A855F7;
-    --radius-sm: 14px;
-    --radius-md: 22px;
-    --radius-lg: 30px;
-    --radius-pill: 100px;
-    --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  }
+    :root {
+        --bg: #08080a;
+        --surface: rgba(255,255,255,0.03);
+        --surface-hover: rgba(255,255,255,0.06);
+        --text-main: #FAFAFA;
+        --text-dark: #050505;
+        --text-muted: #8A8A8A;
+        --border-color: rgba(255,255,255,0.08);
+        --border-light: rgba(255,255,255,0.16);
+        --accent: #D4A017;
+        --purple: #A855F7;
+        --purple-dark: #7C3AED;
+        --green: #16A34A;
+        --danger: #EF4444;
+        --radius-sm: 14px;
+        --radius-md: 22px;
+        --radius-lg: 30px;
+        --radius-pill: 100px;
+        --font: 'Inter', -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+        font-family: var(--font);
+        background: 
+            radial-gradient(ellipse at 15% 25%, rgba(200,200,210,0.15) 0%, transparent 50%),
+            radial-gradient(ellipse at 85% 75%, rgba(160,160,170,0.10) 0%, transparent 55%),
+            linear-gradient(135deg, #050507 0%, #1a1a1e 20%, #0a0a0c 40%, #222226 60%, #0a0a0c 80%, #050507 100%);
+        background-attachment: fixed;
+        color: var(--text-main);
+        min-height: 100vh;
+        line-height: 1.5;
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+    }
+    
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: #EAB308; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* ===== HEADER ===== */
+    .header {
+        display: grid; grid-template-columns: auto 1fr auto;
+        gap: 32px; align-items: center;
+        padding: 0 32px; height: 72px;
+        background: linear-gradient(to bottom, rgba(5,5,10,0.85) 0%, rgba(5,5,10,0.6) 60%, transparent 100%);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--border-color);
+        position: sticky; top: 0; z-index: 100;
+    }
+    .logo { 
+        font-size: 17px; font-weight: 700; color: var(--text-main); letter-spacing: 0.04em; text-transform: uppercase;
+        display: inline-flex; align-items: flex-start; gap: 3px; white-space: nowrap;
+        text-shadow: -2px 0 rgba(255,0,0,0.5), 2px 0 rgba(0,255,255,0.5);
+    }
+    .logo sup { font-size: 9px; font-weight: 500; color: var(--text-muted); line-height: 1; margin-top: 2px; text-shadow: none; }
+    
+    .search-container { position: relative; width: 100%; max-width: 560px; justify-self: center; }
+    .search-input {
+        width: 100%; background: rgba(255,255,255,0.06);
+        border: 1px solid var(--border-light); border-radius: var(--radius-pill);
+        padding: 0 24px 0 56px; height: 52px; color: var(--text-main);
+        font-size: 15px; font-family: var(--font); outline: none; transition: all 0.3s ease;
+    }
+    .search-input:focus { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.3); box-shadow: 0 0 0 4px rgba(255,255,255,0.04); }
+    .search-input::placeholder { color: var(--text-muted); }
+    .search-icon {
+        position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+        width: 18px; height: 18px; fill: none; stroke: rgba(255,255,255,0.7); stroke-width: 2; pointer-events: none;
+    }
+    
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+    .icon-btn {
+        width: 44px; height: 44px; border-radius: 50%;
+        background: rgba(255,255,255,0.06); border: 1px solid var(--border-light);
+        display: flex; justify-content: center; align-items: center;
+        cursor: pointer; color: rgba(255,255,255,0.85); transition: all 0.25s ease;
+    }
+    .icon-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.28); }
+    .icon-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+    
+    .ai-search-btn {
+        background: rgba(168,85,247,0.14); border: 1px solid rgba(168,85,247,0.4); color: #C084FC;
+        box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);
+    }
+    .ai-search-btn:hover {
+        background: rgba(168,85,247,0.26); border-color: rgba(168,85,247,0.6); color: #E9D5FF;
+        box-shadow: 0 0 25px rgba(168, 85, 247, 0.4); transform: scale(1.05);
+    }
+    
+    .avatar-btn {
+        width: 44px; height: 44px; border-radius: 50%;
+        background: var(--text-main); border: none;
+        display: flex; justify-content: center; align-items: center;
+        color: var(--text-dark); font-weight: 700; font-size: 14px;
+        cursor: pointer; transition: transform 0.2s ease;
+    }
+    .avatar-btn:hover { transform: scale(1.05); }
 
-  body {
-    background: 
-      radial-gradient(ellipse at 15% 25%, rgba(200,200,210,0.35) 0%, transparent 50%),
-      radial-gradient(ellipse at 85% 75%, rgba(160,160,170,0.25) 0%, transparent 55%),
-      radial-gradient(ellipse at 50% 90%, rgba(220,220,230,0.20) 0%, transparent 45%),
-      radial-gradient(ellipse at 30% 60%, rgba(180,180,190,0.18) 0%, transparent 40%),
-      radial-gradient(ellipse at 70% 40%, rgba(140,140,150,0.15) 0%, transparent 50%),
-      linear-gradient(135deg, #050507 0%, #1a1a1e 20%, #0a0a0c 40%, #222226 60%, #0a0a0c 80%, #050507 100%);
-    background-attachment: fixed;
-    color: var(--text-main);
-    font-family: var(--font);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
+    /* ===== MAIN LAYOUT ===== */
+    .container { max-width: 1200px; margin: 0 auto; padding: 40px 32px 80px; }
+    
+    .back-link {
+        display: inline-flex; align-items: center; gap: 8px;
+        color: var(--text-muted); font-size: 14px; font-weight: 500;
+        margin-bottom: 32px; transition: color 0.2s ease;
+    }
+    .back-link:hover { color: var(--text-main); }
+    .back-link svg { width: 16px; height: 16px; }
 
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32px;
-    z-index: 100;
-    background: linear-gradient(to bottom, rgba(5,5,10,0.85) 0%, rgba(5,5,10,0.6) 60%, transparent 100%);
-    backdrop-filter: blur(8px);
-  }
+    /* ===== HERO ===== */
+    .movie-hero { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; margin-bottom: 56px; align-items: start; }
+    
+    .movie-trailer-wrapper {
+        position: relative; width: 100%; aspect-ratio: 16 / 9;
+        overflow: hidden; border-radius: var(--radius-md);
+        background: var(--surface); border: 1px solid var(--border-color); cursor: pointer;
+    }
+    .movie-trailer-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+    .movie-trailer-wrapper:hover img { transform: scale(1.03); }
+    
+    .play-button {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        width: 72px; height: 72px;
+        background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 32px rgba(168, 85, 247, 0.4);
+    }
+    .movie-trailer-wrapper:hover .play-button { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 12px 40px rgba(168, 85, 247, 0.6); }
+    .play-button svg { width: 28px; height: 28px; fill: #fff; margin-left: 3px; }
 
-  .logo-plate {
-    display: inline-flex;
-    align-items: center;
-    padding: 10px 20px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: var(--radius-pill);
-    backdrop-filter: blur(16px) saturate(140%);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
-    text-decoration: none;
-    flex-shrink: 0;
-    transition: all 0.3s ease;
-  }
-  .logo-plate:hover { background: rgba(255,255,255,0.10); transform: scale(1.03); }
-  .logo-plate:active { transform: scale(0.97); }
-  .logo {
-    font-size: 17px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: flex-start;
-    gap: 3px;
-    white-space: nowrap;
-    position: relative;
-    text-shadow: 
-      -2px 0 rgba(255,0,0,0.7),
-      2px 0 rgba(0,255,255,0.7),
-      0 -1px rgba(0,255,0,0.5),
-      0 1px rgba(255,255,0,0.5);
-  }
-  .logo sup {
-    font-size: 9px;
-    font-weight: 500;
-    color: var(--text-muted);
-    line-height: 1;
-    margin-top: 2px;
-    text-shadow: none;
-  }
+    .movie-info h1 { font-size: 42px; font-weight: 700; color: var(--text-main); line-height: 1.1; margin-bottom: 16px; letter-spacing: -0.03em; }
+    
+    .movie-teaser { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 14px; color: var(--text-muted); margin-bottom: 24px; font-weight: 500; }
+    .movie-teaser .sep { color: var(--text-muted); opacity: 0.5; }
+    .movie-teaser .teaser-age {
+        background: rgba(255,255,255,0.06); border: 1px solid var(--border-light);
+        color: var(--text-main); padding: 2px 10px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    }
 
-  .search-container {
-    position: relative;
-    flex: 1;
-    max-width: 560px;
-    margin: 0 32px;
-  }
-  .search-input {
-    width: 100%;
-    height: 52px;
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.20);
-    border-radius: var(--radius-pill);
-    padding: 0 24px 0 56px;
-    color: var(--text-main);
-    font-size: 15px;
-    font-weight: 400;
-    font-family: var(--font);
-    outline: none;
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
-  }
-  .search-input::placeholder { color: rgba(255,255,255,0.6); }
-  .search-input:focus {
-    background: rgba(255,255,255,0.14);
-    border-color: rgba(255,255,255,0.35);
-    box-shadow: 0 0 0 4px rgba(255,255,255,0.06);
-  }
-  .search-icon {
-    position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
-    width: 18px; height: 18px; fill: none; stroke: rgba(255,255,255,0.7); stroke-width: 2;
-    pointer-events: none;
-  }
+    /* AI BLOCK */
+    .ai-recommendation-block {
+        background: rgba(168,85,247,0.08);
+        border: 1px solid rgba(168,85,247,0.2);
+        border-radius: var(--radius-sm); padding: 20px;
+        margin-bottom: 28px;
+    }
+    .ai-rec-header {
+        display: flex; align-items: center; gap: 10px; color: #C084FC;
+        font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;
+    }
+    .ai-rec-header svg { width: 14px; height: 14px; }
+    .ai-rec-text { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.9); }
 
-  .header-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    /* ACTIONS */
+    .actions-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 32px; }
+    
+    .btn-watch {
+        background: linear-gradient(135deg, var(--purple) 0%, var(--purple-dark) 100%);
+        color: #fff; border: none; border-radius: var(--radius-pill);
+        padding: 0 30px; height: 52px; font-size: 15px; font-weight: 600; font-family: var(--font);
+        cursor: pointer; display: inline-flex; align-items: center; gap: 9px;
+        transition: all 0.3s ease; text-decoration: none;
+        box-shadow: 0 8px 24px rgba(168, 85, 247, 0.35);
+    }
+    .btn-watch:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(168, 85, 247, 0.5); color: #fff; }
+    .btn-watch svg { width: 18px; height: 18px; fill: currentColor; }
+    
+    .btn-trailer {
+        background: rgba(255,255,255,0.06); color: var(--text-main);
+        border: 1px solid var(--border-light); border-radius: var(--radius-pill);
+        padding: 0 26px; height: 52px; font-size: 15px; font-weight: 500; font-family: var(--font);
+        cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s ease;
+        text-decoration: none;
+    }
+    .btn-trailer:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); color: var(--text-main); }
+    .btn-trailer svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-  .glass-plate {
-    width: 44px;
-    height: 44px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.14);
-    border-radius: 50%;
-    backdrop-filter: blur(16px) saturate(140%);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
-    color: rgba(255,255,255,0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.25s ease;
-  }
-  .glass-plate:hover {
-    color: var(--text-main);
-    background: rgba(255,255,255,0.14);
-    border-color: rgba(255,255,255,0.28);
-  }
-  .glass-plate svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+    .icon-action {
+        width: 52px; height: 52px; border-radius: var(--radius-sm);
+        background: rgba(255,255,255,0.06); border: 1px solid var(--border-light);
+        display: inline-flex; align-items: center; justify-content: center;
+        color: var(--text-muted); cursor: pointer; transition: all 0.2s ease; padding: 0;
+    }
+    .icon-action:hover { color: var(--text-main); background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); }
+    .icon-action svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    
+    .icon-action.on-save { color: var(--accent); border-color: rgba(212,160,23,0.5); background: rgba(212,160,23,0.12); }
+    .icon-action.on-save svg { fill: var(--accent); }
+    .icon-action.on-watch { color: #60A5FA; border-color: rgba(96,165,250,0.5); background: rgba(96,165,250,0.12); }
+    .icon-action.on-hide { color: var(--danger); border-color: rgba(239,68,68,0.5); background: rgba(239,68,68,0.12); }
 
-  .glass-plate--avatar {
-    background: var(--surface);
-    border-color: var(--surface);
-    color: var(--text-dark);
-    font-size: 14px;
-    font-weight: 700;
-  }
-  .glass-plate--avatar:hover {
-    background: #fff;
-    border-color: #fff;
-    transform: scale(1.05);
-  }
+    /* SPECS */
+    .specs { display: grid; gap: 12px; }
+    .spec-row { display: grid; grid-template-columns: 100px 1fr; gap: 16px; align-items: center; }
+    .spec-label { color: var(--text-muted); font-size: 14px; }
+    .spec-values { display: flex; flex-wrap: wrap; gap: 8px; }
+    .spec-tag {
+        background: rgba(255,255,255,0.05); color: var(--text-main);
+        border: 1px solid var(--border-color); border-radius: var(--radius-pill); padding: 4px 14px; font-size: 13px; font-weight: 500;
+    }
 
-  .hero-section {
-    padding: 160px 40px 40px;
-    text-align: center;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  .hero-title {
-    font-size: clamp(40px, 6vw, 76px);
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    line-height: 1.04;
-    margin-bottom: 22px;
-  }
-  .hero-title .line-1 { display: block; color: rgba(255,255,255,0.4); }
-  .hero-title .line-2 { display: block; color: var(--text-main); }
-  .hero-subtitle {
-    font-size: 16px;
-    color: var(--text-muted);
-    font-weight: 400;
-    line-height: 1.6;
-    max-width: 640px;
-    margin: 0 auto;
-  }
+    /* SECTIONS */
+    .section-heading { font-size: 26px; font-weight: 700; color: var(--text-main); letter-spacing: -0.02em; margin-bottom: 24px; }
+    
+    .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; margin-bottom: 56px; align-items: start; }
+    .about-left { display: flex; flex-direction: column; gap: 24px; }
+    .about-block { background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 32px; }
+    .about-subtitle { font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 14px; }
+    .about-text { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.7; white-space: pre-line; }
 
-  .section-divider {
-    display: flex;
-    align-items: center;
-    padding: 40px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-    gap: 20px;
-  }
-  .section-divider__text {
-    font-size: 14px;
-    font-weight: 400;
-    color: rgba(255,255,255,0.6);
-    letter-spacing: 0.02em;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-  .section-divider__text svg {
-    width: 14px; height: 14px;
-    stroke: rgba(255,255,255,0.5);
-    fill: none;
-    stroke-width: 1.5;
-  }
-  .section-divider__line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.15), transparent);
-  }
-  .section-divider--reverse .section-divider__line {
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15));
-  }
+    .rate-block { background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 28px; display: flex; flex-direction: column; gap: 8px; }
+    .rate-top { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+    .rate-value { font-size: 56px; font-weight: 800; color: var(--green); line-height: 1; letter-spacing: -0.02em; }
+    .rate-title { font-size: 18px; font-weight: 600; color: var(--text-main); margin-bottom: 4px; }
+    .rate-meta { font-size: 13px; color: var(--text-muted); }
+    
+    .rate-buttons { display: flex; gap: 10px; margin-bottom: 24px; }
+    .rate-btn {
+        flex: 1; background: rgba(255,255,255,0.05); color: var(--text-main);
+        border: 1px solid var(--border-color); border-radius: var(--radius-sm);
+        padding: 12px 16px; font-size: 14px; font-weight: 600; font-family: var(--font);
+        cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;
+    }
+    .rate-btn:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); }
+    .rate-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(212, 160, 23, 0.1); }
 
-  .main-content {
-    flex: 1; display: flex; flex-direction: column;
-    justify-content: center; align-items: center; padding: 20px 20px 60px;
-  }
+    .reviews-block { margin-top: 8px; border-top: 1px solid var(--border-color); padding-top: 20px; }
+    .reviews-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .reviews-head-title { font-size: 16px; font-weight: 700; color: var(--text-main); }
+    .reviews-count { font-size: 12px; font-weight: 600; color: var(--text-muted); background: rgba(255,255,255,0.06); border: 1px solid var(--border-color); padding: 2px 10px; border-radius: var(--radius-pill); }
+    
+    .review-item { padding: 14px 0; border-bottom: 1px solid var(--border-color); }
+    .review-item:last-of-type { border-bottom: none; }
+    .review-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+    .review-author { font-size: 13px; font-weight: 600; color: var(--text-main); }
+    .review-date { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+    .review-text { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.75); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .review-likes { margin-top: 6px; font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+    
+    .reviews-all-btn {
+        width: 100%; margin-top: 16px; background: transparent; color: var(--text-main);
+        border: 1px solid var(--border-color); border-radius: var(--radius-pill); padding: 12px 20px;
+        font-size: 14px; font-weight: 600; font-family: var(--font); cursor: pointer;
+        display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease;
+    }
+    .reviews-all-btn:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
 
-  .carousel-container {
-    display: flex; flex-direction: column; align-items: center;
-    width: 100%; max-width: 1200px; position: relative;
-  }
-  .carousel-stage {
-    position: relative; width: 100%; height: 440px;
-    display: flex; justify-content: center; align-items: center;
-  }
-  .movie-card {
-    position: absolute; width: 260px; height: 380px;
-    border-radius: var(--radius-md);
-    background-color: var(--surface-dark);
-    background-size: cover; background-position: center;
-    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-    cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.08);
-    overflow: hidden;
-    box-shadow: 0 24px 50px rgba(0,0,0,0.6);
-  }
-  .movie-card.pos-0 { transform: translateX(0) scale(1.1); z-index: 10; opacity: 1; filter: brightness(1); }
-  .movie-card.pos--1 { transform: translateX(-180px) scale(0.85) rotate(-5deg); z-index: 5; opacity: 0.5; filter: brightness(0.4); }
-  .movie-card.pos-1 { transform: translateX(180px) scale(0.85) rotate(5deg); z-index: 5; opacity: 0.5; filter: brightness(0.4); }
-  .movie-card.pos--2 { transform: translateX(-320px) scale(0.65) rotate(-10deg); z-index: 2; opacity: 0.2; filter: brightness(0.2); }
-  .movie-card.pos-2 { transform: translateX(320px) scale(0.65) rotate(10deg); z-index: 2; opacity: 0.2; filter: brightness(0.2); }
-  .movie-card.pos-3, .movie-card.pos--3 { transform: translateX(0) scale(0.4); z-index: 1; opacity: 0; }
+    /* CLIPS */
+    .clips-section { margin-bottom: 56px; }
+    .clips-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .clips-title { font-size: 24px; font-weight: 700; color: var(--text-main); }
+    .clips-subtitle { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+    .clips-container { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 8px; }
+    .clips-container::-webkit-scrollbar { display: none; }
+    
+    .clip-card { flex: 0 0 auto; width: 180px; scroll-snap-align: start; cursor: pointer; transition: transform 0.2s ease; }
+    .clip-card:hover { transform: translateY(-4px); }
+    .clip-thumbnail { position: relative; width: 100%; aspect-ratio: 9 / 16; border-radius: var(--radius-sm); overflow: hidden; background: var(--surface); border: 1px solid var(--border-color); margin-bottom: 10px; }
+    .clip-thumbnail img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; }
+    .clip-card:hover .clip-thumbnail img { transform: scale(1.05); }
+    .clip-play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease; }
+    .clip-card:hover .clip-play-overlay { opacity: 1; }
+    .clip-play-btn { width: 44px; height: 44px; background: rgba(212, 204, 21, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .clip-play-btn svg { width: 18px; height: 18px; fill: var(--text-dark); margin-left: 2px; }
+    .clip-duration { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.8); color: var(--text-main); padding: 3px 7px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+    .clip-views { position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.7); color: var(--text-main); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+    .clip-title { font-size: 14px; font-weight: 600; color: var(--text-main); line-height: 1.3; margin-bottom: 4px; }
+    .clip-desc { font-size: 12px; color: var(--text-muted); line-height: 1.3; }
+    .clips-empty { display: flex; align-items: center; justify-content: center; height: 200px; background: var(--surface); border: 1px dashed var(--border-color); border-radius: var(--radius-md); color: var(--text-muted); font-size: 14px; }
 
-  .rating-badge {
-    position: absolute; top: 12px; left: 12px;
-    font-weight: 600; font-size: 12px;
-    padding: 4px 10px;
-    border-radius: var(--radius-pill);
-    display: none;
-    z-index: 20;
-    backdrop-filter: blur(10px);
-    align-items: center;
-    opacity: 0.85;
-  }
-  .movie-card.pos-0 .rating-badge { display: inline-flex; }
-  .rating-badge.high { background: rgba(22,163,74,0.85); color: #fff; }
-  .rating-badge.medium { background: rgba(202,138,4,0.85); color: #fff; }
-  .rating-badge.low { background: rgba(239,68,68,0.85); color: #fff; }
+    /* TEAM */
+    .team-block { background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 32px; margin-bottom: 56px; }
+    .team-title { font-size: 24px; font-weight: 700; color: var(--text-main); margin-bottom: 24px; }
+    .team-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .team-chip {
+        background: transparent; color: var(--text-muted); border: 1px solid var(--border-color);
+        border-radius: var(--radius-pill); padding: 8px 18px; font-size: 13px; font-weight: 500; font-family: var(--font);
+        cursor: pointer; transition: all 0.2s ease;
+    }
+    .team-chip:hover { border-color: rgba(255,255,255,0.3); color: var(--text-main); }
+    .team-chip.active { background: var(--text-main); color: var(--text-dark); border-color: var(--text-main); }
+    
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 24px; }
+    .person { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+    .person-avatar {
+        width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.05);
+        border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center;
+        font-size: 20px; font-weight: 700; color: var(--text-muted); overflow: hidden;
+    }
+    .person-name { font-size: 14px; font-weight: 600; color: var(--text-main); line-height: 1.3; }
+    .person-role { font-size: 12px; color: var(--text-muted); margin-top: -8px; }
 
-  .card-actions { position: absolute; top: 12px; right: 12px; display: none; gap: 8px; z-index: 20; }
-  .movie-card.pos-0 .card-actions { display: flex; }
-  .card-action-btn {
-    width: 34px; height: 34px; border-radius: 50%;
-    background: rgba(12,12,14,0.5);
-    display: flex; justify-content: center; align-items: center;
-    color: rgba(255,255,255,0.7); backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.14);
-    cursor: pointer; transition: all 0.2s ease;
-  }
-  .card-action-btn:hover { color: #fff; background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); }
-  .card-action-btn.saved { color: #fff; background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.4); }
-  .card-action-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+    /* SIMILAR */
+    .similar-section { background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 32px; margin-bottom: 56px; }
+    .similar-title { font-size: 24px; font-weight: 700; color: var(--text-main); margin-bottom: 20px; }
+    .similar-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .similar-filter {
+        background: transparent; color: var(--text-muted); border: 1px solid var(--border-color);
+        border-radius: var(--radius-pill); padding: 8px 20px; font-size: 13px; font-weight: 500; font-family: var(--font);
+        cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
+    }
+    .similar-filter:hover { border-color: rgba(255,255,255,0.3); color: var(--text-main); }
+    .similar-filter.active { background: var(--text-main); color: var(--text-dark); border-color: var(--text-main); }
+    
+    .similar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; }
+    .card { cursor: pointer; display: flex; flex-direction: column; gap: 10px; transition: transform 0.2s ease; }
+    .card:hover { transform: translateY(-4px); }
+    .card-poster { position: relative; width: 100%; aspect-ratio: 2 / 3; overflow: hidden; border-radius: var(--radius-sm); background: var(--surface); }
+    .card-poster img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .card-badge { position: absolute; top: 10px; right: 10px; background: rgba(22,163,74,0.9); color: #fff; padding: 4px 8px; border-radius: 8px; font-weight: 700; font-size: 12px; backdrop-filter: blur(4px); }
+    .card-title { font-size: 14px; font-weight: 600; color: var(--text-main); line-height: 1.3; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--border-color); border-radius: var(--radius-pill); padding: 3px 10px; font-size: 11px; font-weight: 500; }
 
-  .expanded-poster, .expanded-content { display: none; }
-  .movie-card.expanded {
-    width: 100%; max-width: 900px; height: 460px;
-    transform: translateX(0) scale(1) !important;
-    opacity: 1 !important; filter: brightness(1) !important;
-    z-index: 50; cursor: default; display: flex; flex-direction: row;
-    background: rgba(14,14,16,0.72) !important;
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    backdrop-filter: blur(24px);
-  }
-  .carousel-stage.has-expanded .movie-card:not(.expanded) { opacity: 0; pointer-events: none; }
-  .movie-card.expanded .expanded-poster {
-    display: block; width: 42%; height: 100%;
-    background-size: cover; background-position: center;
-    border-right: 1px solid var(--border-color);
-  }
-  .movie-card.expanded .expanded-content {
-    display: flex; width: 58%; padding: 40px 44px; flex-direction: column; justify-content: center;
-    position: relative; background: transparent;
-  }
-  .expanded-close {
-    position: absolute; top: 20px; right: 20px; width: 36px; height: 36px;
-    border-radius: 50%; background: rgba(255,255,255,0.07);
-    border: 1px solid var(--border-color);
-    color: var(--text-main); font-size: 18px; cursor: pointer; display: flex;
-    justify-content: center; align-items: center; transition: all 0.2s; z-index: 10;
-  }
-  .expanded-close:hover { background: rgba(255,255,255,0.14); }
-  .expanded-title { font-size: 30px; font-weight: 600; margin-bottom: 10px; color: var(--text-main); letter-spacing: -0.03em; line-height: 1.1; }
-  .expanded-mood { font-size: 12px; color: var(--text-muted); margin-bottom: 26px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
-  .ai-recommendation {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-sm);
-    padding: 20px;
-  }
-  .ai-label { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.1em; }
-  .ai-label svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.5; }
-  .expanded-desc { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.82); font-weight: 400; }
+    /* FACTS & INFO */
+    .facts-section { margin-bottom: 56px; }
+    .facts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .fact-card {
+        background: var(--surface); border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm); padding: 20px; min-height: 150px;
+        display: flex; flex-direction: column; justify-content: space-between;
+        transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .fact-card:hover { border-color: rgba(255,255,255,0.2); background: var(--surface-hover); }
+    .fact-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+    .fact-globe { width: 22px; height: 22px; fill: none; stroke: var(--text-muted); stroke-width: 1.6; }
+    .fact-source-link { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 500; color: var(--text-muted); transition: color 0.2s ease; }
+    .fact-source-link:hover { color: var(--accent); }
+    .fact-text { font-size: 14px; line-height: 1.55; color: rgba(255,255,255,0.85); }
 
-  .movie-info { text-align: center; margin-top: 40px; transition: opacity 0.3s; }
-  .carousel-container.has-expanded .movie-info, .carousel-container.has-expanded .bottom-controls { opacity: 0; pointer-events: none; }
-  .movie-title { font-size: 22px; font-weight: 500; margin-bottom: 6px; color: var(--text-main); letter-spacing: -0.02em; }
-  .movie-mood { font-size: 14px; color: var(--text-muted); }
+    .info-section { background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 32px; margin-bottom: 24px; }
+    .info-title { font-size: 20px; font-weight: 700; color: var(--text-main); margin-bottom: 20px; }
+    .list-clean { list-style: none; }
+    .list-clean li { padding: 12px 0; border-bottom: 1px solid var(--border-color); color: rgba(255,255,255,0.8); line-height: 1.6; font-size: 14px; }
+    .list-clean li:last-child { border-bottom: none; }
+    .list-clean li strong { color: var(--text-main); font-weight: 600; }
 
-  .bottom-controls { display: flex; align-items: center; gap: 12px; margin-top: 32px; transition: opacity 0.3s; flex-wrap: wrap; justify-content: center; }
-  .arrow-btn {
-    width: 44px; height: 44px; border-radius: 50%;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border-color); color: var(--text-muted);
-    cursor: pointer; display: flex; justify-content: center; align-items: center;
-    transition: all 0.2s ease; backdrop-filter: blur(10px);
-  }
-  .arrow-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.12); border-color: var(--border-light); }
+    /* TOAST & NOT FOUND */
+    .toast {
+        position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(24px);
+        background: #1A1A1A; border: 1px solid var(--border-light); color: var(--text-main);
+        padding: 14px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 500;
+        opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 300;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.6); display: flex; align-items: center; gap: 10px;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast svg { width: 16px; height: 16px; fill: none; stroke: var(--accent); stroke-width: 2; }
 
-  .action-btn-glass {
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(16px);
-    border: 1px solid var(--border-light);
-    color: var(--text-main);
-    padding: 13px 24px;
-    border-radius: var(--radius-pill);
-    font-family: var(--font); font-size: 14px; font-weight: 500;
-    cursor: pointer; display: flex; align-items: center; gap: 8px;
-    transition: all 0.3s ease;
-  }
-  .action-btn-glass:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
+    .not-found { text-align: center; padding: 100px 20px; }
+    .not-found h1 { font-size: 40px; font-weight: 700; color: var(--text-main); margin-bottom: 16px; letter-spacing: -0.02em; }
+    .not-found p { font-size: 16px; color: var(--text-muted); margin-bottom: 32px; }
+    .not-found .btn-watch { display: inline-flex; text-decoration: none; }
 
-  .refresh-btn-inline {
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(16px);
-    border: 1px solid var(--border-light);
-    color: var(--text-main);
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s ease;
-  }
-  .refresh-btn-inline:hover { 
-    background: rgba(255,255,255,0.12); 
-    border-color: rgba(255,255,255,0.3); 
-    transform: rotate(180deg);
-  }
-  .refresh-btn-inline svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; }
+    .footer { border-top: 1px solid var(--border-color); padding: 40px; text-align: center; color: var(--text-muted); font-size: 14px; }
 
-  .ai-chat-btn {
-    background: rgba(255,255,255,0.06);
-    backdrop-filter: blur(16px);
-    border: 1px solid var(--border-light);
-    color: var(--text-main);
-    padding: 13px 22px;
-    border-radius: var(--radius-pill);
-    font-family: var(--font); font-size: 14px; font-weight: 500;
-    cursor: pointer; display: flex; align-items: center; gap: 8px;
-    transition: all 0.3s ease;
-  }
-  .ai-chat-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
-  .ai-chat-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
-
-  .overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.75);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 200; opacity: 0; pointer-events: none;
-    transition: opacity 0.4s ease; backdrop-filter: blur(16px);
-  }
-  .overlay.active { opacity: 1; pointer-events: all; }
-  .modal-window {
-    background: rgba(16,16,18,0.8);
-    border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg);
-    width: 90%; max-width: 600px;
-    padding: 32px; position: relative; max-height: 85vh; overflow-y: auto;
-    backdrop-filter: blur(32px);
-    box-shadow: 0 40px 90px rgba(0,0,0,0.7);
-  }
-  .modal-close {
-    position: absolute; top: 18px; right: 18px; width: 36px; height: 36px;
-    background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);
-    color: var(--text-main); border-radius: 50%; font-size: 18px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; transition: all 0.2s; z-index: 10;
-  }
-  .modal-close:hover { background: rgba(255,255,255,0.14); }
-  .modal-window h2 { font-size: 22px; font-weight: 600; margin-bottom: 26px; letter-spacing: -0.03em; }
-
-  .chat-container { max-width: 480px; display: flex; flex-direction: column; height: 500px; position: relative; }
-  .chat-messages { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; max-height: 350px; overflow-y: auto; padding-right: 4px; }
-  .message { padding: 14px 18px; border-radius: 18px; font-size: 14px; line-height: 1.5; max-width: 85%; font-weight: 400; }
-  .message.ai { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); align-self: flex-start; border-bottom-left-radius: 4px; color: rgba(255,255,255,0.85); }
-  .message.user { background: var(--surface); color: var(--text-dark); align-self: flex-end; border-bottom-right-radius: 4px; }
-  .chat-input-row { display: flex; gap: 10px; margin-top: auto; }
-  .chat-input-row input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: var(--radius-pill); padding: 13px 20px; color: var(--text-main); font-size: 14px; font-family: var(--font); outline: none; transition: border-color 0.2s; }
-  .chat-input-row input:focus { border-color: var(--border-light); }
-  .chat-input-row button { background: var(--surface); color: var(--text-dark); border: none; padding: 0 22px; border-radius: var(--radius-pill); font-size: 17px; font-weight: 500; cursor: pointer; transition: opacity 0.2s; }
-  .chat-input-row button:hover { opacity: 0.9; }
-
-  .eye-modal { max-width: 800px; width: 90%; padding: 0; overflow: hidden; display: flex; flex-direction: row; min-height: 420px; }
-  .eye-modal-poster { width: 40%; background-size: cover; background-position: center; position: relative; }
-  .eye-modal-content { width: 60%; padding: 36px 32px; display: flex; flex-direction: column; position: relative; }
-  .eye-modal-content .modal-close { top: 16px; right: 16px; }
-  .eye-modal-title { font-size: 26px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 18px; color: var(--text-main); }
-  .eye-modal-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-  .eye-badge { padding: 6px 13px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: var(--radius-pill); font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
-  .eye-badge.rating.high { background: rgba(22,163,74,0.85); color: #fff; font-weight: 600; border-color: transparent; }
-  .eye-badge.rating.medium { background: rgba(202,138,4,0.85); color: #fff; font-weight: 600; border-color: transparent; }
-  .eye-badge.rating.low { background: rgba(239,68,68,0.85); color: #fff; font-weight: 600; border-color: transparent; }
-  .eye-ai-block { background: rgba(168,85,247,0.06); border: 1px solid rgba(168,85,247,0.18); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 24px; flex-grow: 1; }
-  .eye-ai-title { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: #C084FC; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
-  .eye-ai-title svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.5; }
-  .eye-ai-text { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.85); font-weight: 400; }
-  .eye-watch-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--surface); color: var(--text-dark); border: none; padding: 14px 28px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 0.3s ease; width: 100%; }
-  .eye-watch-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,255,255,0.14); }
-  .eye-watch-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; }
-
-  .filter-group { margin-bottom: 24px; }
-  .filter-label { font-size: 14px; font-weight: 500; color: var(--text-muted); margin-bottom: 14px; display: block; }
-  .options-row { display: flex; gap: 10px; flex-wrap: wrap; }
-  .option-chip { padding: 10px 18px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: var(--radius-pill); color: var(--text-muted); font-size: 14px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; }
-  .option-chip:hover { border-color: var(--border-light); color: var(--text-main); }
-  .option-chip.active { background: var(--surface); color: var(--text-dark); border-color: var(--surface); font-weight: 500; }
-
-  .submit-btn { width: 100%; background: var(--surface); color: var(--text-dark); border: none; padding: 14px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; font-family: var(--font); cursor: pointer; margin-top: 8px; transition: opacity 0.2s ease; }
-  .submit-btn:hover { opacity: 0.9; }
-  .reset-btn { width: 100%; background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 12px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 500; font-family: var(--font); cursor: pointer; margin-top: 16px; transition: all 0.2s ease; }
-  .reset-btn:hover { background: rgba(255,255,255,0.05); color: var(--text-main); border-color: var(--border-light); }
-
-  .results-list { display: flex; flex-direction: column; gap: 12px; }
-  .result-item { background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; transition: border-color 0.2s; }
-  .result-item:hover { border-color: var(--border-light); }
-  .result-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; cursor: pointer; }
-  .result-title { font-size: 15px; font-weight: 500; color: var(--text-main); }
-  .result-ai-btn { width: 32px; height: 32px; border-radius: 50%; background: transparent; border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center; cursor: pointer; color: var(--text-muted); transition: all 0.2s ease; }
-  .result-ai-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
-  .result-ai-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.5; }
-  .result-ai-desc { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; padding: 0 20px; color: var(--text-muted); font-size: 14px; line-height: 1.6; font-weight: 400; }
-  .result-ai-desc.open { max-height: 250px; padding: 0 20px 20px 20px; border-top: 1px solid var(--border-color); }
-  .ai-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(212,160,23,0.14); color: var(--accent); font-size: 11px; padding: 4px 10px; border-radius: 6px; margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-
-  .catalog-section { padding: 60px 40px; border-top: 1px solid var(--border-color); max-width: 1400px; margin: 0 auto; width: 100%; }
-  .catalog-header { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
-  .catalog-title { font-size: 28px; font-weight: 600; letter-spacing: -0.03em; }
-  .catalog-sort-row { display: flex; align-items: center; gap: 12px; }
-  .sort-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
-  .sort-select { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 36px 10px 16px; border-radius: var(--radius-pill); font-size: 14px; font-family: var(--font); cursor: pointer; outline: none; appearance: none; -webkit-appearance: none; backdrop-filter: blur(10px);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 14px center; }
-  .sort-select option { background: var(--surface-dark); color: var(--text-main); }
-
-  .catalog-layout { display: grid; grid-template-columns: 340px 1fr; gap: 40px; }
-  .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 32px 24px; }
-  .catalog-item { display: flex; flex-direction: column; gap: 12px; }
-  .catalog-poster-wrap { position: relative; border-radius: var(--radius-md); overflow: hidden; cursor: pointer; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); aspect-ratio: 2/3; background-size: cover; background-position: center; border: 1px solid rgba(255,255,255,0.05); }
-  .catalog-poster-wrap:hover { transform: translateY(-6px); border-color: var(--border-light); }
-  .catalog-poster-wrap:hover .catalog-poster-overlay { opacity: 1; }
-  .catalog-poster-wrap:hover .catalog-eye-btn, .catalog-poster-wrap:hover .catalog-save-btn { opacity: 1; }
-  .catalog-poster-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 55%, transparent 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 16px; opacity: 0; transition: opacity 0.3s ease; }
-  .catalog-poster-mood { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.85); line-height: 1.4; }
-  .catalog-poster-rating { position: absolute; top: 10px; left: 10px; font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: var(--radius-pill); backdrop-filter: blur(10px); display: inline-flex; align-items: center; opacity: 0.85; }
-  .catalog-poster-rating.high { background: rgba(22,163,74,0.85); color: #fff; }
-  .catalog-poster-rating.medium { background: rgba(202,138,4,0.85); color: #fff; }
-  .catalog-poster-rating.low { background: rgba(239,68,68,0.85); color: #fff; }
-
-  .catalog-eye-btn, .catalog-save-btn { position: absolute; top: 10px; width: 30px; height: 30px; border-radius: 50%; background: rgba(12,12,14,0.5); border: 1px solid rgba(255,255,255,0.15); display: flex; justify-content: center; align-items: center; cursor: pointer; color: rgba(255,255,255,0.7); opacity: 0; transition: all 0.2s ease; z-index: 10; backdrop-filter: blur(10px); }
-  .catalog-eye-btn { right: 10px; }
-  .catalog-save-btn { right: 46px; }
-  .catalog-eye-btn:hover { color: #fff; background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); }
-  .catalog-save-btn:hover, .catalog-save-btn.saved { color: #fff; background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.4); }
-  .catalog-eye-btn svg, .catalog-save-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.6; }
-
-  .catalog-meta { display: flex; flex-direction: column; gap: 4px; padding: 0 4px; }
-  .catalog-meta-title { font-size: 15px; font-weight: 600; color: var(--text-main); line-height: 1.3; }
-  .catalog-meta-info { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .catalog-meta-info .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-muted); }
-
-  .filters-panel { background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px 20px; position: sticky; top: 92px; height: fit-content; max-height: calc(100vh - 116px); overflow-y: auto; backdrop-filter: blur(20px); }
-  .filters-panel::-webkit-scrollbar { width: 4px; }
-  .filters-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
-
-  .filter-tabs-row { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
-  .filter-tabs { display: flex; gap: 4px; background: rgba(255,255,255,0.05); border-radius: var(--radius-pill); padding: 4px; flex: 1; }
-  .filter-tab { flex: 1; padding: 10px 14px; background: transparent; border: none; color: var(--text-muted); font-size: 13px; font-weight: 500; font-family: var(--font); cursor: pointer; border-radius: var(--radius-pill); transition: all 0.2s; }
-  .filter-tab.active { background: var(--surface); color: var(--text-dark); }
-  .filter-search-btn {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid var(--border-color);
-    color: var(--text-muted);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: all 0.2s ease;
-    flex-shrink: 0;
-  }
-  .filter-search-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.12); border-color: var(--border-light); }
-  .filter-search-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
-
-  .filter-search-wrap { position: relative; margin-bottom: 16px; display: none; }
-  .filter-search-wrap.active { display: block; }
-  .filter-search-wrap svg {
-    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-    width: 14px; height: 14px; fill: none; stroke: var(--text-muted); stroke-width: 2;
-    pointer-events: none;
-  }
-  .filter-search-wrap input {
-    width: 100%;
-    height: 40px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-pill);
-    padding: 0 16px 0 40px;
-    color: var(--text-main);
-    font-size: 13px;
-    font-family: var(--font);
-    outline: none;
-    transition: all 0.2s;
-  }
-  .filter-search-wrap input:focus { border-color: var(--border-light); background: rgba(255,255,255,0.06); }
-  .filter-search-wrap input::placeholder { color: var(--text-muted); }
-
-  .filter-section { margin-bottom: 4px; }
-  .filter-section-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; cursor: pointer; user-select: none; }
-  .filter-section-title { font-size: 12px; font-weight: 600; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.08em; }
-  .filter-section-arrow { width: 16px; height: 16px; fill: none; stroke: var(--text-muted); stroke-width: 2; transition: transform 0.3s ease; }
-  .filter-section.open .filter-section-arrow { transform: rotate(180deg); }
-  .filter-section-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); }
-  .filter-section.open .filter-section-content { max-height: 1000px; }
-  .checkbox-group { display: flex; flex-direction: column; gap: 6px; padding-bottom: 12px; }
-  .checkbox-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: transparent; border: 1px solid transparent; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; font-size: 13px; color: rgba(255,255,255,0.75); }
-  .checkbox-item:hover { background: rgba(255,255,255,0.04); color: var(--text-main); }
-  .checkbox-item.active { background: rgba(212,160,23,0.08); border-color: rgba(212,160,23,0.22); color: var(--accent); }
-  .checkbox-item input { display: none; }
-  .checkbox-mark { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
-  .checkbox-item.active .checkbox-mark { background: var(--accent); border-color: var(--accent); }
-  .checkbox-mark svg { width: 10px; height: 10px; fill: none; stroke: #000; stroke-width: 2.5; opacity: 0; transition: opacity 0.2s; }
-  .checkbox-item.active .checkbox-mark svg { opacity: 1; }
-  .filter-divider { height: 1px; background: var(--border-color); margin: 16px 0; }
-  .filter-toggle-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
-  .filter-toggle-label { font-size: 13px; color: rgba(255,255,255,0.8); }
-  .filter-toggle { position: relative; width: 36px; height: 20px; background: rgba(255,255,255,0.1); border-radius: var(--radius-pill); cursor: pointer; transition: background 0.3s; flex-shrink: 0; }
-  .filter-toggle.active { background: rgba(212,160,23,0.4); }
-  .filter-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; background: var(--surface); border-radius: 50%; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
-  .filter-toggle.active::after { transform: translateX(16px); }
-  .filter-content { display: none; }
-  .filter-content.active { display: block; }
-  .filters-apply-btn { width: 100%; background: var(--surface); color: var(--text-dark); border: none; padding: 13px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; font-family: var(--font); cursor: pointer; margin-top: 20px; transition: opacity 0.2s; }
-  .filters-apply-btn:hover { opacity: 0.9; }
-  .reset-filters-btn { width: 100%; background: transparent; color: var(--text-muted); border: none; padding: 11px 24px; font-size: 13px; font-weight: 400; font-family: var(--font); cursor: pointer; margin-top: 6px; transition: all 0.2s; }
-  .reset-filters-btn:hover { color: var(--text-main); }
-
-  /* Слайдер эмоциональной нагрузки */
-  .load-slider {
-    padding: 16px 0 8px;
-  }
-  .load-slider__track {
-    position: relative;
-    height: 4px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 2px;
-    margin: 20px 0 12px;
-  }
-  .load-slider__points {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    z-index: 2;
-  }
-  .load-slider__point {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    flex: 1;
-  }
-  .load-slider__dot {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-    border: 2px solid rgba(255,255,255,0.2);
-    transition: all 0.2s ease;
-  }
-  .load-slider__point.active .load-slider__dot {
-    background: var(--accent);
-    border-color: var(--accent);
-    transform: scale(1.3);
-  }
-  .load-slider__point:hover .load-slider__dot {
-    background: rgba(255,255,255,0.3);
-    border-color: rgba(255,255,255,0.4);
-  }
-  .load-slider__label {
-    font-size: 10px;
-    color: rgba(255,255,255,0.5);
-    text-align: center;
-    line-height: 1.2;
-    max-width: 60px;
-  }
-  .load-slider__point.active .load-slider__label {
-    color: var(--accent);
-    font-weight: 600;
-  }
-
-  .toggle-group { display: flex; flex-direction: column; gap: 16px; margin-bottom: 8px; }
-  .toggle-item { display: flex; justify-content: space-between; align-items: center; }
-  .toggle-label { font-size: 14px; color: rgba(255,255,255,0.8); }
-  .toggle-switch { position: relative; width: 40px; height: 22px; background: rgba(255,255,255,0.1); border-radius: 100px; cursor: pointer; transition: background 0.3s; }
-  .toggle-switch.active { background: rgba(212,160,23,0.4); }
-  .toggle-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: var(--surface); border-radius: 50%; transition: transform 0.3s; }
-  .toggle-switch.active::after { transform: translateX(18px); }
-  .duration-selector { display: flex; gap: 8px; flex-wrap: wrap; }
-  .duration-chip { padding: 8px 14px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: 100px; color: var(--text-muted); font-size: 13px; cursor: pointer; transition: all 0.2s; }
-  .duration-chip.active { background: var(--surface); color: var(--text-dark); border-color: var(--surface); font-weight: 500; }
-
-  @media (max-width: 900px) {
-    .header { padding: 0 16px; height: 64px; }
-    .search-container { margin: 0 16px; max-width: none; }
-    .search-input { height: 46px; font-size: 14px; padding: 0 16px 0 44px; }
-    .search-icon { left: 16px; width: 16px; height: 16px; }
-    .glass-plate { width: 40px; height: 40px; }
-    .hero-section { padding: 120px 20px 20px; }
-    .catalog-layout { grid-template-columns: 1fr; }
-    .filters-panel { position: static; max-height: none; order: -1; margin-bottom: 32px; }
-    .eye-modal { flex-direction: column; }
-    .eye-modal-poster { width: 100%; height: 200px; }
-    .eye-modal-content { width: 100%; }
-  }
+    @media (max-width: 900px) {
+        .header { grid-template-columns: auto auto; gap: 16px; padding: 0 20px; }
+        .search-container { order: 3; grid-column: 1 / -1; max-width: none; }
+        .movie-hero { grid-template-columns: 1fr; gap: 32px; }
+        .about-grid { grid-template-columns: 1fr; }
+        .movie-info h1 { font-size: 32px; }
+        .container { padding: 24px 20px 60px; }
+        .facts-grid { grid-template-columns: 1fr; }
+    }
 </style>
 </head>
 <body>
 
-  <header class="header">
-    <a href="#" class="logo-plate" id="logoLink" onclick="scrollToTop(event)">
-      <span class="logo">МувиМуд<sup>®</sup></span>
+<header class="header">
+    <a href="index.html" class="logo">МувиМуд<sup>®</sup></a>
+    <div class="search-container">
+        <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" class="search-input" placeholder="Фильмы, сериалы, персоны...">
+    </div>
+    <div class="header-actions">
+        <a href="index.html" class="icon-btn ai-search-btn" title="Поиск по ИИ">
+            <svg viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"></path></svg>
+        </a>
+        <button class="avatar-btn" title="Личный кабинет">А</button>
+    </div>
+</header>
+
+<div class="container">
+    <a class="back-link" href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        Назад в каталог
     </a>
 
-    <div class="search-container">
-      <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input type="text" class="search-input" placeholder="Опиши фильм, который хочешь посмотреть...">
-    </div>
+    <main id="movie-detail"></main>
+</div>
 
-    <div class="header-actions">
-      <button class="glass-plate" title="Сохранённые">
-        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-      </button>
-      <button class="glass-plate glass-plate--avatar" title="Личный кабинет">А</button>
-    </div>
-  </header>
+<div class="toast" id="toast"></div>
 
-  <section class="hero-section">
-    <h1 class="hero-title">
-      <span class="line-1">Иногда</span>
-      <span class="line-2">фильм находит нас сам.</span>
-    </h1>
-    <p class="hero-subtitle">Опиши, что хочешь посмотреть, или выбери настроение — мы подберём идеальный фильм для тебя</p>
-  </section>
+<footer class="footer">МувиМуд. Прототип. 2026</footer>
 
-  <div class="section-divider">
-    <div class="section-divider__text">
-      <svg viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"></path></svg>
-      Кино — это больше, чем жанры
-    </div>
-    <div class="section-divider__line"></div>
-  </div>
+<script>
+    var movies = [];
+    var teamFilter = 'cast';
+    var similarFilter = 'genre';
+    var userState = { saved: {}, watched: {}, hidden: {} };
 
-  <div class="main-content">
-    <div class="carousel-container" id="carouselContainer">
-      <div class="carousel-stage" id="stage"></div>
+    try {
+        var raw = localStorage.getItem('mv_user_state');
+        if (raw) userState = JSON.parse(raw);
+    } catch (e) {}
 
-      <div class="movie-info" id="movieInfo">
-        <div class="movie-title" id="mainTitle"></div>
-        <div class="movie-mood" id="mainMood"></div>
-      </div>
-
-      <div class="bottom-controls" id="bottomControls">
-        <button class="arrow-btn" id="prevBtn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-        <button class="action-btn-glass" id="openRandomAiBtn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 10.7l-6.1 1.9L12 18.5l-1.9-5.9L4 10.7l6.1-1.9L12 3z"></path></svg>
-          Подобрать случайно
-        </button>
-        <button class="refresh-btn-inline" id="refreshBtn" title="Обновить подборку">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-        </button>
-        <button class="ai-chat-btn" id="openChatBtn" title="AI-чат">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"></path></svg>
-          AI-чат
-        </button>
-        <button class="arrow-btn" id="nextBtn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="section-divider section-divider--reverse">
-    <div class="section-divider__line"></div>
-    <div class="section-divider__text">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
-      Каждый фильм — это настроение
-    </div>
-  </div>
-
-  <div class="overlay" id="randomAiOverlay">
-    <div class="modal-window">
-      <button class="modal-close" id="closeRandomAi">×</button>
-      <div id="aiFilters">
-        <h2>Подбери под себя</h2>
-        <div class="filter-group">
-          <span class="filter-label">Какое сегодня настроение?</span>
-          <div class="options-row">
-            <div class="option-chip active" onclick="toggleChip(this)">😢 Грустное</div>
-            <div class="option-chip" onclick="toggleChip(this)">😄 Весёлое</div>
-            <div class="option-chip" onclick="toggleChip(this)">🔮 Мистичное</div>
-            <div class="option-chip" onclick="toggleChip(this)">😰 Тревожное</div>
-            <div class="option-chip" onclick="toggleChip(this)">💕 Романтичное</div>
-          </div>
-        </div>
-        <div class="filter-group">
-          <span class="filter-label">Формат</span>
-          <div class="options-row">
-            <div class="option-chip active" onclick="toggleChip(this)">🎬 Фильм</div>
-            <div class="option-chip" onclick="toggleChip(this)">🎨 Мультфильм</div>
-            <div class="option-chip" onclick="toggleChip(this)">📺 Сериал</div>
-            <div class="option-chip" onclick="toggleChip(this)">📄 Документальный</div>
-          </div>
-        </div>
-        <div class="filter-group">
-          <span class="filter-label">По характеру</span>
-          <div class="options-row">
-            <div class="option-chip" onclick="toggleChip(this)">🔥 Популярное</div>
-            <div class="option-chip" onclick="toggleChip(this)">❤️ Любимое</div>
-            <div class="option-chip" onclick="toggleChip(this)">👁️ Знакомое</div>
-            <div class="option-chip active" onclick="toggleChip(this)">🆕 Новое</div>
-            <div class="option-chip" onclick="toggleChip(this)">❓ Незнакомое</div>
-          </div>
-        </div>
-        <div class="toggle-group">
-          <div>
-            <span class="toggle-label" style="margin-bottom: 8px; display: block;">Продолжительность</span>
-            <div class="duration-selector">
-              <div class="duration-chip active" onclick="toggleDuration(this)">Любая</div>
-              <div class="duration-chip" onclick="toggleDuration(this)">&lt; 90 мин</div>
-              <div class="duration-chip" onclick="toggleDuration(this)">90-120 мин</div>
-              <div class="duration-chip" onclick="toggleDuration(this)">&gt; 120 мин</div>
-            </div>
-          </div>
-        </div>
-        <button class="submit-btn" id="generateRandomBtn" style="margin-top: 24px;">Показать 3 фильма</button>
-        <button class="reset-btn" onclick="resetFilters()">↺ Сбросить фильтры</button>
-      </div>
-      <div id="aiResults" style="display: none;">
-        <h2>Вам может понравиться</h2>
-        <div class="results-list">
-          <div class="result-item">
-            <div class="result-header" onclick="toggleAiDesc(this)">
-              <div class="result-title">Седьмая печать</div>
-              <div class="result-ai-btn" onclick="event.stopPropagation(); toggleAiDesc(this.parentElement)"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></div>
-            </div>
-            <div class="result-ai-desc"><div class="ai-tag">✦ AI рекомендует</div><p>Идеально подходит под ваше мистическое настроение. Фильм задаёт глубокие вопросы о жизни и смерти, а строгая чёрно-белая картинка создаёт нужную созерцательную атмосферу.</p></div>
-          </div>
-          <div class="result-item">
-            <div class="result-header" onclick="toggleAiDesc(this)">
-              <div class="result-title">Пожары</div>
-              <div class="result-ai-btn" onclick="event.stopPropagation(); toggleAiDesc(this.parentElement)"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></div>
-            </div>
-            <div class="result-ai-desc"><div class="ai-tag">✦ AI рекомендует</div><p>Сильная драма, которая резонирует с грустным настроением. Захватывающий нелинейный сюжет и невероятная игра актёров заставят вас сопереживать главным героям.</p></div>
-          </div>
-          <div class="result-item">
-            <div class="result-header" onclick="toggleAiDesc(this)">
-              <div class="result-title">Новая волна</div>
-              <div class="result-ai-btn" onclick="event.stopPropagation(); toggleAiDesc(this.parentElement)"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></div>
-            </div>
-            <div class="result-ai-desc"><div class="ai-tag">✦ AI рекомендует</div><p>Яркая и динамичная картина, которая отлично сбалансирует мрачный настрой. Отличный выбор, если вы хотите отвлечься и насладиться красивой картинкой.</p></div>
-          </div>
-        </div>
-        <button class="submit-btn" style="margin-top: 24px; background: transparent; border: 1px solid var(--border-color); color: var(--text-main);" onclick="resetAiSearch()">Изменить параметры</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="overlay" id="chatAiOverlay">
-    <div class="modal-window chat-container">
-      <button class="modal-close" id="closeChatAi">×</button>
-      <h2 style="margin-bottom: 16px;">AI-чат с помощником</h2>
-      <div class="chat-messages" id="chatMessages">
-        <div class="message ai">Привет! Опиши, какой фильм хочешь посмотреть. Например: "хочу что-то лёгкое на вечер" или "посоветуй триллер с неожиданным финалом".</div>
-      </div>
-      <div class="chat-input-row">
-        <input type="text" id="chatInput" placeholder="Напишите сообщение...">
-        <button id="sendChatBtn">→</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="overlay" id="eyeOverlay">
-    <div class="modal-window eye-modal">
-      <button class="modal-close" id="eyeClose">×</button>
-      <div class="eye-modal-poster" id="eyePoster"></div>
-      <div class="eye-modal-content">
-        <h3 class="eye-modal-title" id="eyeTitle"></h3>
-        <div class="eye-modal-badges" id="eyeBadges"></div>
-        <div class="eye-ai-block">
-          <div class="eye-ai-title"><svg viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"></path></svg>Почему стоит посмотреть</div>
-          <p class="eye-ai-text" id="eyeText"></p>
-        </div>
-        <button class="eye-watch-btn" id="eyeWatchBtn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>Смотреть</button>
-      </div>
-    </div>
-  </div>
-
-  <section class="catalog-section">
-    <div class="catalog-header">
-      <h2 class="catalog-title">Все фильмы</h2>
-      <div class="catalog-sort-row">
-        <span class="sort-label">Сортировать</span>
-        <select class="sort-select" id="sortSelect">
-          <option value="relevance">По соответствию</option>
-          <option value="rating">По рейтингу</option>
-          <option value="new">По новизне</option>
-          <option value="popular">По популярности</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="catalog-layout">
-      <aside class="filters-panel">
-        <div class="filter-tabs-row">
-          <div class="filter-tabs">
-            <button class="filter-tab active" onclick="switchFilterTab('main', this)">Основные</button>
-            <button class="filter-tab" onclick="switchFilterTab('extra', this)">Дополнительные</button>
-          </div>
-          <button class="filter-search-btn" id="filterSearchToggle" title="Поиск по фильтрам">
-            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          </button>
-        </div>
-        <div class="filter-search-wrap" id="filterSearchWrap">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="filterSearchInput" placeholder="Найти фильтр...">
-        </div>
-
-        <div id="filter-main" class="filter-content active">
-          <div class="filter-section open">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Страна</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group" id="countryFilters"></div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Год выхода</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group" id="yearFilters">
-              <label class="checkbox-item"><input type="checkbox" value="before2000"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>До 2000</label>
-              <label class="checkbox-item"><input type="checkbox" value="2000to2010"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>2000–2010</label>
-              <label class="checkbox-item"><input type="checkbox" value="2010to2020"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>2010–2020</label>
-              <label class="checkbox-item"><input type="checkbox" value="after2020"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>После 2020</label>
-            </div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Продолжительность</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group" id="runtimeFilters">
-              <label class="checkbox-item"><input type="checkbox" value="short"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>До 90 минут</label>
-              <label class="checkbox-item"><input type="checkbox" value="medium"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>90–120 минут</label>
-              <label class="checkbox-item"><input type="checkbox" value="long"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Больше 2 часов</label>
-            </div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Рейтинг</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group" id="ratingFilters">
-              <label class="checkbox-item"><input type="checkbox" value="high"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>8.0 и выше</label>
-              <label class="checkbox-item"><input type="checkbox" value="medium"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>7.0–7.9</label>
-              <label class="checkbox-item"><input type="checkbox" value="low"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Ниже 7.0</label>
-            </div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Возраст</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group" id="ageFilters">
-              <label class="checkbox-item"><input type="checkbox" value="6+"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>6+</label>
-              <label class="checkbox-item"><input type="checkbox" value="12+"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>12+</label>
-              <label class="checkbox-item"><input type="checkbox" value="16+"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>16+</label>
-              <label class="checkbox-item"><input type="checkbox" value="18+"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>18+</label>
-            </div>
-            <div class="filter-divider" style="margin: 12px 0;"></div>
-            <div class="filter-toggle-item">
-              <span class="filter-toggle-label">Можно с детьми</span>
-              <div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div>
-            </div>
-            </div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section open">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Дополнительно</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group">
-              <div class="filter-toggle-item"><span class="filter-toggle-label">С субтитрами</span><div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div></div>
-              <div class="filter-toggle-item"><span class="filter-toggle-label">На языке оригинала</span><div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div></div>
-              <div class="filter-toggle-item"><span class="filter-toggle-label">Скрыть просмотренное</span><div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div></div>
-            </div></div>
-          </div>
-          <button class="filters-apply-btn" onclick="applyFilters()">Применить фильтры</button>
-          <button class="reset-filters-btn" onclick="resetAllFilters()">Сбросить все фильтры</button>
-        </div>
-
-        <div id="filter-extra" class="filter-content">
-          <div class="filter-section open">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Настроение</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group">
-              <label class="checkbox-item"><input type="checkbox" value="mood-anxious"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>😰 Тревожное</label>
-              <label class="checkbox-item"><input type="checkbox" value="mood-happy"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>😄 Весёлое</label>
-              <label class="checkbox-item"><input type="checkbox" value="mood-romantic"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>💕 Романтичное</label>
-              <label class="checkbox-item"><input type="checkbox" value="mood-sad"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>😢 Грустное</label>
-              <label class="checkbox-item"><input type="checkbox" value="mood-thoughtful"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🤔 Задумчивое</label>
-              <label class="checkbox-item"><input type="checkbox" value="mood-mystic"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🔮 Мистичное</label>
-            </div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Эмоциональная нагрузка</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content">
-              <div class="load-slider">
-                <div class="load-slider__points" id="loadSlider">
-                  <div class="load-slider__point" data-value="1" onclick="selectLoad(this)">
-                    <div class="load-slider__dot"></div>
-                    <span class="load-slider__label">Лёгкий</span>
-                  </div>
-                  <div class="load-slider__point" data-value="2" onclick="selectLoad(this)">
-                    <div class="load-slider__dot"></div>
-                    <span class="load-slider__label">Умеренный</span>
-                  </div>
-                  <div class="load-slider__point" data-value="3" onclick="selectLoad(this)">
-                    <div class="load-slider__dot"></div>
-                    <span class="load-slider__label">Средний</span>
-                  </div>
-                  <div class="load-slider__point" data-value="4" onclick="selectLoad(this)">
-                    <div class="load-slider__dot"></div>
-                    <span class="load-slider__label">Тяжёлый</span>
-                  </div>
-                  <div class="load-slider__point" data-value="5" onclick="selectLoad(this)">
-                    <div class="load-slider__dot"></div>
-                    <span class="load-slider__label">Очень тяжёлый</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">По типу финала</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group">
-              <label class="checkbox-item"><input type="checkbox" value="ending-closed"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🔒 Закрытый конец</label>
-              <label class="checkbox-item"><input type="checkbox" value="ending-open"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>❓ Открытый финал</label>
-              <label class="checkbox-item"><input type="checkbox" value="ending-happy"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎉 Хэппи-энд</label>
-              <label class="checkbox-item"><input type="checkbox" value="ending-bitter"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>💧 Горький, но честный</label>
-              <label class="checkbox-item"><input type="checkbox" value="ending-twist"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🔄 С твистом</label>
-            </div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Жанры</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group">
-              <label class="checkbox-item"><input type="checkbox" value="animation"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎨 Анимация</label>
-              <label class="checkbox-item"><input type="checkbox" value="biography"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>👤 Биография</label>
-              <label class="checkbox-item"><input type="checkbox" value="war"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>⚔️ Военные</label>
-              <label class="checkbox-item"><input type="checkbox" value="historical"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>📜 Исторические</label>
-              <label class="checkbox-item"><input type="checkbox" value="detective"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🕵️ Детективы</label>
-              <label class="checkbox-item"><input type="checkbox" value="documentary"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>📄 Документальные</label>
-              <label class="checkbox-item"><input type="checkbox" value="drama"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎬 Драмы</label>
-              <label class="checkbox-item"><input type="checkbox" value="comedy"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>😂 Комедии</label>
-              <label class="checkbox-item"><input type="checkbox" value="fantasy"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🧙 Фэнтези</label>
-            </div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">По компании</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group">
-              <label class="checkbox-item"><input type="checkbox" value="company-alone"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🛋️ Одному под плед</label>
-              <label class="checkbox-item"><input type="checkbox" value="company-date"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>💕 На свидание</label>
-              <label class="checkbox-item"><input type="checkbox" value="company-friends"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎉 С друзьями</label>
-              <label class="checkbox-item"><input type="checkbox" value="company-family"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>👨‍👩‍👧 Семейный</label>
-              <label class="checkbox-item"><input type="checkbox" value="company-parents"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>👴 С родителями</label>
-            </div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Сеттинг</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group">
-              <label class="checkbox-item"><input type="checkbox" value="setting-space"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🚀 Космос</label>
-              <label class="checkbox-item"><input type="checkbox" value="setting-90s"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>📼 90-е</label>
-              <label class="checkbox-item"><input type="checkbox" value="setting-gangsters"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🔫 Гангстеры</label>
-              <label class="checkbox-item"><input type="checkbox" value="setting-house"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🏚️ Неладное в доме</label>
-              <label class="checkbox-item"><input type="checkbox" value="setting-chase"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🏃 Погоня</label>
-              <label class="checkbox-item"><input type="checkbox" value="setting-heist"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>💰 Ограбления</label>
-              <label class="checkbox-item"><input type="checkbox" value="setting-racing"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🏎️ Гонки</label>
-              <label class="checkbox-item"><input type="checkbox" value="setting-maniacs"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🔪 Маньяки</label>
-              <label class="checkbox-item"><input type="checkbox" value="setting-survival"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🏕️ Выживание</label>
-            </div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Сюжетный поворот</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group">
-              <label class="checkbox-item"><input type="checkbox" value="twist-deception"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎭 Обман</label>
-              <label class="checkbox-item"><input type="checkbox" value="twist-timeloop"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>⏳ Петля времени</label>
-              <label class="checkbox-item"><input type="checkbox" value="twist-ending"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🔄 Неожиданный конец</label>
-            </div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Темп</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group">
-              <label class="checkbox-item"><input type="checkbox" value="tempo-dynamic"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>💥 Динамичный</label>
-              <label class="checkbox-item"><input type="checkbox" value="tempo-slow"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🐌 Медленный</label>
-            </div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Тон и атмосфера</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group">
-              <label class="checkbox-item"><input type="checkbox" value="tone-dark"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🌑 Мрачное</label>
-              <label class="checkbox-item"><input type="checkbox" value="tone-light"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>☀️ Светлое</label>
-              <label class="checkbox-item"><input type="checkbox" value="tone-inspiring"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>✨ Вдохновляющее</label>
-              <label class="checkbox-item"><input type="checkbox" value="tone-surreal"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🌀 Сюрреалистичное</label>
-            </div></div>
-          </div>
-          <div class="filter-divider"></div>
-          <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Для эстетов</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group">
-              <label class="checkbox-item"><input type="checkbox" value="aesthetic-music"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎵 Безупречная музыка</label>
-              <label class="checkbox-item"><input type="checkbox" value="aesthetic-visual"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎨 Визуально необычный</label>
-              <label class="checkbox-item"><input type="checkbox" value="aesthetic-niche"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎯 Не для всех</label>
-              <label class="checkbox-item"><input type="checkbox" value="aesthetic-rewatch"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🔁 Хочется пересматривать</label>
-            </div></div>
-          </div>
-          <button class="filters-apply-btn" onclick="applyFilters()">Применить фильтры</button>
-          <button class="reset-filters-btn" onclick="resetAllFilters()">Сбросить все фильтры</button>
-        </div>
-      </aside>
-
-      <div class="catalog-grid" id="catalogGrid"></div>
-    </div>
-  </section>
-
-  <script>
-    const movieData = [
-      { id: 1259195, title: 'Война искусств', titleOriginal: 'War of Art', mood: 'Любопытное и напряжённое', vibe: 'Документальное погружение', rating: '7.4', poster: 'posters/iskustv.jpg', year: 2019, country: 'Норвегия', runtime: 102, age: '18+', format: 'Документальный', genres: ['documentary'], whyWatch: 'Группа западных художников едет в Северную Корею ради культурного обмена. Вы увидите, как сталкиваются разные представления об искусстве и свободе.', cast: ['Мортен Тровик', 'Хенрик Плахт', 'Ник Новак'], director: 'Томми Гулликсен', trailer: 'https://www.kinopoisk.ru/film/1259195/' },
-      { id: 5237750, title: 'Не хороните меня без Ивана', titleOriginal: 'Кэрэни көрбүт', mood: 'Тёплое и созерцательное', vibe: 'Тихая магия повседневности', rating: '8.0', poster: 'posters/ivan.jpg', year: 2022, country: 'Россия', runtime: 124, age: '12+', format: 'Фильм', genres: ['drama', 'comedy', 'historical'], whyWatch: 'Якутский крестьянин боится быть похороненным заживо из-за приступов летаргического сна. Он отправляется в экспедицию вслед за художником-этнографом.', cast: ['Дариус Гумаускас', 'Александр Чичахов', 'Михаил Сажин'], director: 'Любовь Борисова', trailer: 'https://www.kinopoisk.ru/film/5237750/' },
-      { id: 225011, title: 'Изгнание', titleOriginal: 'The Banishment', mood: 'Созерцательное и тревожное', vibe: 'Медленное напряжение', rating: '7.3', poster: 'posters/izgnanie.jpg', year: 2007, country: 'Россия', runtime: 150, age: '18+', format: 'Фильм', genres: ['drama'], whyWatch: 'Вторая работа Андрея Звягинцева. Семья уезжает в загородный дом, но напряжение между супругами следует за ними.', cast: ['Константин Лавроненко', 'Мария Бонневи', 'Александр Балуев'], director: 'Андрей Звягинцев', trailer: 'https://www.kinopoisk.ru/film/225011/' },
-      { id: 1347315, title: 'Книготорговцы', titleOriginal: 'The Booksellers', mood: 'Тёплое и разговорное', vibe: 'Уютная интеллектуальность', rating: '7.6', poster: 'posters/knogo.jpg', year: 2019, country: 'США', runtime: 99, age: '18+', format: 'Документальный', genres: ['documentary'], whyWatch: 'Документальный фильм о нью-йоркских букинистах, коллекционерах и писателях. Вы увидите мир редких книг.', cast: ['Паркер Поузи', 'Фрэн Лебовиц', 'Гей Тализ'], director: 'Д. У. Янг', trailer: 'https://www.kinopoisk.ru/film/1347315/' },
-      { id: 425, title: 'Седьмая печать', titleOriginal: 'Det sjunde inseglet', mood: 'Мрачное и философское', vibe: 'Экзистенциальная классика', rating: '8.1', poster: 'posters/pechat.jpg', year: 1957, country: 'Швеция', runtime: 96, age: '18+', format: 'Фильм', genres: ['drama', 'fantasy'], whyWatch: 'Классика Ингмара Бергмана. Рыцарь возвращается из крестового похода и предлагает Смерти сыграть в шахматы.', cast: ['Макс фон Сюдов', 'Гуннар Бьёрнстранд', 'Бенгт Экерот'], director: 'Ингмар Бергман', trailer: 'https://www.kinopoisk.ru/film/425/' },
-      { id: 714248, title: 'Песнь моря', titleOriginal: 'Song of the Sea', mood: 'Нежное и волшебное', vibe: 'Сказочная меланхолия', rating: '8.2', poster: 'posters/pesn.jpg', year: 2014, country: 'Ирландия', runtime: 93, age: '6+', format: 'Мультфильм', genres: ['animation', 'fantasy'], whyWatch: 'Ирландская анимация от Томма Мура о брате и сестре, которые отправляются через мир преданий.', cast: ['Дэвид Роул', 'Люси О\'Коннелл', 'Брендан Глисон'], director: 'Томм Мур', trailer: 'https://www.kinopoisk.ru/film/714248/' },
-      { id: 425400, title: 'Пожары', titleOriginal: 'Incendies', mood: 'Напряжённое и скорбное', vibe: 'Разрывающая душа драма', rating: '8.1', poster: 'posters/pozhari.jpg', year: 2010, country: 'Канада', runtime: 131, age: '18+', format: 'Фильм', genres: ['drama', 'detective', 'war'], whyWatch: 'Дени Вильнёв экранизировал пьесу Важди Муавада о канадских близнецах, которые после смерти матери отправляются на Ближний Восток.', cast: ['Лубна Азабаль', 'Мелисса Дезормо-Пулен', 'Максим Годетт'], director: 'Дени Вильнёв', trailer: 'https://www.kinopoisk.ru/film/425400/' },
-      { id: 1040690, title: 'Середина 90-х', titleOriginal: 'Mid90s', mood: 'Тёплое и ностальгическое', vibe: 'Ностальгия по детству', rating: '7.4', poster: 'posters/seredina.jpg', year: 2018, country: 'США', runtime: 85, age: '18+', format: 'Фильм', genres: ['drama', 'comedy'], whyWatch: 'Режиссёрский дебют Джоны Хилла о тринадцатилетнем подростке из Лос-Анджелеса.', cast: ['Санни Сулджик', 'Кэтрин Уотерстон', 'Лукас Хеджес'], director: 'Джона Хилл', trailer: 'https://www.kinopoisk.ru/film/1040690/' },
-      { id: 677566, title: 'Великая красота', titleOriginal: 'La grande bellezza', mood: 'Меланхоличное и чувственное', vibe: 'Римская элегия', rating: '7.8', poster: 'posters/velikaya.jpg', year: 2013, country: 'Италия', runtime: 141, age: '18+', format: 'Фильм', genres: ['drama', 'comedy'], whyWatch: 'Паоло Соррентино снял современный ответ "Сладкой жизни" Феллини.', cast: ['Тони Сервилло', 'Карло Вердоне', 'Сабрина Ферилли'], director: 'Паоло Соррентино', trailer: 'https://www.kinopoisk.ru/film/677566/' },
-      { id: 6553389, title: 'Новая волна', titleOriginal: 'Nouvelle Vague', mood: 'Лёгкое и увлечённое', vibe: 'Кинематографическая одиссея', rating: '7.6', poster: 'posters/volna.jpg', year: 2025, country: 'Франция', runtime: 105, age: '18+', format: 'Фильм', genres: ['drama', 'comedy', 'biography'], whyWatch: 'Ричард Линклейтер снял фильм о создании "На последнем дыхании" — дебюта Жан-Люка Годара.', cast: ['Гийом Марбек', 'Зои Дойч', 'Обри Дюллен'], director: 'Ричард Линклейтер', trailer: 'https://www.kinopoisk.ru/film/6553389/' }
-    ];
-
-    const stage = document.getElementById('stage');
-    const carouselContainer = document.getElementById('carouselContainer');
-    let currentIndex = 4;
-    const savedMovies = new Set();
-
-    function getRatingClass(rating) {
-      const num = parseFloat(rating);
-      if (num >= 8.0) return 'high';
-      if (num >= 7.0) return 'medium';
-      return 'low';
+    function saveState() {
+        try { localStorage.setItem('mv_user_state', JSON.stringify(userState)); } catch (e) {}
     }
 
-    function createCard(data, index) {
-      const card = document.createElement('div');
-      card.className = 'movie-card';
-      card.dataset.index = index;
-      card.dataset.mood = data.mood;
-      card.dataset.vibe = data.vibe || '';
-      card.style.backgroundImage = `url('${data.poster}')`;
-      const ratingClass = getRatingClass(data.rating);
-      const isSaved = savedMovies.has(index);
-      card.innerHTML = `
-        <div class="rating-badge ${ratingClass}">${data.rating}</div>
-        <div class="card-actions">
-          <button class="card-action-btn save-btn ${isSaved ? 'saved' : ''}" onclick="toggleSave(${index}, event)" title="Сохранить"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button>
-          <button class="card-action-btn" onclick="expandCard(${index}, event)" title="Подробнее"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
-        </div>
-        <div class="expanded-poster" style="background-image: url('${data.poster}')"></div>
-        <div class="expanded-content">
-          <button class="expanded-close" onclick="collapseCard(event)" title="Закрыть">×</button>
-          <h2 class="expanded-title">${data.title}</h2>
-          <div class="expanded-mood">${data.mood}</div>
-          <div class="ai-recommendation">
-            <div class="ai-label"><svg viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"></path></svg>ПОЧЕМУ ВАМ СТОИТ ПОСМОТРЕТЬ</div>
-            <p class="expanded-desc">${data.whyWatch}</p>
-          </div>
-        </div>`;
-      card.addEventListener('click', (e) => {
-        if (e.target.closest('.card-action-btn') || e.target.closest('.expanded-close') || card.classList.contains('expanded')) return;
-        if (currentIndex !== index) { currentIndex = index; updateCarousel(); }
-      });
-      return card;
+    var toastTimer;
+    function showToast(msg) {
+        var t = document.getElementById('toast');
+        t.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>' + msg;
+        t.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2200);
     }
 
-    function toggleSave(index, e) {
-      e.stopPropagation();
-      if (savedMovies.has(index)) savedMovies.delete(index); else savedMovies.add(index);
-      const cards = stage.querySelectorAll('.movie-card');
-      cards.forEach(c => { if (parseInt(c.dataset.index) === index) { const btn = c.querySelector('.save-btn'); if (btn) btn.classList.toggle('saved'); } });
+    var ICON = {
+        bookmark: '<svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>',
+        eye: '<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+        ban: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>',
+        play: '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>',
+        film: '<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>'
+    };
+
+    function initials(name) {
+        var parts = name.split(' ');
+        if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+        return name.substring(0, 2).toUpperCase();
+    }
+    
+    function formatRuntime(minutes) {
+        var h = Math.floor(minutes / 60), m = minutes % 60;
+        if (h > 0 && m > 0) return h + 'ч ' + m + ' мин';
+        if (h > 0) return h + 'ч';
+        return m + ' мин';
     }
 
-    function initCarousel() {
-      stage.innerHTML = '';
-      for (let i = -2; i <= 2; i++) {
-        let dataIndex = (currentIndex + i + movieData.length) % movieData.length;
-        let card = createCard(movieData[dataIndex], currentIndex + i);
-        stage.appendChild(card);
-      }
-      updateCarousel();
-    }
-
-    function updateCarousel() {
-      const cards = stage.querySelectorAll('.movie-card');
-      if (stage.querySelector('.expanded')) return;
-      cards.forEach((card) => {
-        let diff = parseInt(card.dataset.index) - currentIndex;
-        card.classList.remove('pos-0','pos--1','pos-1','pos--2','pos-2','pos--3','pos-3');
-        if (diff === 0) card.classList.add('pos-0');
-        else if (diff === -1) card.classList.add('pos--1');
-        else if (diff === 1) card.classList.add('pos-1');
-        else if (diff === -2) card.classList.add('pos--2');
-        else if (diff === 2) card.classList.add('pos-2');
-        else if (diff < -2) card.classList.add('pos--3');
-        else if (diff > 2) card.classList.add('pos-3');
-      });
-      let mainDataIndex = (currentIndex + movieData.length) % movieData.length;
-      document.getElementById('mainTitle').textContent = movieData[mainDataIndex].title;
-      document.getElementById('mainMood').textContent = movieData[mainDataIndex].mood;
-    }
-
-    function expandCard(index, e) {
-      e.stopPropagation();
-      const cards = stage.querySelectorAll('.movie-card');
-      let targetCard = null;
-      cards.forEach(c => { if (parseInt(c.dataset.index) === index) targetCard = c; });
-      if (targetCard) { targetCard.classList.add('expanded'); carouselContainer.classList.add('has-expanded'); stage.classList.add('has-expanded'); }
-    }
-    function collapseCard(e) {
-      e.stopPropagation();
-      const expandedCard = stage.querySelector('.expanded');
-      if (expandedCard) { expandedCard.classList.remove('expanded'); carouselContainer.classList.remove('has-expanded'); stage.classList.remove('has-expanded'); }
-    }
-
-    document.getElementById('prevBtn').addEventListener('click', () => { currentIndex = (currentIndex - 1 + movieData.length) % movieData.length; initCarousel(); });
-    document.getElementById('nextBtn').addEventListener('click', () => { currentIndex = (currentIndex + 1) % movieData.length; initCarousel(); });
-
-    document.getElementById('refreshBtn').addEventListener('click', () => {
-      currentIndex = Math.floor(Math.random() * movieData.length);
-      initCarousel();
-    });
-
-    const randomAiOverlay = document.getElementById('randomAiOverlay');
-    const chatAiOverlay = document.getElementById('chatAiOverlay');
-    const eyeOverlay = document.getElementById('eyeOverlay');
-
-    document.getElementById('openRandomAiBtn').addEventListener('click', () => randomAiOverlay.classList.add('active'));
-    document.getElementById('closeRandomAi').addEventListener('click', () => { randomAiOverlay.classList.remove('active'); resetToFilters(); });
-    randomAiOverlay.addEventListener('click', (e) => { if (e.target === randomAiOverlay) { randomAiOverlay.classList.remove('active'); resetToFilters(); } });
-
-    document.getElementById('openChatBtn').addEventListener('click', () => { chatAiOverlay.classList.add('active'); document.getElementById('chatInput').focus(); });
-    document.getElementById('closeChatAi').addEventListener('click', () => chatAiOverlay.classList.remove('active'));
-    chatAiOverlay.addEventListener('click', (e) => { if (e.target === chatAiOverlay) chatAiOverlay.classList.remove('active'); });
-
-    document.getElementById('eyeClose').addEventListener('click', () => eyeOverlay.classList.remove('active'));
-    eyeOverlay.addEventListener('click', (e) => { if (e.target === eyeOverlay) eyeOverlay.classList.remove('active'); });
-    document.getElementById('eyeWatchBtn').addEventListener('click', () => { const movieId = document.getElementById('eyeWatchBtn').dataset.movieId; if (movieId) window.location.href = 'movie.html?id=' + movieId; });
-
-    function showEyeModal(index) {
-      const movie = movieData[index];
-      const ratingClass = getRatingClass(movie.rating);
-      document.getElementById('eyePoster').style.backgroundImage = `url('${movie.poster}')`;
-      document.getElementById('eyeTitle').textContent = movie.title;
-      document.getElementById('eyeText').textContent = movie.whyWatch;
-      document.getElementById('eyeWatchBtn').dataset.movieId = movie.id;
-      const badgesHtml = `
-        <span class="eye-badge rating ${ratingClass}">${movie.rating}</span>
-        <span class="eye-badge">${movie.year}</span>
-        <span class="eye-badge">${movie.runtime} мин</span>
-        <span class="eye-badge">${movie.country}</span>
-        <span class="eye-badge">${movie.age}</span>
-        <span class="eye-badge">${movie.format}</span>`;
-      document.getElementById('eyeBadges').innerHTML = badgesHtml;
-      eyeOverlay.classList.add('active');
-    }
-
-    function toggleChip(chip) { chip.classList.toggle('active'); }
-    function toggleSwitch(el) { el.classList.toggle('active'); }
-    function toggleDuration(chip) { document.querySelectorAll('.duration-chip').forEach(c => c.classList.remove('active')); chip.classList.add('active'); }
-    function resetFilters() { document.querySelectorAll('#aiFilters .option-chip').forEach(c => c.classList.remove('active')); document.querySelectorAll('.duration-chip').forEach(c => c.classList.remove('active')); document.querySelectorAll('.toggle-switch').forEach(s => s.classList.remove('active')); }
-    function resetToFilters() { document.getElementById('aiFilters').style.display = 'block'; document.getElementById('aiResults').style.display = 'none'; }
-
-    document.getElementById('generateRandomBtn').addEventListener('click', () => {
-      randomAiOverlay.classList.remove('active'); resetToFilters(); currentIndex = 4; initCarousel();
-      setTimeout(() => { const cards = stage.querySelectorAll('.movie-card'); const centerCard = cards[2]; if (centerCard) { centerCard.classList.add('expanded'); carouselContainer.classList.add('has-expanded'); stage.classList.add('has-expanded'); } }, 400);
-    });
-    function resetAiSearch() { document.getElementById('aiFilters').style.display = 'block'; document.getElementById('aiResults').style.display = 'none'; }
-    function toggleAiDesc(header) { const desc = header.nextElementSibling; const isOpen = desc.classList.contains('open'); document.querySelectorAll('.result-ai-desc').forEach(d => d.classList.remove('open')); if (!isOpen) desc.classList.add('open'); }
-
-    const chatInput = document.getElementById('chatInput');
-    const chatMessages = document.getElementById('chatMessages');
-    function addMessage(text, isUser) { const msg = document.createElement('div'); msg.className = `message ${isUser ? 'user' : 'ai'}`; msg.textContent = text; chatMessages.appendChild(msg); chatMessages.scrollTop = chatMessages.scrollHeight; }
-    document.getElementById('sendChatBtn').addEventListener('click', () => { const text = chatInput.value.trim(); if (!text) return; addMessage(text, true); chatInput.value = ''; setTimeout(() => { addMessage("Отличный запрос! Исходя из вашего описания, я рекомендую обратить внимание на фильм «Седьмая печать» или «Пожары». Хотите, я расскажу подробнее о сюжете одного из них?", false); }, 800); });
-    chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') document.getElementById('sendChatBtn').click(); });
-
-    function scrollToTop(e) {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    document.getElementById('filterSearchToggle').addEventListener('click', () => {
-      const wrap = document.getElementById('filterSearchWrap');
-      wrap.classList.toggle('active');
-      if (wrap.classList.contains('active')) {
-        document.getElementById('filterSearchInput').focus();
-      }
-    });
-    document.getElementById('filterSearchInput').addEventListener('input', (e) => {
-      const query = e.target.value.toLowerCase().trim();
-      document.querySelectorAll('.checkbox-item').forEach(item => {
-        const text = item.textContent.toLowerCase();
-        if (query === '' || text.includes(query)) {
-          item.style.display = 'flex';
-        } else {
-          item.style.display = 'none';
+    function generateAiRecommendation(movie) {
+        var parts = [];
+        if (movie.synopsis) {
+            var sentences = movie.synopsis.split('. ');
+            var firstSentence = sentences[0];
+            if (firstSentence.length > 120) firstSentence = firstSentence.substring(0, 120) + '...';
+            parts.push(firstSentence + '.');
         }
-      });
-      if (query !== '') {
-        document.querySelectorAll('.filter-section').forEach(s => s.classList.add('open'));
-      }
-    });
-
-    // Слайдер эмоциональной нагрузки
-    function selectLoad(point) {
-      document.querySelectorAll('.load-slider__point').forEach(p => p.classList.remove('active'));
-      point.classList.add('active');
+        var genreText = movie.genres && movie.genres.length ? movie.genres[0] : ''; 
+        var moodText = movie.mood ? movie.mood.toLowerCase() : '';
+        if (genreText && moodText) {
+            parts.push('Это ' + genreText + ' с ' + moodText + ' атмосферой.');
+        } else if (genreText) {
+            parts.push('Это ' + genreText + '.');
+        }
+        var result = parts.join(' ');
+        if (result.length > 250) result = result.substring(0, 247) + '...';
+        return result;
     }
 
-    let filteredMovies = [...movieData];
-    function renderCatalog(movies = movieData) {
-      const grid = document.getElementById('catalogGrid');
-      grid.innerHTML = '';
-      if (movies.length === 0) { grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-muted);">Фильмы не найдены. Попробуйте изменить фильтры.</div>'; return; }
-      movies.forEach((movie) => {
-        const originalIdx = movieData.findIndex(m => m.id === movie.id);
-        const isSaved = savedMovies.has(originalIdx);
-        const item = document.createElement('div');
-        item.className = 'catalog-item';
-        item.innerHTML = `
-          <div class="catalog-poster-wrap" style="background-image: url('${movie.poster}')" data-idx="${originalIdx}">
-            <div class="catalog-poster-rating ${getRatingClass(movie.rating)}">${movie.rating}</div>
-            <button class="catalog-save-btn ${isSaved ? 'saved' : ''}" data-save-idx="${originalIdx}" title="Сохранить на потом"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button>
-            <button class="catalog-eye-btn" data-eye-idx="${originalIdx}" title="Почему стоит посмотреть"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
-            <div class="catalog-poster-overlay"><div class="catalog-poster-mood">${movie.mood}</div></div>
-          </div>
-          <div class="catalog-meta"><div class="catalog-meta-title">${movie.title}</div><div class="catalog-meta-info"><span>${movie.year}</span><span class="dot"></span><span>${movie.runtime} мин</span><span class="dot"></span><span>${movie.country}</span></div></div>`;
-        grid.appendChild(item);
-      });
-      grid.querySelectorAll('.catalog-save-btn').forEach(btn => { btn.addEventListener('click', (e) => { e.stopPropagation(); const idx = parseInt(btn.dataset.saveIdx); if (savedMovies.has(idx)) savedMovies.delete(idx); else savedMovies.add(idx); btn.classList.toggle('saved'); }); });
-      grid.querySelectorAll('.catalog-eye-btn').forEach(btn => { btn.addEventListener('click', (e) => { e.stopPropagation(); const idx = parseInt(btn.dataset.eyeIdx); showEyeModal(idx); }); });
-      grid.querySelectorAll('.catalog-poster-wrap').forEach(wrap => { wrap.addEventListener('click', (e) => { if (e.target.closest('.catalog-eye-btn') || e.target.closest('.catalog-save-btn')) return; const idx = parseInt(wrap.dataset.idx); const movie = movieData[idx]; window.location.href = 'movie.html?id=' + movie.id; }); });
+    function createSimilarCard(movie) {
+        var card = document.createElement('div');
+        card.className = 'card';
+        var tagsHTML = movie.genres.slice(0, 2).map(function (g) { return '<span class="tag">' + g + '</span>'; }).join('');
+        var ratingClass = movie.rating >= 8.0 ? 'high' : (movie.rating >= 7.0 ? 'medium' : 'low');
+        var badgeColor = ratingClass === 'high' ? 'rgba(22,163,74,0.9)' : (ratingClass === 'medium' ? 'rgba(202,138,4,0.9)' : 'rgba(239,68,68,0.9)');
+        
+        card.innerHTML =
+            '<div class="card-poster"><img src="' + movie.poster + '" alt="' + movie.title + '"><div class="card-badge" style="background:'+badgeColor+'">' + movie.rating + '</div></div>' +
+            '<div class="card-title">' + movie.title + '</div>' +
+            '<div class="card-tags">' + tagsHTML + '</div>';
+        card.addEventListener('click', function () { window.location.href = 'movie.html?id=' + movie.id; });
+        return card;
     }
 
-    function renderCountryFilters() {
-      const countries = [...new Set(movieData.map(m => m.country))].sort();
-      const container = document.getElementById('countryFilters');
-      container.innerHTML = '';
-      countries.forEach(country => {
-        const label = document.createElement('label');
-        label.className = 'checkbox-item';
-        label.innerHTML = `<input type="checkbox" value="${country}"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>${country}`;
-        label.addEventListener('click', function(e) { e.preventDefault(); this.classList.toggle('active'); applyFilters(); });
-        container.appendChild(label);
-      });
+    function createClipCard(clip) {
+        var card = document.createElement('div');
+        card.className = 'clip-card';
+        card.innerHTML =
+            '<div class="clip-thumbnail"><img src="' + clip.thumbnail + '" alt="' + clip.title + '">' +
+            '<div class="clip-views"><svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>' + clip.views + '</div>' +
+            '<div class="clip-duration">' + clip.duration + '</div>' +
+            '<div class="clip-play-overlay"><div class="clip-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div></div></div>' +
+            '<div class="clip-title">' + clip.title + '</div><div class="clip-desc">' + clip.desc + '</div>';
+        card.addEventListener('click', function() { showToast('Клип: ' + clip.title); });
+        return card;
     }
-    function setupCheckboxHandlers() { document.querySelectorAll('.checkbox-item').forEach(item => { item.addEventListener('click', function(e) { e.preventDefault(); this.classList.toggle('active'); applyFilters(); }); }); }
 
-    function applyFilters() {
-      let filtered = [...movieData];
-      const selectedCountries = [...document.querySelectorAll('#countryFilters .checkbox-item.active input')].map(cb => cb.value);
-      if (selectedCountries.length > 0) filtered = filtered.filter(m => selectedCountries.includes(m.country));
-      const selectedYears = [...document.querySelectorAll('#yearFilters .checkbox-item.active input')].map(cb => cb.value);
-      if (selectedYears.length > 0) filtered = filtered.filter(m => { if (selectedYears.includes('before2000') && m.year < 2000) return true; if (selectedYears.includes('2000to2010') && m.year >= 2000 && m.year <= 2010) return true; if (selectedYears.includes('2010to2020') && m.year > 2010 && m.year <= 2020) return true; if (selectedYears.includes('after2020') && m.year > 2020) return true; return false; });
-      const selectedRuntimes = [...document.querySelectorAll('#runtimeFilters .checkbox-item.active input')].map(cb => cb.value);
-      if (selectedRuntimes.length > 0) filtered = filtered.filter(m => { if (selectedRuntimes.includes('short') && m.runtime < 90) return true; if (selectedRuntimes.includes('medium') && m.runtime >= 90 && m.runtime <= 120) return true; if (selectedRuntimes.includes('long') && m.runtime > 120) return true; return false; });
-      const selectedRatings = [...document.querySelectorAll('#ratingFilters .checkbox-item.active input')].map(cb => cb.value);
-      if (selectedRatings.length > 0) filtered = filtered.filter(m => { const r = parseFloat(m.rating); if (selectedRatings.includes('high') && r >= 8.0) return true; if (selectedRatings.includes('medium') && r >= 7.0 && r < 8.0) return true; if (selectedRatings.includes('low') && r < 7.0) return true; return false; });
-      const selectedAges = [...document.querySelectorAll('#ageFilters .checkbox-item.active input')].map(cb => cb.value);
-      if (selectedAges.length > 0) filtered = filtered.filter(m => {
-        if (selectedAges.includes('6+') && m.age === '6+') return true;
-        if (selectedAges.includes('12+') && (m.age === '6+' || m.age === '12+')) return true;
-        if (selectedAges.includes('16+') && (m.age === '6+' || m.age === '12+' || m.age === '16+')) return true;
-        if (selectedAges.includes('18+')) return true;
-        return false;
-      });
-      const selectedGenres = [...document.querySelectorAll('#filter-extra .checkbox-item.active input')].map(cb => cb.value);
-      if (selectedGenres.length > 0) filtered = filtered.filter(m => m.genres && m.genres.some(g => selectedGenres.includes(g)));
-      filteredMovies = filtered;
-      renderCatalog(filtered);
+    function renderClipsSection(movie) {
+        var section = document.getElementById('clips-section');
+        if (!section) return;
+        var container = section.querySelector('.clips-container');
+        if (!movie.clips || !movie.clips.length) {
+            container.innerHTML = '<div class="clips-empty">Скоро здесь появятся нарезки из фильма</div>';
+            return;
+        }
+        movie.clips.forEach(function(clip) { container.appendChild(createClipCard(clip)); });
     }
-    function resetAllFilters() { document.querySelectorAll('.checkbox-item').forEach(item => { item.classList.remove('active'); const input = item.querySelector('input'); if (input) input.checked = false; }); document.querySelectorAll('.filter-toggle').forEach(t => t.classList.remove('active')); document.querySelectorAll('.load-slider__point').forEach(p => p.classList.remove('active')); filteredMovies = [...movieData]; renderCatalog(); }
-    function switchFilterTab(tab, btn) { document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active')); document.querySelectorAll('.filter-content').forEach(c => c.classList.remove('active')); btn.classList.add('active'); document.getElementById(`filter-${tab}`).classList.add('active'); }
-    function toggleFilterSwitch(el) { el.classList.toggle('active'); }
-    function toggleFilterSection(header) { header.parentElement.classList.toggle('open'); }
 
-    initCarousel();
-    renderCatalog();
-    renderCountryFilters();
-    setupCheckboxHandlers();
-  </script>
+    function initTeamFilters(movie) {
+        var chips = document.querySelectorAll('.team-chip');
+        chips.forEach(function (chip) {
+            chip.addEventListener('click', function () {
+                chips.forEach(function (c) { c.classList.remove('active'); });
+                chip.classList.add('active');
+                teamFilter = chip.dataset.filter;
+                renderTeam(movie);
+            });
+        });
+    }
+
+    function renderTeam(movie) {
+        var grid = document.getElementById('team-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        var list = [];
+        if (teamFilter === 'cast') list = movie.cast || [];
+        else if (teamFilter === 'directors') list = (movie.directors || []).map(function (n) { return { name: n, role: 'Режиссёр' }; });
+        else if (teamFilter === 'producers') list = (movie.producers || []).map(function (n) { return { name: n, role: 'Продюсер' }; });
+        else if (teamFilter === 'screenwriters') list = (movie.screenwriters || []).map(function (n) { return { name: n, role: 'Сценарист' }; });
+        else if (teamFilter === 'composers') list = (movie.composers || []).map(function (n) { return { name: n, role: 'Композитор' }; });
+        
+        if (!list.length) {
+            grid.innerHTML = '<div style="color:var(--text-muted);padding:20px;grid-column:1/-1;text-align:center;">Данные не указаны.</div>';
+            return;
+        }
+        list.forEach(function (p) {
+            var el = document.createElement('div');
+            el.className = 'person';
+            el.innerHTML = '<div class="person-avatar">' + initials(p.name) + '</div><div class="person-name">' + p.name + '</div><div class="person-role">' + p.role + '</div>';
+            grid.appendChild(el);
+        });
+    }
+
+    function renderSimilarSection(movie) {
+        var section = document.getElementById('similar-section');
+        if (!section) return;
+        var filters = section.querySelectorAll('.similar-filter');
+        filters.forEach(function(filter) {
+            filter.addEventListener('click', function() {
+                filters.forEach(function(f) { f.classList.remove('active'); });
+                this.classList.add('active');
+                similarFilter = this.dataset.filter;
+                renderSimilarMovies(movie);
+            });
+        });
+        renderSimilarMovies(movie);
+    }
+
+    function renderSimilarMovies(movie) {
+        var grid = document.getElementById('similar-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        var similar = [];
+        
+        if (similarFilter === 'mood') {
+            var movieMoodWords = movie.mood ? movie.mood.toLowerCase().split(/\s+/) : [];
+            similar = movies.filter(function(m) {
+                if (m.id === movie.id) return false;
+                var mWords = m.mood ? m.mood.toLowerCase().split(/\s+/) : [];
+                return mWords.some(function(w) { return movieMoodWords.includes(w); });
+            });
+        } else if (similarFilter === 'genre') {
+            similar = movies.filter(function(m) {
+                if (m.id === movie.id) return false;
+                return m.genres.some(function(g) { return movie.genres.indexOf(g) !== -1; });
+            });
+        } else if (similarFilter === 'director') {
+            similar = movies.filter(function(m) {
+                if (m.id === movie.id) return false;
+                return m.directors && movie.directors && m.directors[0] === movie.directors[0];
+            });
+        }
+
+        if (!similar.length) {
+            grid.innerHTML = '<div style="color:var(--text-muted);padding:40px;text-align:center;grid-column:1/-1;">Пока нет похожих фильмов в этой категории</div>';
+            return;
+        }
+        similar.slice(0, 6).forEach(function(m) { grid.appendChild(createSimilarCard(m)); });
+    }
+
+    function renderFactsSection(movie) {
+        var grid = document.getElementById('facts-grid');
+        if (!grid || !movie.facts || !movie.facts.length) return;
+        movie.facts.forEach(function (f) {
+            var card = document.createElement('div');
+            card.className = 'fact-card';
+            card.innerHTML =
+                '<div class="fact-card-top">' +
+                    '<svg class="fact-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>' +
+                    '<a class="fact-source-link" href="' + (f.url || '#') + '" target="_blank" rel="noopener">Источник <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg></a>' +
+                '</div>' +
+                '<p class="fact-text">' + f.text + '</p>';
+            grid.appendChild(card);
+        });
+    }
+
+    function renderReviewsBlock(movie) {
+        var wrap = document.getElementById('reviews-wrap');
+        if (!wrap) return;
+        var reviews = movie.reviews || [];
+        if (!reviews.length) {
+            wrap.innerHTML = '<div class="reviews-block"><div class="reviews-head"><span class="reviews-head-title">Отзывы</span></div><div style="font-size:13px;color:var(--text-muted);padding:8px 0;">Пока нет отзывов. Будьте первым!</div></div>';
+            return;
+        }
+        var itemsHTML = reviews.slice(0, 2).map(function (r) {
+            return '<div class="review-item">' +
+                '<div class="review-top"><span class="review-author">' + r.author + '</span><span class="review-date">' + r.date + '</span></div>' +
+                '<p class="review-text">' + r.text + '</p>' +
+                '<div class="review-likes"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>' + r.likes + '</div>' +
+            '</div>';
+        }).join('');
+        wrap.innerHTML = '<div class="reviews-block">' +
+            '<div class="reviews-head"><span class="reviews-head-title">Отзывы</span><span class="reviews-count">' + reviews.length + '</span></div>' +
+            itemsHTML +
+            '<button class="reviews-all-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Читать все отзывы</button>' +
+        '</div>';
+        var allBtn = wrap.querySelector('.reviews-all-btn');
+        if (allBtn) allBtn.addEventListener('click', function(){ showToast('Все отзывы: ' + reviews.length + ' шт.'); });
+    }
+
+    function buildActionsRow(movie) {
+        var isSaved = !!userState.saved[movie.id];
+        var isWatched = !!userState.watched[movie.id];
+        var isHidden = !!userState.hidden[movie.id];
+        return '<div class="actions-row">' +
+            '<a href="' + (movie.kpUrl || '#') + '" target="_blank" rel="noopener" class="btn-watch">' + ICON.play + ' Смотреть</a>' +
+            '<a href="' + (movie.trailerUrl || '#') + '" target="_blank" rel="noopener" class="btn-trailer">' + ICON.film + ' Трейлер</a>' +
+            '<button class="icon-action ' + (isSaved ? 'on-save' : '') + '" id="act-save" title="Смотреть позже" aria-label="Смотреть позже">' + ICON.bookmark + '</button>' +
+            '<button class="icon-action ' + (isWatched ? 'on-watch' : '') + '" id="act-watch" title="Уже смотрел" aria-label="Уже смотрел">' + ICON.eye + '</button>' +
+            '<button class="icon-action ' + (isHidden ? 'on-hide' : '') + '" id="act-hide" title="Скрыть" aria-label="Скрыть из рекомендаций">' + ICON.ban + '</button>' +
+        '</div>';
+    }
+
+    function bindActions(movie) {
+        var saveBtn = document.getElementById('act-save');
+        var watchBtn = document.getElementById('act-watch');
+        var hideBtn = document.getElementById('act-hide');
+        if(!saveBtn || !watchBtn || !hideBtn) return;
+
+        saveBtn.addEventListener('click', function () {
+            if (userState.saved[movie.id]) { delete userState.saved[movie.id]; saveBtn.classList.remove('on-save'); showToast('Убрано из «Смотреть позже»'); }
+            else { userState.saved[movie.id] = true; saveBtn.classList.add('on-save'); showToast('Сохранено на потом'); }
+            saveState();
+        });
+
+        watchBtn.addEventListener('click', function () {
+            if (userState.watched[movie.id]) { delete userState.watched[movie.id]; watchBtn.classList.remove('on-watch'); showToast('Убрал отметку «просмотрено»'); }
+            else { userState.watched[movie.id] = true; watchBtn.classList.add('on-watch'); showToast('Отмечено как просмотренное'); }
+            saveState();
+                });
+
+        hideBtn.addEventListener('click', function () {
+            if (userState.hidden[movie.id]) { delete userState.hidden[movie.id]; hideBtn.classList.remove('on-hide'); showToast('Фильм снова в рекомендациях'); }
+            else { userState.hidden[movie.id] = true; hideBtn.classList.add('on-hide'); showToast('Скрыт — больше не будет в рекомендациях'); }
+            saveState();
+        });
+    }
+
+    function renderMovie() {
+        var params = new URLSearchParams(window.location.search);
+        var id = parseInt(params.get('id'));
+        var movie = movies.find(function (m) { return m.id === id; });
+        var container = document.getElementById('movie-detail');
+
+        if (!movie) {
+            document.title = 'Фильм не найден — МувиМуд';
+            container.innerHTML =
+                '<div class="not-found">' +
+                    '<h1>Фильм не найден</h1>' +
+                    '<p>Похоже, такой картины нет в нашей базе.</p>' +
+                    '<a href="index.html" class="btn-watch">Вернуться в кاалог</a>' +
+                '</div>';
+            return;
+        }
+
+        document.title = movie.title + ' — МувиМуд';
+
+        var countries = (movie.countries || []).join(', ');
+        var languages = (movie.languages || []).join(', ');
+        var runtime = formatRuntime(movie.runtime);
+
+        var teaserHTML =
+            runtime + ' <span class="sep">·</span> ' + movie.year + ' <span class="sep">·</span> ' +
+            countries + ' <span class="sep">·</span> ' +
+            '<span class="teaser-age">' + movie.age + '</span>';
+
+        var specsHTML =
+            '<div class="spec-row"><div class="spec-label">Жанр</div><div class="spec-values">' + movie.genres.map(function (g) { return '<span class="spec-tag">' + g + '</span>'; }).join('') + '</div></div>' +
+            '<div class="spec-row"><div class="spec-label">Время</div><div class="spec-values"><span class="spec-tag">' + movie.runtime + ' мин</span></div></div>' +
+            '<div class="spec-row"><div class="spec-label">Язык</div><div class="spec-values"><span class="spec-tag">' + (languages || 'Не указан') + '</span></div></div>' +
+            '<div class="spec-row"><div class="spec-label">Страна</div><div class="spec-values"><span class="spec-tag">' + (countries || 'Не указана') + '</span></div></div>' +
+            '<div class="spec-row"><div class="spec-label">Премьера</div><div class="spec-values"><span class="spec-tag">' + (movie.premiere || movie.year) + '</span></div></div>';
+
+        var votesText = movie.votes ? movie.votes.toLocaleString('ru-RU') + ' оценок' : 'Оценок пока нет';
+        var aiRecText = generateAiRecommendation(movie);
+
+        container.innerHTML =
+            '<section class="movie-hero">' +
+                '<div class="movie-trailer-wrapper"><img src="' + (movie.trailer || movie.poster) + '" alt="' + movie.title + '">' +
+                    '<div class="play-button">' + ICON.play + '</div></div>' +
+                '<div class="movie-info">' +
+                    '<h1>' + movie.title + ' <span style="color:var(--text-muted);font-weight:400;">(' + movie.year + ')</span></h1>' +
+                    '<div class="movie-teaser">' + teaserHTML + '</div>' +
+                    
+                    '<div class="ai-recommendation-block">' +
+                        '<div class="ai-rec-header"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"></path></svg><span>Почему стоит посмотреть</span></div>' +
+                        '<p class="ai-rec-text">' + aiRecText + '</p>' +
+                    '</div>' +
+
+                    buildActionsRow(movie) +
+                    '<div class="specs">' + specsHTML + '</div>' +
+                '</div>' +
+            '</section>' +
+
+            '<section class="clips-section" id="clips-section">' +
+                '<div class="clips-header"><div><h2 class="clips-title">🎬 Яркие моменты</h2><div class="clips-subtitle">Короткие нарезки из фильма</div></div></div>' +
+                '<div class="clips-container"></div>' +
+            '</section>' +
+
+            '<h2 class="section-heading">О фильме</h2>' +
+            
+            '<section class="about-grid">' +
+                '<div class="about-left">' +
+                    '<div class="about-block">' +
+                        '<h3 class="about-subtitle">Синопсис</h3>' +
+                        '<p class="about-text">' + (movie.synopsis || 'Описание отсутствует.') + '</p>' +
+                    '</div>' +
+                '</div>' +
+                
+                '<div class="rate-block">' +
+                    '<div class="rate-top"><div class="rate-value">' + movie.rating + '</div><div><div class="rate-title">Высокий рейтинг</div><div class="rate-meta">' + votesText + '</div></div></div>' +
+                    '<div class="rate-buttons"><button class="rate-btn" data-rate="up">👍 Нравится</button><button class="rate-btn" data-rate="down">Не нравится</button></div>' +
+                    '<div id="reviews-wrap"></div>' +
+                '</div>' +
+            '</section>' +
+
+            '<section class="team-block">' +
+                '<h2 class="team-title">Актёры и съёмочная группа</h2>' +
+                '<div class="team-filters">' +
+                    '<button class="team-chip active" data-filter="cast">В главных ролях</button>' +
+                    '<button class="team-chip" data-filter="directors">Режиссёр</button>' +
+                    '<button class="team-chip" data-filter="producers">Продюсеры</button>' +
+                    '<button class="team-chip" data-filter="screenwriters">Сценаристы</button>' +
+                    '<button class="team-chip" data-filter="composers">Композитор</button>' +
+                '</div>' +
+                '<div class="team-grid" id="team-grid"></div>' +
+            '</section>' +
+
+            '<section class="similar-section" id="similar-section">' +
+                '<h2 class="similar-title">Похожие фильмы</h2>' +
+                '<div class="similar-filters">' +
+                    '<button class="similar-filter active" data-filter="genre">По жанру</button>' +
+                    '<button class="similar-filter" data-filter="mood">По настроению</button>' +
+                    '<button class="similar-filter" data-filter="director">По режиссёру</button>' +
+                '</div>' +
+                '<div class="similar-grid" id="similar-grid"></div>' +
+            '</section>' +
+
+            '<section class="facts-section">' +
+                '<h2 class="section-heading">Несколько фактов</h2>' +
+                '<div class="facts-grid" id="facts-grid"></div>' +
+            '</section>' +
+
+            '<section class="info-section">' +
+                '<h2 class="info-title">Награды</h2>' +
+                '<ul class="list-clean">' + (movie.awards && movie.awards.length ? movie.awards.map(function (a) {
+                    return '<li>' + (a.result === 'win' ? '🏆 ' : '🎗 ') + '<strong>' + a.event + ' (' + a.year + ')</strong> — ' + a.category + (a.result === 'win' ? ' (победа)' : ' (номинация)') + '</li>';
+                }).join('') : '<li>Награды не указаны.</li>') + '</ul>' +
+            '</section>';
+
+        bindActions(movie);
+
+        document.querySelectorAll('.rate-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.rate-btn').forEach(function (b) { b.classList.remove('active'); });
+                btn.classList.add('active');
+                showToast(btn.dataset.rate === 'up' ? 'Спасибо! Учтём при подборе' : 'Понял, реже буду это предлагать');
+            });
+        });
+
+        initTeamFilters(movie);
+        renderTeam(movie);
+        renderClipsSection(movie);
+        renderSimilarSection(movie);
+        renderFactsSection(movie);
+        renderReviewsBlock(movie);
+    }
+
+    setTimeout(function() {
+        fetch('movies.json')
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                movies = data.movies.map(function(item) {
+                    return {
+                        id: item.identification.kinopoisk_id,
+                        title: item.identification.title_ru,
+                        year: item.identification year,
+                        rating: item.ratings.kinopoisk.value,
+                        votes: item.ratings.kinopoisk.votes,
+                        runtime: item.details.runtime_minutes,
+                        age: item.details.age_ratings[0] ? item.details.age_ratings[0].rating : '18+',
+                        countries: item.details.countries,
+                        languages: item.details.languages,
+                        genres: item.details.genres,
+                        mood: item.content.mood,
+                        logline: item.content.logline,
+                        synopsis: item.content.synopsis,
+                        directors: item.creators.directors,
+                        screenwriters: item.creators.screenwriters,
+                        producers: item.creators.producers,
+                        composers: item.creators.composers || [],
+                        cast: item.cast.map(function(c) { return { name: c.name_ru, role: c.role }; }),
+                        awards: item.recognition.awards ? item.recognition.awards.map(function(a) { return { year: a.year, event: a.event, category: a.category, result: a.result }; }) : [],
+                        facts: item.context.facts ? item.context.facts.map(function(f) { return { text: f.text, url: "#" }; }) : [],
+                        reviews: [],
+                        clips: [],
+                        poster: item.poster.path,
+                        trailer: item.poster.path,
+                        kpUrl: item.identification.kinopoisk_url,
+                        trailerUrl: item.links && item.links.official_trailer ? item.links.official_trailer.url : '#'
+                    };
+                });
+                renderMovie();
+            })
+            .catch(function(error) {
+                console.error('Ошибка загрузки:', error);
+                document.getElementById('movie-detail').innerHTML = '<div class="not-found"><h1>Ошибка загрузки</h1><p>Пожалуйста, обновите страницу или проверьте наличие movies.json.</p></div>';
+            });
+    }, 300);
+</script>
 </body>
 </html>

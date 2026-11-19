@@ -321,18 +321,20 @@
 <body>
 
 <header class="header">
-    <a href="index.html" class="logo">МувиМуд<sup>®</sup></a>
+    <a href="#" class="logo-plate" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+      <span class="logo">МувиМуд<sup>®</sup></span>
+    </a>
     <div class="search-container">
-        <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" class="search-input" placeholder="Фильмы, сериалы, персоны...">
+      <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" class="search-input" placeholder="Название фильма">
     </div>
     <div class="header-actions">
-        <a href="index.html" class="icon-btn ai-search-btn" title="Поиск по ИИ">
-            <svg viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"></path></svg>
-        </a>
-        <button class="avatar-btn" title="Личный кабинет">А</button>
+      <button class="glass-plate" title="Сохранённые">
+        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+      </button>
+      <button class="glass-plate glass-plate--avatar" title="Личный кабинет">А</button>
     </div>
-</header>
+  </header>
 
 <div class="container">
     <a class="back-link" href="index.html">

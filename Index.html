@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>МувиМуд — Кино на вечер</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #08080a;
+    --surface: #FAFAFA;
+    --surface-dark: #0E0E0F;
+    --text-main: #FAFAFA;
+    --text-dark: #050505;
+    --text-muted: #8A8A8A;
+    --border-color: rgba(255,255,255,0.08);
+    --border-light: rgba(255,255,255,0.16);
+    --accent: #D4A017;
+    --purple: #A855F7;
+    --radius-sm: 14px;
+    --radius-md: 22px;
+    --radius-lg: 30px;
+    --radius-pill: 100px;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: 
+      radial-gradient(ellipse at 15% 25%, rgba(200,200,210,0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 75%, rgba(160,160,170,0.25) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 90%, rgba(220,220,230,0.20) 0%, transparent 45%),
+      radial-gradient(ellipse at 30% 60%, rgba(180,180,190,0.18) 0%, transparent 40%),
+      radial-gradient(ellipse at 70% 40%, rgba(140,140,150,0.15) 0%, transparent 50%),
+      linear-gradient(135deg, #050507 0%, #1a1a1e 20%, #0a0a0c 40%, #222226 60%, #0a0a0c 80%, #050507 100%);
+    background-attachment: fixed;
+    color: var(--text-main);
+    font-family: var(--font);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .header {
+    position: fixed; top: 0; left: 0; right: 0; height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; z-index: 100;
+    background: linear-gradient(to bottom, rgba(5,5,10,0.85) 0%, rgba(5,5,10,0.6) 60%, transparent 100%);
+    backdrop-filter: blur(8px);
+  }
+  .logo-plate {
+    display: inline-flex; align-items: center; padding: 10px 20px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-pill);
+    backdrop-filter: blur(16px) saturate(140%);
+    text-decoration: none; flex-shrink: 0; transition: all 0.3s ease;
+  }
+  .logo-plate:hover { background: rgba(255,255,255,0.10); transform: scale(1.03); }
+  .logo-plate:active { transform: scale(0.97); }
+  .logo {
+    font-size: 17px; font-weight: 700; color: #fff;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    display: inline-flex; align-items: flex-start; gap: 3px; white-space: nowrap;
+    text-shadow: -2px 0 rgba(255,0,0,0.7), 2px 0 rgba(0,255,255,0.7), 0 -1px rgba(0,255,0,0.5), 0 1px rgba(255,255,0,0.5);
+  }
+  .logo sup { font-size: 9px; font-weight: 500; color: var(--text-muted); line-height: 1; margin-top: 2px; text-shadow: none; }
+
+  .search-container { position: relative; flex: 1; max-width: 560px; margin: 0 32px; }
+  .search-input {
+    width: 100%; height: 52px;
+    background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.20);
+    border-radius: var(--radius-pill); padding: 0 24px 0 56px;
+    color: var(--text-main); font-size: 15px; font-weight: 400; font-family: var(--font);
+    outline: none; backdrop-filter: blur(20px) saturate(140%);
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  .search-input::placeholder { color: rgba(255,255,255,0.6); }
+  .search-input:focus { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.35); box-shadow: 0 0 0 4px rgba(255,255,255,0.06); }
+  .search-icon {
+    position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+    width: 18px; height: 18px; fill: none; stroke: rgba(255,255,255,0.7); stroke-width: 2; pointer-events: none;
+  }
+
+  .header-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .glass-plate {
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 50%; backdrop-filter: blur(16px) saturate(140%);
+    color: rgba(255,255,255,0.85); display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 0.25s ease;
+  }
+  .glass-plate:hover { color: var(--text-main); background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.28); }
+  .glass-plate svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+  .glass-plate--avatar { background: var(--surface); border-color: var(--surface); color: var(--text-dark); font-size: 14px; font-weight: 700; }
+  .glass-plate--avatar:hover { background: #fff; border-color: #fff; transform: scale(1.05); }
+
+  .hero-section { padding: 160px 40px 40px; text-align: center; max-width: 900px; margin: 0 auto; }
+  .hero-title { font-size: clamp(40px, 6vw, 76px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; margin-bottom: 22px; }
+  .hero-title .line-1 { display: block; color: rgba(255,255,255,0.4); }
+  .hero-title .line-2 { display: block; color: var(--text-main); }
+  .hero-subtitle { font-size: 16px; color: var(--text-muted); font-weight: 400; line-height: 1.6; max-width: 640px; margin: 0 auto; }
+
+  .main-content { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px 20px 60px; }
+
+  .carousel-container { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1200px; position: relative; }
+  .carousel-stage { position: relative; width: 100%; height: 440px; display: flex; justify-content: center; align-items: center; }
+  .movie-card {
+    position: absolute; width: 260px; height: 380px;
+    border-radius: var(--radius-md); background-color: var(--surface-dark);
+    background-size: cover; background-position: center;
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer; border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden; box-shadow: 0 24px 50px rgba(0,0,0,0.6);
+  }
+  .movie-card.pos-0 { transform: translateX(0) scale(1.1); z-index: 10; opacity: 1; filter: brightness(1); }
+  .movie-card.pos--1 { transform: translateX(-180px) scale(0.85) rotate(-5deg); z-index: 5; opacity: 0.5; filter: brightness(0.4); }
+  .movie-card.pos-1 { transform: translateX(180px) scale(0.85) rotate(5deg); z-index: 5; opacity: 0.5; filter: brightness(0.4); }
+  .movie-card.pos--2 { transform: translateX(-320px) scale(0.65) rotate(-10deg); z-index: 2; opacity: 0.2; filter: brightness(0.2); }
+  .movie-card.pos-2 { transform: translateX(320px) scale(0.65) rotate(10deg); z-index: 2; opacity: 0.2; filter: brightness(0.2); }
+  .movie-card.pos-3, .movie-card.pos--3 { transform: translateX(0) scale(0.4); z-index: 1; opacity: 0; }
+
+  .rating-badge {
+    position: absolute; top: 12px; left: 12px;
+    font-weight: 600; font-size: 12px; padding: 4px 10px;
+    border-radius: var(--radius-pill); display: none;
+    z-index: 20; backdrop-filter: blur(10px); align-items: center; opacity: 0.85;
+  }
+  .movie-card.pos-0 .rating-badge { display: inline-flex; }
+  .rating-badge.high { background: rgba(22,163,74,0.85); color: #fff; }
+  .rating-badge.medium { background: rgba(202,138,4,0.85); color: #fff; }
+  .rating-badge.low { background: rgba(239,68,68,0.85); color: #fff; }
+
+  .card-actions { position: absolute; top: 12px; right: 12px; display: none; gap: 8px; z-index: 20; }
+  .movie-card.pos-0 .card-actions { display: flex; }
+  .card-action-btn {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(12,12,14,0.5); display: flex; justify-content: center; align-items: center;
+    color: rgba(255,255,255,0.7); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.14); cursor: pointer; transition: all 0.2s ease;
+  }
+  .card-action-btn:hover { color: #fff; background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); }
+  .card-action-btn.saved { color: #fff; background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.4); }
+  .card-action-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+
+  .expanded-poster, .expanded-content { display: none; }
+  .movie-card.expanded {
+    width: 100%; max-width: 900px; height: 460px;
+    transform: translateX(0) scale(1) !important; opacity: 1 !important; filter: brightness(1) !important;
+    z-index: 50; cursor: default; display: flex; flex-direction: row;
+    background: rgba(14,14,16,0.95) !important; border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg); overflow: hidden; backdrop-filter: blur(24px);
+  }
+  .carousel-stage.has-expanded .movie-card:not(.expanded) { opacity: 0; pointer-events: none; }
+  .movie-card.expanded .expanded-poster { display: block; width: 42%; height: 100%; background-size: cover; background-position: center; border-right: 1px solid var(--border-color); }
+  .movie-card.expanded .expanded-content { display: flex; width: 58%; padding: 40px 44px; flex-direction: column; justify-content: center; position: relative; background: transparent; }
+  .expanded-close {
+    position: absolute; top: 20px; right: 20px; width: 36px; height: 36px;
+    border-radius: 50%; background: rgba(255,255,255,0.07); border: 1px solid var(--border-color);
+    color: var(--text-main); font-size: 18px; cursor: pointer; display: flex;
+    justify-content: center; align-items: center; transition: all 0.2s; z-index: 10;
+  }
+  .expanded-close:hover { background: rgba(255,255,255,0.14); }
+  .expanded-title { font-size: 30px; font-weight: 600; margin-bottom: 10px; color: var(--text-main); letter-spacing: -0.03em; line-height: 1.1; }
+  .expanded-vibe { font-size: 13px; color: var(--text-muted); margin-bottom: 26px; font-weight: 500; font-style: italic; }
+  .ai-recommendation { background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2); border-radius: var(--radius-sm); padding: 20px; }
+  .ai-label { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: #C084FC; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.1em; }
+  .ai-label svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+  .expanded-desc { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.85); font-weight: 400; }
+
+  .movie-info { text-align: center; margin-top: 40px; transition: opacity 0.3s; }
+  .carousel-container.has-expanded .movie-info, .carousel-container.has-expanded .bottom-controls { opacity: 0; pointer-events: none; }
+  .movie-title { font-size: 22px; font-weight: 500; margin-bottom: 6px; color: var(--text-main); letter-spacing: -0.02em; }
+  .movie-vibe { font-size: 14px; color: var(--text-muted); font-style: italic; }
+
+  .bottom-controls { display: flex; align-items: center; gap: 12px; margin-top: 32px; transition: opacity 0.3s; flex-wrap: wrap; justify-content: center; }
+  .arrow-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-muted);
+    cursor: pointer; display: flex; justify-content: center; align-items: center;
+    transition: all 0.2s ease; backdrop-filter: blur(10px);
+  }
+  .arrow-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.12); border-color: var(--border-light); }
+  .action-btn-glass {
+    background: rgba(255,255,255,0.06); backdrop-filter: blur(16px);
+    border: 1px solid var(--border-light); color: var(--text-main);
+    padding: 13px 24px; border-radius: var(--radius-pill);
+    font-family: var(--font); font-size: 14px; font-weight: 500;
+    cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;
+  }
+  .action-btn-glass:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
+  .ai-chat-btn {
+    background: rgba(255,255,255,0.06); backdrop-filter: blur(16px);
+    border: 1px solid var(--border-light); color: var(--text-main);
+    padding: 13px 22px; border-radius: var(--radius-pill);
+    font-family: var(--font); font-size: 14px; font-weight: 500;
+    cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s ease;
+  }
+  .ai-chat-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
+  .ai-chat-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+  .overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 200; opacity: 0; pointer-events: none;
+    transition: opacity 0.4s ease; backdrop-filter: blur(16px);
+  }
+  .overlay.active { opacity: 1; pointer-events: all; }
+  .modal-window {
+    background: rgba(16,16,18,0.8); border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg); width: 90%; max-width: 640px;
+    padding: 32px; position: relative; max-height: 85vh; overflow-y: auto;
+    backdrop-filter: blur(32px); box-shadow: 0 40px 90px rgba(0,0,0,0.7);
+  }
+  .modal-close {
+    position: absolute; top: 18px; right: 18px; width: 36px; height: 36px;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);
+    color: var(--text-main); border-radius: 50%; font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: all 0.2s; z-index: 10;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.14); }
+  .modal-window h2 { font-size: 22px; font-weight: 600; margin-bottom: 26px; letter-spacing: -0.03em; }
+
+  .chat-container { max-width: 480px; display: flex; flex-direction: column; height: 500px; position: relative; }
+  .chat-messages { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; max-height: 350px; overflow-y: auto; padding-right: 4px; }
+  .message { padding: 14px 18px; border-radius: 18px; font-size: 14px; line-height: 1.5; max-width: 85%; font-weight: 400; }
+  .message.ai { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); align-self: flex-start; border-bottom-left-radius: 4px; color: rgba(255,255,255,0.85); }
+  .message.user { background: var(--surface); color: var(--text-dark); align-self: flex-end; border-bottom-right-radius: 4px; }
+  .chat-input-row { display: flex; gap: 10px; margin-top: auto; }
+  .chat-input-row input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: var(--radius-pill); padding: 13px 20px; color: var(--text-main); font-size: 14px; font-family: var(--font); outline: none; transition: border-color 0.2s; }
+  .chat-input-row input:focus { border-color: var(--border-light); }
+  .chat-input-row button { background: var(--surface); color: var(--text-dark); border: none; padding: 0 22px; border-radius: var(--radius-pill); font-size: 17px; font-weight: 500; cursor: pointer; transition: opacity 0.2s; }
+  .chat-input-row button:hover { opacity: 0.9; }
+
+  .eye-modal { max-width: 800px; width: 90%; padding: 0; overflow: hidden; display: flex; flex-direction: row; min-height: 420px; }
+  .eye-modal-poster { width: 40%; background-size: cover; background-position: center; position: relative; background-color: var(--surface-dark); }
+  .eye-modal-content { width: 60%; padding: 36px 32px; display: flex; flex-direction: column; position: relative; }
+  .eye-modal-content .modal-close { top: 16px; right: 16px; }
+  .eye-modal-title { font-size: 26px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 18px; color: var(--text-main); }
+  .eye-modal-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .eye-badge { padding: 6px 13px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); border-radius: var(--radius-pill); font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
+  .eye-badge.rating.high { background: rgba(22,163,74,0.85); color: #fff; font-weight: 600; border-color: transparent; }
+  .eye-badge.rating.medium { background: rgba(202,138,4,0.85); color: #fff; font-weight: 600; border-color: transparent; }
+  .eye-badge.rating.low { background: rgba(239,68,68,0.85); color: #fff; font-weight: 600; border-color: transparent; }
+  .eye-ai-block { background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.2); border-radius: var(--radius-sm); padding: 20px; margin-bottom: 24px; flex-grow: 1; }
+  .eye-ai-title { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; color: #C084FC; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .eye-ai-title svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.5; }
+  .eye-ai-text { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,0.85); font-weight: 400; }
+  .eye-watch-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: var(--surface); color: var(--text-dark); border: none; padding: 14px 28px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 0.3s ease; width: 100%; }
+  .eye-watch-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,255,255,0.14); }
+  .eye-watch-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+  .filter-group { margin-bottom: 24px; }
+  .filter-label { font-size: 14px; font-weight: 500; color: var(--text-muted); margin-bottom: 14px; display: block; }
+  .options-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .option-chip { padding: 10px 18px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: var(--radius-pill); color: var(--text-muted); font-size: 14px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; }
+  .option-chip:hover { border-color: var(--border-light); color: var(--text-main); }
+  .option-chip.active { background: var(--surface); color: var(--text-dark); border-color: var(--surface); font-weight: 500; }
+
+  .submit-btn { width: 100%; background: var(--surface); color: var(--text-dark); border: none; padding: 14px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; font-family: var(--font); cursor: pointer; margin-top: 8px; transition: opacity 0.2s ease; }
+  .submit-btn:hover { opacity: 0.9; }
+  .reset-btn { width: 100%; background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 12px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 500; font-family: var(--font); cursor: pointer; margin-top: 16px; transition: all 0.2s ease; }
+  .reset-btn:hover { background: rgba(255,255,255,0.05); color: var(--text-main); border-color: var(--border-light); }
+
+  /* ===== Аккордеон результатов случайного подбора ===== */
+  .ai-results-layout { display: flex; gap: 16px; align-items: flex-start; }
+  .ai-results-layout .results-list { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .refresh-side-btn {
+    position: sticky; top: 0; flex-shrink: 0;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border-light);
+    backdrop-filter: blur(16px); color: var(--text-main);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .refresh-side-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); transform: rotate(180deg); }
+  .refresh-side-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+  .result-item { background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; transition: border-color 0.2s; }
+  .result-item:hover { border-color: var(--border-light); }
+  .result-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; cursor: pointer; gap: 12px; }
+  .result-title { font-size: 15px; font-weight: 500; color: var(--text-main); }
+  .result-ai-btn { width: 32px; height: 32px; border-radius: 50%; background: transparent; border: 1px solid var(--border-color); display: flex; justify-content: center; align-items: center; cursor: pointer; color: var(--text-muted); transition: all 0.2s ease; flex-shrink: 0; }
+  .result-ai-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+  .result-ai-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+  .result-ai-desc { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; padding: 0 20px; color: var(--text-muted); font-size: 14px; line-height: 1.6; font-weight: 400; }
+  .result-ai-desc.open { max-height: 300px; padding: 16px 20px 20px 20px; border-top: 1px solid var(--border-color); }
+  .ai-tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(212,160,23,0.14); color: var(--accent); font-size: 11px; padding: 4px 10px; border-radius: 6px; margin-bottom: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  .catalog-section { padding: 60px 40px; border-top: 1px solid var(--border-color); max-width: 1400px; margin: 0 auto; width: 100%; }
+  .catalog-header { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
+  .catalog-title { font-size: 28px; font-weight: 600; letter-spacing: -0.03em; }
+  .catalog-sort-row { display: flex; align-items: center; gap: 12px; }
+  .sort-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; }
+  .sort-select { background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 36px 10px 16px; border-radius: var(--radius-pill); font-size: 14px; font-family: var(--font); cursor: pointer; outline: none; appearance: none; -webkit-appearance: none; backdrop-filter: blur(10px);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; }
+  .sort-select option { background: var(--surface-dark); color: var(--text-main); }
+
+  .catalog-layout { display: grid; grid-template-columns: 340px 1fr; gap: 40px; }
+  .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 32px 24px; }
+  .catalog-item { display: flex; flex-direction: column; gap: 12px; }
+  .catalog-poster-wrap { position: relative; border-radius: var(--radius-md); overflow: hidden; cursor: pointer; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); aspect-ratio: 2/3; background-size: cover; background-position: center; background-color: var(--surface-dark); border: 1px solid rgba(255,255,255,0.05); }
+  .catalog-poster-wrap:hover { transform: translateY(-6px); border-color: var(--border-light); }
+  .catalog-poster-wrap:hover .catalog-poster-overlay { opacity: 1; }
+  .catalog-poster-wrap:hover .catalog-eye-btn, .catalog-poster-wrap:hover .catalog-save-btn { opacity: 1; }
+  .catalog-poster-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.4) 55%, transparent 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 16px; opacity: 0; transition: opacity 0.3s ease; }
+  .catalog-poster-vibe { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.85); line-height: 1.4; font-style: italic; }
+  .catalog-poster-rating { position: absolute; top: 10px; left: 10px; font-size: 11px; font-weight: 600; padding: 4px 9px; border-radius: var(--radius-pill); backdrop-filter: blur(10px); display: inline-flex; align-items: center; opacity: 0.85; }
+  .catalog-poster-rating.high { background: rgba(22,163,74,0.85); color: #fff; }
+  .catalog-poster-rating.medium { background: rgba(202,138,4,0.85); color: #fff; }
+  .catalog-poster-rating.low { background: rgba(239,68,68,0.85); color: #fff; }
+
+  .catalog-eye-btn, .catalog-save-btn { position: absolute; top: 10px; width: 30px; height: 30px; border-radius: 50%; background: rgba(12,12,14,0.5); border: 1px solid rgba(255,255,255,0.15); display: flex; justify-content: center; align-items: center; cursor: pointer; color: rgba(255,255,255,0.7); opacity: 0; transition: all 0.2s ease; z-index: 10; backdrop-filter: blur(10px); }
+  .catalog-eye-btn { right: 10px; }
+  .catalog-save-btn { right: 46px; }
+  .catalog-eye-btn:hover { color: #fff; background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.35); }
+  .catalog-save-btn:hover, .catalog-save-btn.saved { color: #fff; background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.4); }
+  .catalog-eye-btn svg, .catalog-save-btn svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+
+  .catalog-meta { display: flex; flex-direction: column; gap: 4px; padding: 0 4px; }
+  .catalog-meta-title { font-size: 15px; font-weight: 600; color: var(--text-main); line-height: 1.3; }
+  .catalog-meta-info { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .catalog-meta-info .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-muted); }
+
+  .filters-panel { background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px 20px; position: sticky; top: 92px; height: fit-content; max-height: calc(100vh - 116px); overflow-y: auto; backdrop-filter: blur(20px); }
+  .filters-panel::-webkit-scrollbar { width: 4px; }
+  .filters-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+  .filter-tabs-row { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+  .filter-tabs { display: flex; gap: 4px; background: rgba(255,255,255,0.05); border-radius: var(--radius-pill); padding: 4px; flex: 1; }
+  .filter-tab { flex: 1; padding: 10px 14px; background: transparent; border: none; color: var(--text-muted); font-size: 13px; font-weight: 500; font-family: var(--font); cursor: pointer; border-radius: var(--radius-pill); transition: all 0.2s; }
+  .filter-tab.active { background: var(--surface); color: var(--text-dark); }
+  .filter-search-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid var(--border-color); color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; }
+  .filter-search-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.12); border-color: var(--border-light); }
+  .filter-search-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+  .filter-search-wrap { position: relative; margin-bottom: 16px; display: none; }
+  .filter-search-wrap.active { display: block; }
+  .filter-search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 14px; height: 14px; fill: none; stroke: var(--text-muted); stroke-width: 2; pointer-events: none; }
+  .filter-search-wrap input { width: 100%; height: 40px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: var(--radius-pill); padding: 0 16px 0 40px; color: var(--text-main); font-size: 13px; font-family: var(--font); outline: none; transition: all 0.2s; }
+  .filter-search-wrap input:focus { border-color: var(--border-light); background: rgba(255,255,255,0.06); }
+  .filter-search-wrap input::placeholder { color: var(--text-muted); }
+
+  .filter-section { margin-bottom: 4px; }
+  .filter-section-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; cursor: pointer; user-select: none; }
+  .filter-section-title { font-size: 12px; font-weight: 600; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.08em; }
+  .filter-section-arrow { width: 16px; height: 16px; fill: none; stroke: var(--text-muted); stroke-width: 2; transition: transform 0.3s ease; }
+  .filter-section.open .filter-section-arrow { transform: rotate(180deg); }
+  .filter-section-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); }
+  .filter-section.open .filter-section-content { max-height: 1000px; }
+  .checkbox-group { display: flex; flex-direction: column; gap: 6px; padding-bottom: 12px; }
+  .checkbox-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: transparent; border: 1px solid transparent; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; font-size: 13px; color: rgba(255,255,255,0.75); }
+  .checkbox-item:hover { background: rgba(255,255,255,0.04); color: var(--text-main); }
+  .checkbox-item.active { background: rgba(212,160,23,0.08); border-color: rgba(212,160,23,0.22); color: var(--accent); }
+  .checkbox-item input { display: none; }
+  .checkbox-mark { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; }
+  .checkbox-item.active .checkbox-mark { background: var(--accent); border-color: var(--accent); }
+  .checkbox-mark svg { width: 10px; height: 10px; fill: none; stroke: #000; stroke-width: 2.5; opacity: 0; transition: opacity 0.2s; }
+  .checkbox-item.active .checkbox-mark svg { opacity: 1; }
+  .filter-divider { height: 1px; background: var(--border-color); margin: 16px 0; }
+  .filter-toggle-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
+  .filter-toggle-label { font-size: 13px; color: rgba(255,255,255,0.8); }
+  .filter-toggle { position: relative; width: 36px; height: 20px; background: rgba(255,255,255,0.1); border-radius: var(--radius-pill); cursor: pointer; transition: background 0.3s; flex-shrink: 0; }
+  .filter-toggle.active { background: rgba(212,160,23,0.4); }
+  .filter-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; background: var(--surface); border-radius: 50%; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
+  .filter-toggle.active::after { transform: translateX(16px); }
+  .filter-content { display: none; }
+  .filter-content.active { display: block; }
+  .filters-apply-btn { width: 100%; background: var(--surface); color: var(--text-dark); border: none; padding: 13px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; font-family: var(--font); cursor: pointer; margin-top: 20px; transition: opacity 0.2s; }
+  .filters-apply-btn:hover { opacity: 0.9; }
+  .reset-filters-btn { width: 100%; background: transparent; color: var(--text-muted); border: none; padding: 11px 24px; font-size: 13px; font-weight: 400; font-family: var(--font); cursor: pointer; margin-top: 6px; transition: all 0.2s; }
+  .reset-filters-btn:hover { color: var(--text-main); }
+
+  .toggle-group { display: flex; flex-direction: column; gap: 16px; margin-bottom: 8px; }
+  .toggle-label { font-size: 14px; color: rgba(255,255,255,0.8); }
+  .duration-selector { display: flex; gap: 8px; flex-wrap: wrap; }
+  .duration-chip { padding: 8px 14px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: 100px; color: var(--text-muted); font-size: 13px; cursor: pointer; transition: all 0.2s; }
+  .duration-chip.active { background: var(--surface); color: var(--text-dark); border-color: var(--surface); font-weight: 500; }
+
+  .loader { display: flex; justify-content: center; align-items: center; padding: 80px 20px; color: var(--text-muted); font-size: 14px; }
+  .loader__spinner { width: 24px; height: 24px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--text-main); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 900px) {
+    .header { padding: 0 16px; height: 64px; }
+    .search-container { margin: 0 16px; max-width: none; }
+    .search-input { height: 46px; font-size: 14px; padding: 0 16px 0 44px; }
+    .search-icon { left: 16px; width: 16px; height: 16px; }
+    .glass-plate { width: 40px; height: 40px; }
+    .hero-section { padding: 120px 20px 20px; }
+    .catalog-layout { grid-template-columns: 1fr; }
+    .filters-panel { position: static; max-height: none; order: -1; margin-bottom: 32px; }
+    .eye-modal { flex-direction: column; }
+    .eye-modal-poster { width: 100%; height: 200px; }
+    .eye-modal-content { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="header">
+    <a href="#" class="logo-plate" id="logoLink" onclick="scrollToTop(event)">
+      <span class="logo">МувиМуд<sup>®</sup></span>
+    </a>
+    <div class="search-container">
+      <svg class="search-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" class="search-input" placeholder="Опиши фильм, который хочешь посмотреть...">
+    </div>
+    <div class="header-actions">
+      <button class="glass-plate" title="Сохранённые">
+        <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+      </button>
+      <button class="glass-plate glass-plate--avatar" title="Личный кабинет">А</button>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <h1 class="hero-title">
+      <span class="line-1">Иногда</span>
+      <span class="line-2">фильм находит нас сам.</span>
+    </h1>
+    <p class="hero-subtitle">Опиши, что хочешь посмотреть, или выбери настроение — мы подберём идеальный фильм для тебя</p>
+  </section>
+
+  <div class="main-content">
+    <div class="carousel-container" id="carouselContainer">
+      <div class="carousel-stage" id="stage">
+        <div class="loader"><div class="loader__spinner"></div>Загружаем фильмы...</div>
+      </div>
+      <div class="movie-info" id="movieInfo">
+        <div class="movie-title" id="mainTitle"></div>
+        <div class="movie-vibe" id="mainVibe"></div>
+      </div>
+      <div class="bottom-controls" id="bottomControls">
+        <button class="arrow-btn" id="prevBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="action-btn-glass" id="openRandomAiBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L20 10.7l-6.1 1.9L12 18.5l-1.9-5.9L4 10.7l6.1-1.9L12 3z"></path></svg>
+          Подобрать случайно
+        </button>
+        <button class="ai-chat-btn" id="openChatBtn" title="AI-чат">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"></path></svg>
+          AI-чат
+        </button>
+        <button class="arrow-btn" id="nextBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="randomAiOverlay">
+    <div class="modal-window">
+      <button class="modal-close" id="closeRandomAi">×</button>
+      <div id="aiFilters">
+        <h2>Подбери под себя</h2>
+        <div class="filter-group">
+          <span class="filter-label">Какое сегодня настроение?</span>
+          <div class="options-row">
+            <div class="option-chip" data-mood="sad" onclick="toggleChip(this)">😢 Грустное</div>
+            <div class="option-chip" data-mood="happy" onclick="toggleChip(this)">😄 Весёлое</div>
+            <div class="option-chip" data-mood="mystic" onclick="toggleChip(this)">🔮 Мистичное</div>
+            <div class="option-chip" data-mood="anxious" onclick="toggleChip(this)">😰 Тревожное</div>
+            <div class="option-chip" data-mood="romantic" onclick="toggleChip(this)">💕 Романтичное</div>
+            <div class="option-chip" data-mood="thoughtful" onclick="toggleChip(this)">🤔 Задумчивое</div>
+          </div>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">Формат</span>
+          <div class="options-row">
+            <div class="option-chip" data-format="Фильм" onclick="toggleChip(this)">🎬 Фильм</div>
+            <div class="option-chip" data-format="Мультфильм" onclick="toggleChip(this)">🎨 Мультфильм</div>
+            <div class="option-chip" data-format="Документальный" onclick="toggleChip(this)">📄 Документальный</div>
+          </div>
+        </div>
+        <div class="filter-group">
+          <span class="filter-label">По характеру</span>
+          <div class="options-row">
+            <div class="option-chip" data-char="popular" onclick="toggleChip(this)">🔥 Популярное</div>
+            <div class="option-chip" data-char="new" onclick="toggleChip(this)">🆕 Новое</div>
+            <div class="option-chip" data-char="classic" onclick="toggleChip(this)">📚 Классика</div>
+          </div>
+        </div>
+        <div class="toggle-group">
+          <div>
+            <span class="toggle-label" style="margin-bottom: 8px; display: block;">Продолжительность</span>
+            <div class="duration-selector">
+              <div class="duration-chip active" data-dur="any" onclick="toggleDuration(this)">Любая</div>
+              <div class="duration-chip" data-dur="short" onclick="toggleDuration(this)">&lt; 90 мин</div>
+              <div class="duration-chip" data-dur="medium" onclick="toggleDuration(this)">90–120 мин</div>
+              <div class="duration-chip" data-dur="long" onclick="toggleDuration(this)">&gt; 120 мин</div>
+            </div>
+          </div>
+        </div>
+        <button class="submit-btn" id="generateRandomBtn" style="margin-top: 24px;">Показать 3 фильма</button>
+        <button class="reset-btn" onclick="resetFilters()">↺ Сбросить фильтры</button>
+      </div>
+      <div id="aiResults" style="display: none;">
+        <h2>Вам может понравиться</h2>
+        <div class="ai-results-layout">
+          <div class="results-list" id="aiResultsList"></div>
+          <button class="refresh-side-btn" id="refreshResultsBtn" title="Обновить подборку">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          </button>
+        </div>
+        <button class="submit-btn" style="margin-top: 24px; background: transparent; border: 1px solid var(--border-color); color: var(--text-main);" onclick="resetAiSearch()">Изменить параметры</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="chatAiOverlay">
+    <div class="modal-window chat-container">
+      <button class="modal-close" id="closeChatAi">×</button>
+      <h2 style="margin-bottom: 16px;">AI-чат с помощником</h2>
+      <div class="chat-messages" id="chatMessages">
+        <div class="message ai">Привет! Опиши, какой фильм хочешь посмотреть. Например: "хочу что-то тёплое на вечер" или "посоветуй медленное кино про семью".</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Напишите сообщение...">
+        <button id="sendChatBtn">→</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="eyeOverlay">
+    <div class="modal-window eye-modal">
+      <button class="modal-close" id="eyeClose">×</button>
+      <div class="eye-modal-poster" id="eyePoster"></div>
+      <div class="eye-modal-content">
+        <h3 class="eye-modal-title" id="eyeTitle"></h3>
+        <div class="eye-modal-badges" id="eyeBadges"></div>
+        <div class="eye-ai-block">
+          <div class="eye-ai-title"><svg viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"></path></svg>Почему стоит посмотреть</div>
+          <p class="eye-ai-text" id="eyeText"></p>
+        </div>
+        <button class="eye-watch-btn" id="eyeWatchBtn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>Смотреть</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="catalog-section">
+    <div class="catalog-header">
+      <h2 class="catalog-title">Все фильмы</h2>
+      <div class="catalog-sort-row">
+        <span class="sort-label">Сортировать</span>
+        <select class="sort-select" id="sortSelect">
+          <option value="relevance">По соответствию</option>
+          <option value="rating">По рейтингу</option>
+          <option value="new">По новизне</option>
+          <option value="popular">По популярности</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="catalog-layout">
+      <aside class="filters-panel">
+        <div class="filter-tabs-row">
+          <div class="filter-tabs">
+            <button class="filter-tab active" onclick="switchFilterTab('main', this)">Основные</button>
+            <button class="filter-tab" onclick="switchFilterTab('extra', this)">Дополнительные</button>
+          </div>
+          <button class="filter-search-btn" id="filterSearchToggle" title="Поиск по фильтрам">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </button>
+        </div>
+        <div class="filter-search-wrap" id="filterSearchWrap">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="filterSearchInput" placeholder="Найти фильтр...">
+        </div>
+
+        <div id="filter-main" class="filter-content active">
+          <div class="filter-section open">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Страна</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="countryFilters"></div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Год выхода</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="yearFilters">
+              <label class="checkbox-item"><input type="checkbox" value="before2000"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>До 2000</label>
+              <label class="checkbox-item"><input type="checkbox" value="2000to2010"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>2000–2010</label>
+              <label class="checkbox-item"><input type="checkbox" value="2010to2020"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>2010–2020</label>
+              <label class="checkbox-item"><input type="checkbox" value="after2020"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>После 2020</label>
+            </div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Продолжительность</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="runtimeFilters">
+              <label class="checkbox-item"><input type="checkbox" value="short"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>До 90 минут</label>
+              <label class="checkbox-item"><input type="checkbox" value="medium"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>90–120 минут</label>
+              <label class="checkbox-item"><input type="checkbox" value="long"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Больше 2 часов</label>
+            </div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Рейтинг</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="ratingFilters">
+              <label class="checkbox-item"><input type="checkbox" value="high"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>8.0 и выше</label>
+              <label class="checkbox-item"><input type="checkbox" value="medium"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>7.0–7.9</label>
+              <label class="checkbox-item"><input type="checkbox" value="low"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Ниже 7.0</label>
+            </div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Возраст</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="ageFilters">
+              <label class="checkbox-item"><input type="checkbox" value="6+"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>6+</label>
+              <label class="checkbox-item"><input type="checkbox" value="12+"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>12+</label>
+              <label class="checkbox-item"><input type="checkbox" value="16+"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>16+</label>
+              <label class="checkbox-item"><input type="checkbox" value="18+"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>18+</label>
+            </div>
+            <div class="filter-divider" style="margin: 12px 0;"></div>
+            <div class="filter-toggle-item">
+              <span class="filter-toggle-label">Можно с детьми</span>
+              <div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div>
+            </div>
+            </div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section open">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Дополнительно</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group">
+              <div class="filter-toggle-item"><span class="filter-toggle-label">С субтитрами</span><div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div></div>
+              <div class="filter-toggle-item"><span class="filter-toggle-label">На языке оригинала</span><div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div></div>
+              <div class="filter-toggle-item"><span class="filter-toggle-label">Скрыть просмотренное</span><div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div></div>
+            </div></div>
+          </div>
+          <button class="filters-apply-btn" onclick="applyFilters()">Применить фильтры</button>
+          <button class="reset-filters-btn" onclick="resetAllFilters()">Сбросить все фильтры</button>
+        </div>
+
+        <div id="filter-extra" class="filter-content">
+          <div class="filter-section open">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Настроение</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="moodFilters">
+              <label class="checkbox-item"><input type="checkbox" value="anxious"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>😰 Тревожное</label>
+              <label class="checkbox-item"><input type="checkbox" value="happy"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>😄 Весёлое</label>
+              <label class="checkbox-item"><input type="checkbox" value="romantic"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>💕 Романтичное</label>
+              <label class="checkbox-item"><input type="checkbox" value="sad"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>😢 Грустное</label>
+              <label class="checkbox-item"><input type="checkbox" value="thoughtful"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🤔 Задумчивое</label>
+              <label class="checkbox-item"><input type="checkbox" value="mystic"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🔮 Мистичное</label>
+            </div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Эмоциональная нагрузка</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="loadFilters">
+              <label class="checkbox-item"><input type="checkbox" value="easy"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🍃 Лёгкий</label>
+              <label class="checkbox-item"><input type="checkbox" value="moderate"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>⚖️ Умеренный</label>
+              <label class="checkbox-item"><input type="checkbox" value="intense"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🔥 Напряжённый</label>
+              <label class="checkbox-item"><input type="checkbox" value="heavy"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>💔 Тяжёлый</label>
+            </div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Жанры</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="genreFilters"></div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">По компании</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="companyFilters">
+              <label class="checkbox-item"><input type="checkbox" value="alone"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🛋️ Одному под плед</label>
+              <label class="checkbox-item"><input type="checkbox" value="date"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>💕 На свидание</label>
+              <label class="checkbox-item"><input type="checkbox" value="friends"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎉 С друзьями</label>
+              <label class="checkbox-item"><input type="checkbox" value="family"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>👨‍👩‍👧 Семейный</label>
+            </div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Сеттинг</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="settingFilters">
+              <label class="checkbox-item"><input type="checkbox" value="90s"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>📼 90-е</label>
+              <label class="checkbox-item"><input type="checkbox" value="house"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🏚️ Дом и семья</label>
+              <label class="checkbox-item"><input type="checkbox" value="war"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>⚔️ Война</label>
+              <label class="checkbox-item"><input type="checkbox" value="journey"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🧭 Дорога и путешествие</label>
+              <label class="checkbox-item"><input type="checkbox" value="city"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🌆 Город</label>
+              <label class="checkbox-item"><input type="checkbox" value="art"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎭 Искусство и книги</label>
+            </div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Темп</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="tempoFilters">
+              <label class="checkbox-item"><input type="checkbox" value="dynamic"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>💥 Динамичный</label>
+              <label class="checkbox-item"><input type="checkbox" value="slow"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🐌 Медленный</label>
+            </div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Тон и атмосфера</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="toneFilters">
+              <label class="checkbox-item"><input type="checkbox" value="dark"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🌑 Мрачное</label>
+              <label class="checkbox-item"><input type="checkbox" value="light"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>☀️ Светлое</label>
+              <label class="checkbox-item"><input type="checkbox" value="inspiring"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>✨ Вдохновляющее</label>
+              <label class="checkbox-item"><input type="checkbox" value="ironic"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>😏 С иронией</label>
+            </div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Визуальный стиль</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="visualFilters">
+              <label class="checkbox-item"><input type="checkbox" value="bw"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>⚫ Чёрно-белый</label>
+              <label class="checkbox-item"><input type="checkbox" value="color"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎨 Цветной</label>
+              <label class="checkbox-item"><input type="checkbox" value="square"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>📺 Почти квадратный кадр (4:3)</label>
+              <label class="checkbox-item"><input type="checkbox" value="wide"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎬 Широкий экран (2.35:1)</label>
+              <label class="checkbox-item"><input type="checkbox" value="standard"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>📽️ Стандартный (1.85:1)</label>
+            </div></div>
+          </div>
+          <button class="filters-apply-btn" onclick="applyFilters()">Применить фильтры</button>
+          <button class="reset-filters-btn" onclick="resetAllFilters()">Сбросить все фильтры</button>
+        </div>
+      </aside>
+
+      <div class="catalog-grid" id="catalogGrid"></div>
+    </div>
+  </section>
+
+  <script>
+    /* ============ НОРМАЛИЗАЦИЯ JSON (в файле ключи с пробелами: "title_ru ") ============ */
+    function clean(obj) {
+      if (Array.isArray(obj)) return obj.map(clean);
+      if (obj && typeof obj === 'object') {
+        const out = {};
+        for (const k in obj) out[k.trim()] = clean(obj[k]);
+        return out;
+      }
+      if (typeof obj === 'string') return obj.trim();
+      return obj;
+    }
+
+    const GENRE_MAP = {
+      'драма': 'drama', 'комедия': 'comedy', 'биографический': 'biography',
+      'военный': 'war', 'исторический': 'historical', 'детектив': 'detective',
+      'документальный': 'documentary', 'анимация': 'animation', 'фэнтези': 'fantasy',
+      'приключения': 'adventure', 'семейный': 'family', 'искусство': 'art', 'культура': 'culture'
+    };
+    const GENRE_LABELS = {
+      animation: '🎨 Анимация', biography: '👤 Биография', war: '⚔️ Военные',
+      historical: '📜 Исторические', detective: '🕵️ Детективы', documentary: '📄 Документальные',
+      drama: '🎬 Драмы', comedy: '😂 Комедии', fantasy: '🧙 Фэнтези',
+      adventure: '🗺️ Приключения', family: '👨‍👩‍👧 Семейные', art: '🎭 Искусство', culture: '📚 Культура'
+    };
+
+    function getFormat(filmType) {
+      const t = (filmType || '').toLowerCase();
+      if (t.includes('анимаци')) return 'Мультфильм';
+      if (t.includes('документ')) return 'Документальный';
+      return 'Фильм';
+    }
+    function getAge(ageRatings) {
+      const ru = ageRatings.find(a => a.country === 'Россия');
+      return ru ? ru.rating : (ageRatings[0]?.rating || '18+');
+    }
+    function getRatingClass(rating) {
+      const num = parseFloat(rating);
+      if (num >= 8.0) return 'high';
+      if (num >= 7.0) return 'medium';
+      return 'low';
+    }
+
+    /* Эвристики по mood/visual_style/themes для фильтров, которых нет в JSON напрямую */
+    function computeKeys(m) {
+      const mood = (m.content?.mood || '').toLowerCase();
+      const visual = (m.content?.visual_style || '').toLowerCase();
+      const themes = (m.content?.themes || []).join(' ').toLowerCase();
+      const text = (m.content?.logline || '') + ' ' + (m.content?.synopsis || '') + ' ' + themes;
+      const genres = (m.details?.genres || []).join(' ');
+
+      const moods = [];
+      if (/тревож|напряж|суров|скорб|бед|кризис/.test(mood)) moods.push('anxious');
+      if (/весел|иронич|увлечён|лёгк|разговорн|ностальг/.test(mood)) moods.push('happy');
+      if (/нежн|романт|чувственн|любов/.test(mood)) moods.push('romantic');
+      if (/меланхол|скорб|грустн|утрат|одиночеств/.test(mood)) moods.push('sad');
+      if (/созерцат|сосредоточенн|философ|задумч/.test(mood)) moods.push('thoughtful');
+      if (/волшеб|мистич|сказочн|предани|фольклор/.test(mood + themes)) moods.push('mystic');
+
+      let load = null;
+      if (/скорб|суров|разрывающ|кризис|бед|меланхол/.test(mood)) load = 'heavy';
+      else if (/напряж|тревож|сосредоточенн|сатирич|чувственн/.test(mood)) load = 'intense';
+      else if (/ностальг|созерцат|любопытн|иронич/.test(mood)) load = 'moderate';
+      else if (/тёпл|нежн|лёгк|волшеб|увлечён|разговорн/.test(mood)) load = 'easy';
+
+      const tones = [];
+      if (/суров|мрачн|скорб|тревож|напряж/.test(mood)) tones.push('dark');
+      if (/тёпл|нежн|светл|волшеб|лёгк|иронич|увлечён|разговорн|ностальг/.test(mood)) tones.push('light');
+      if (/вдохнов|свобод|дружб|доверие|амбиц|красот/.test(mood + themes)) tones.push('inspiring');
+      if (/иронич|сатирич|юмор/.test(mood)) tones.push('ironic');
+
+      let tempo = null;
+      if (/созерцат|неспешн|медленн|длинны|паузы|сосредоточенн/.test(mood + visual)) tempo = 'slow';
+      else if (/напряж|динамич|экшн|быстр/.test(mood)) tempo = 'dynamic';
+
+      const settings = [];
+      if (/90-х|девяност/.test(text)) settings.push('90s');
+      if (/дом|семь|загородн|родител|брат|сестр|мать|отец/.test(text)) settings.push('house');
+      if (/войн|чум|фронт|конфликт/.test(text)) settings.push('war');
+      if (/дорог|экспедиц|путешеств|путь|уезжа/.test(text)) settings.push('journey');
+      if (/париж|рим|нью-йорк|лос-анджелес|город|улиц/.test(text)) settings.push('city');
+      if (/искусств|книг|кинематограф|съёмк|фильм о|художник|писател/.test(text)) settings.push('art');
+
+      const companies = [];
+      if (/созерцат|философ|одиночеств|сосредоточенн/.test(mood)) companies.push('alone');
+      if (/романт|чувственн|нежн|любов/.test(mood + themes)) companies.push('date');
+      if (/дружб|компани|скейт|сотрудничеств/.test(text)) companies.push('friends');
+      if (/семейн|дет|родител|брат|сестр/.test(text + genres)) companies.push('family');
+
+      const color = (m.details?.color || '').toLowerCase();
+      const ar = (m.details?.aspect_ratio || '');
+      const visualKeys = [];
+      if (color.includes('чёрн')) visualKeys.push('bw');
+      if (color.includes('цветн')) visualKeys.push('color');
+      if (ar === '1.33:1' || ar === '1.37:1' || ar === '4:3') visualKeys.push('square');
+      if (ar === '2.35:1' || ar === '2.39:1') visualKeys.push('wide');
+      if (ar === '1.85:1') visualKeys.push('standard');
+
+      return { moods, load, tones, tempo, settings, companies, visualKeys };
+    }
+
+    function transformMovie(raw) {
+      const keys = computeKeys(raw);
+      const mood = raw.content?.mood || '';
+      return {
+        id: raw.identification?.kinopoisk_id,
+        title: raw.identification?.title_ru || '',
+        titleOriginal: raw.identification?.title_original || '',
+        year: raw.identification?.year,
+        filmType: raw.identification?.film_type || '',
+        format: getFormat(raw.identification?.film_type),
+        countries: raw.details?.countries || [],
+        genresRu: raw.details?.genres || [],
+        genres: (raw.details?.genres || []).map(g => GENRE_MAP[g.toLowerCase()] || g.toLowerCase()),
+        runtime: raw.details?.runtime_minutes || 0,
+        age: getAge(raw.details?.age_ratings || []),
+        color: raw.details?.color || '',
+        aspectRatio: raw.details?.aspect_ratio || '',
+        rating: String(raw.ratings?.kinopoisk?.value ?? 0),
+        votes: raw.ratings?.kinopoisk?.votes ?? 0,
+        logline: raw.content?.logline || '',
+        synopsis: raw.content?.synopsis || '',
+        mood,
+        vibe: mood.split(/[,;]/)[0].trim(),
+        visualStyle: raw.content?.visual_style || '',
+        themes: raw.content?.themes || [],
+        cast: (raw.cast || []).slice(0, 3).map(c => c.name_ru),
+        directors: raw.creators?.directors || [],
+        poster: raw.poster?.path || '',
+        trailer: raw.links?.official_trailer?.url || '',
+        kpUrl: raw.identification?.kinopoisk_url || '',
+        ...keys
+      };
+    }
+
+    /* ============ СОСТОЯНИЕ ============ */
+    let movieData = [];
+    let currentIndex = 4;
+    const savedMovies = new Set();
+    const stage = document.getElementById('stage');
+    const carouselContainer = document.getElementById('carouselContainer');
+
+    /* ============ ЗАГРУЗКА JSON ============ */
+    async function loadMovies() {
+      try {
+        const res = await fetch('movies.json');
+        if (!res.ok) throw new Error('Не удалось загрузить movies.json (' + res.status + ')');
+        const data = clean(await res.json());
+        movieData = (data.movies || []).map(transformMovie);
+        currentIndex = Math.min(4, movieData.length - 1);
+        initCarousel();
+        renderCatalog(movieData);
+        renderDynamicFilters();
+        setupCheckboxHandlers();
+      } catch (err) {
+        console.error(err);
+        stage.innerHTML = '<div class="loader">Ошибка загрузки movies.json. Запустите сайт через локальный сервер (Live Server / python -m http.server), а не открывайте файл напрямую.</div>';
+        document.getElementById('catalogGrid').innerHTML = '<div class="loader" style="grid-column:1/-1;">Данные не загружены</div>';
+      }
+    }
+
+    /* ============ КАРУСЕЛЬ ============ */
+    function createCard(data, index) {
+      const card = document.createElement('div');
+      card.className = 'movie-card';
+      card.dataset.index = index;
+      card.style.backgroundImage = `url('${data.poster}')`;
+      const isSaved = savedMovies.has(data.id);
+      card.innerHTML = `
+        <div class="rating-badge ${getRatingClass(data.rating)}">${data.rating}</div>
+        <div class="card-actions">
+          <button class="card-action-btn save-btn ${isSaved ? 'saved' : ''}" data-save="${data.id}" title="Сохранить"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button>
+          <button class="card-action-btn" data-eye="${data.id}" title="Подробнее"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+        </div>
+        <div class="expanded-poster" style="background-image: url('${data.poster}')"></div>
+        <div class="expanded-content">
+          <button class="expanded-close" title="Закрыть">×</button>
+          <h2 class="expanded-title">${data.title}</h2>
+          <div class="expanded-vibe">${data.vibe}</div>
+          <div class="ai-recommendation">
+            <div class="ai-label"><svg viewBox="0 0 24 24"><path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"></path></svg>Почему стоит посмотреть</div>
+            <p class="expanded-desc">${data.logline}</p>
+          </div>
+        </div>`;
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('[data-save]') || e.target.closest('[data-eye]') || e.target.closest('.expanded-close') || card.classList.contains('expanded')) return;
+        const diff = parseInt(card.dataset.index) - currentIndex;
+        if (diff !== 0) { currentIndex += diff; initCarousel(); }
+        else {
+          card.classList.add('expanded');
+          carouselContainer.classList.add('has-expanded');
+          stage.classList.add('has-expanded');
+        }
+      });
+      card.querySelector('[data-save]').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = parseInt(e.currentTarget.dataset.save);
+        if (savedMovies.has(id)) savedMovies.delete(id); else savedMovies.add(id);
+        syncSaveButtons();
+      });
+      card.querySelector('[data-eye]').addEventListener('click', (e) => {
+        e.stopPropagation();
+        showEyeModal(parseInt(e.currentTarget.dataset.eye));
+      });
+      card.querySelector('.expanded-close').addEventListener('click', (e) => {
+        e.stopPropagation();
+        card.classList.remove('expanded');
+        carouselContainer.classList.remove('has-expanded');
+        stage.classList.remove('has-expanded');
+      });
+      return card;
+    }
+
+    function syncSaveButtons() {
+      document.querySelectorAll('[data-save]').forEach(btn => {
+        btn.classList.toggle('saved', savedMovies.has(parseInt(btn.dataset.save)));
+      });
+      document.querySelectorAll('[data-save-idx]').forEach(btn => {
+        btn.classList.toggle('saved', savedMovies.has(parseInt(btn.dataset.saveIdx)));
+      });
+    }
+
+    function initCarousel() {
+      stage.innerHTML = '';
+      if (!movieData.length) return;
+      for (let i = -2; i <= 2; i++) {
+        const dataIndex = ((currentIndex + i) % movieData.length + movieData.length) % movieData.length;
+        stage.appendChild(createCard(movieData[dataIndex], i));
+      }
+      const main = movieData[((currentIndex % movieData.length) + movieData.length) % movieData.length];
+      document.getElementById('mainTitle').textContent = main.title;
+      document.getElementById('mainVibe').textContent = main.vibe;
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => { currentIndex--; initCarousel(); });
+    document.getElementById('nextBtn').addEventListener('click', () => { currentIndex++; initCarousel(); });
+
+    /* ============ МОДАЛКИ ============ */
+    const randomAiOverlay = document.getElementById('randomAiOverlay');
+    const chatAiOverlay = document.getElementById('chatAiOverlay');
+    const eyeOverlay = document.getElementById('eyeOverlay');
+
+    document.getElementById('openRandomAiBtn').addEventListener('click', () => randomAiOverlay.classList.add('active'));
+    document.getElementById('closeRandomAi').addEventListener('click', () => { randomAiOverlay.classList.remove('active'); resetToFilters(); });
+    randomAiOverlay.addEventListener('click', (e) => { if (e.target === randomAiOverlay) { randomAiOverlay.classList.remove('active'); resetToFilters(); } });
+
+    document.getElementById('openChatBtn').addEventListener('click', () => { chatAiOverlay.classList.add('active'); document.getElementById('chatInput').focus(); });
+    document.getElementById('closeChatAi').addEventListener('click', () => chatAiOverlay.classList.remove('active'));
+    chatAiOverlay.addEventListener('click', (e) => { if (e.target === chatAiOverlay) chatAiOverlay.classList.remove('active'); });
+
+    document.getElementById('eyeClose').addEventListener('click', () => eyeOverlay.classList.remove('active'));
+    eyeOverlay.addEventListener('click', (e) => { if (e.target === eyeOverlay) eyeOverlay.classList.remove('active'); });
+
+    function findMovie(id) { return movieData.find(m => m.id === id); }
+
+    function showEyeModal(id) {
+      const movie = findMovie(id);
+      if (!movie) return;
+      document.getElementById('eyePoster').style.backgroundImage = `url('${movie.poster}')`;
+      document.getElementById('eyeTitle').textContent = movie.title;
+      document.getElementById('eyeText').textContent = movie.logline;
+      document.getElementById('eyeWatchBtn').dataset.movieId = movie.id;
+      document.getElementById('eyeBadges').innerHTML = `
+        <span class="eye-badge rating ${getRatingClass(movie.rating)}">${movie.rating}</span>
+        <span class="eye-badge">${movie.year}</span>
+        <span class="eye-badge">${movie.runtime} мин</span>
+        <span class="eye-badge">${movie.countries[0] || ''}</span>
+        <span class="eye-badge">${movie.age}</span>
+        <span class="eye-badge">${movie.format}</span>`;
+      eyeOverlay.classList.add('active');
+    }
+    document.getElementById('eyeWatchBtn').addEventListener('click', () => {
+      window.location.href = 'movie.html?id=' + document.getElementById('eyeWatchBtn').dataset.movieId;
+    });
+
+    /* ============ СЛУЧАЙНЫЙ ПОДБОР (аккордеон + sticky refresh справа) ============ */
+    function toggleChip(chip) { chip.classList.toggle('active'); }
+    function toggleDuration(chip) { document.querySelectorAll('.duration-chip').forEach(c => c.classList.remove('active')); chip.classList.add('active'); }
+    function resetFilters() {
+      document.querySelectorAll('#aiFilters .option-chip').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.duration-chip').forEach(c => c.classList.remove('active'));
+      document.querySelector('.duration-chip[data-dur="any"]').classList.add('active');
+    }
+    function resetToFilters() { document.getElementById('aiFilters').style.display = 'block'; document.getElementById('aiResults').style.display = 'none'; }
+    function resetAiSearch() { document.getElementById('aiFilters').style.display = 'block'; document.getElementById('aiResults').style.display = 'none'; }
+
+    function pickRandomMovies() {
+      const moods = [...document.querySelectorAll('#aiFilters .option-chip.active[data-mood]')].map(c => c.dataset.mood);
+      const formats = [...document.querySelectorAll('#aiFilters .option-chip.active[data-format]')].map(c => c.dataset.format);
+      const chars = [...document.querySelectorAll('#aiFilters .option-chip.active[data-char]')].map(c => c.dataset.char);
+      const dur = document.querySelector('.duration-chip.active[data-dur]')?.dataset.dur || 'any';
+
+      let pool = [...movieData];
+      if (moods.length) pool = pool.filter(m => m.moods.some(x => moods.includes(x)));
+      if (formats.length) pool = pool.filter(m => formats.includes(m.format));
+      if (dur !== 'any') pool = pool.filter(m => dur === 'short' ? m.runtime < 90 : dur === 'medium' ? m.runtime >= 90 && m.runtime <= 120 : m.runtime > 120);
+      if (chars.includes('popular')) pool.sort((a, b) => b.votes - a.votes);
+      if (chars.includes('new')) pool.sort((a, b) => b.year - a.year);
+      if (chars.includes('classic')) pool.sort((a, b) => a.year - b.year);
+
+      if (!pool.length) pool = [...movieData];
+      const shuffled = pool.sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, Math.min(3, shuffled.length));
+    }
+
+    function renderRandomResults() {
+      const picks = pickRandomMovies();
+      document.getElementById('aiResultsList').innerHTML = picks.map(m => `
+        <div class="result-item">
+          <div class="result-header" onclick="toggleAiDesc(this)">
+            <div class="result-title">${m.title} <span style="color:var(--text-muted);font-weight:400;">· ${m.year}</span></div>
+            <div class="result-ai-btn" onclick="event.stopPropagation(); toggleAiDesc(this.parentElement)"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></div>
+          </div>
+          <div class="result-ai-desc"><div class="ai-tag">✦ AI рекомендует</div><p>${m.logline}</p>
+            <div style="margin-top:14px;"><button class="submit-btn" style="width:auto;padding:10px 20px;" onclick="window.location.href='movie.html?id=${m.id}'">Открыть фильм</button></div>
+          </div>
+        </div>`).join('');
+    }
+
+    document.getElementById('generateRandomBtn').addEventListener('click', () => {
+      renderRandomResults();
+      document.getElementById('aiFilters').style.display = 'none';
+      document.getElementById('aiResults').style.display = 'block';
+    });
+    document.getElementById('refreshResultsBtn').addEventListener('click', () => {
+      renderRandomResults();
+      document.getElementById('aiResultsList').scrollTop = 0;
+    });
+
+    function toggleAiDesc(header) {
+      const desc = header.nextElementSibling;
+      const isOpen = desc.classList.contains('open');
+      document.querySelectorAll('.result-ai-desc').forEach(d => d.classList.remove('open'));
+      if (!isOpen) desc.classList.add('open');
+    }
+
+    /* ============ AI-ЧАТ (поиск по данным JSON) ============ */
+    const chatInput = document.getElementById('chatInput');
+    const chatMessages = document.getElementById('chatMessages');
+    function addMessage(text, isUser) {
+      const msg = document.createElement('div');
+      msg.className = `message ${isUser ? 'user' : 'ai'}`;
+      msg.textContent = text;
+      chatMessages.appendChild(msg);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    document.getElementById('sendChatBtn').addEventListener('click', () => {
+      const text = chatInput.value.trim();
+      if (!text) return;
+      addMessage(text, true);
+      chatInput.value = '';
+      setTimeout(() => {
+        const q = text.toLowerCase();
+        const scored = movieData.map(m => {
+          let s = 0;
+          const hay = (m.title + ' ' + m.mood + ' ' + m.logline + ' ' + m.themes.join(' ') + ' ' + m.genresRu.join(' ')).toLowerCase();
+          q.split(/\s+/).forEach(w => { if (w.length > 3 && hay.includes(w)) s++; });
+          return { m, s };
+        }).filter(x => x.s > 0).sort((a, b) => b.s - a.s);
+        if (scored.length) {
+          addMessage(`По запросу «${text}» советую «${scored[0].m.title}» (${scored[0].m.year}). ${scored[0].m.logline}`, false);
+        } else {
+          const rnd = movieData[Math.floor(Math.random() * movieData.length)];
+          addMessage(`Не нашла точного совпадения, но по настроению могу предложить «${rnd.title}». ${rnd.logline}`, false);
+        }
+      }, 700);
+    });
+    chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') document.getElementById('sendChatBtn').click(); });
+
+    function scrollToTop(e) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    /* ============ КАТАЛОГ ============ */
+    let currentCatalog = [];
+    function renderCatalog(movies) {
+      currentCatalog = movies;
+      const grid = document.getElementById('catalogGrid');
+      grid.innerHTML = '';
+      if (!movies.length) { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-muted);">Фильмы не найдены. Попробуйте изменить фильтры.</div>'; return; }
+      movies.forEach((movie) => {
+        const isSaved = savedMovies.has(movie.id);
+        const item = document.createElement('div');
+        item.className = 'catalog-item';
+        item.innerHTML = `
+          <div class="catalog-poster-wrap" style="background-image: url('${movie.poster}')" data-id="${movie.id}">
+            <div class="catalog-poster-rating ${getRatingClass(movie.rating)}">${movie.rating}</div>
+            <button class="catalog-save-btn ${isSaved ? 'saved' : ''}" data-save-idx="${movie.id}" title="Сохранить на потом"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button>
+            <button class="catalog-eye-btn" data-eye-idx="${movie.id}" title="Почему стоит посмотреть"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+            <div class="catalog-poster-overlay"><div class="catalog-poster-vibe">${movie.vibe}</div></div>
+          </div>
+          <div class="catalog-meta"><div class="catalog-meta-title">${movie.title}</div><div class="catalog-meta-info"><span>${movie.year}</span><span class="dot"></span><span>${movie.runtime} мин</span><span class="dot"></span><span>${movie.countries[0] || ''}</span></div></div>`;
+        grid.appendChild(item);
+      });
+      grid.querySelectorAll('.catalog-save-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = parseInt(btn.dataset.saveIdx);
+          if (savedMovies.has(id)) savedMovies.delete(id); else savedMovies.add(id);
+          syncSaveButtons();
+        });
+      });
+      grid.querySelectorAll('.catalog-eye-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => { e.stopPropagation(); showEyeModal(parseInt(btn.dataset.eyeIdx)); });
+      });
+      grid.querySelectorAll('.catalog-poster-wrap').forEach(wrap => {
+        wrap.addEventListener('click', () => { window.location.href = 'movie.html?id=' + wrap.dataset.id; });
+      });
+    }
+
+    function renderDynamicFilters() {
+      const countries = [...new Set(movieData.flatMap(m => m.countries))].sort();
+      const cf = document.getElementById('countryFilters');
+      cf.innerHTML = countries.map(c => `<label class="checkbox-item"><input type="checkbox" value="${c}"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>${c}</label>`).join('');
+
+      const genres = [...new Set(movieData.flatMap(m => m.genres))];
+      const gf = document.getElementById('genreFilters');
+      gf.innerHTML = genres.map(g => `<label class="checkbox-item"><input type="checkbox" value="${g}"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>${GENRE_LABELS[g] || g}</label>`).join('');
+
+      const ages = [...new Set(movieData.map(m => m.age))].sort();
+      const af = document.getElementById('ageFilters');
+      af.innerHTML = ages.map(a => `<label class="checkbox-item"><input type="checkbox" value="${a}"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>${a}</label>`).join('');
+    }
+
+    function setupCheckboxHandlers() {
+      document.querySelectorAll('.checkbox-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+          if (e.target.tagName === 'INPUT') return;
+          e.preventDefault();
+          this.classList.toggle('active');
+          applyFilters();
+        });
+      });
+    }
+
+    function getActive(containerId) {
+      return [...document.querySelectorAll('#' + containerId + ' .checkbox-item.active input')].map(cb => cb.value);
+    }
+
+    function applyFilters() {
+      let filtered = [...movieData];
+      const countries = getActive('countryFilters');
+      if (countries.length) filtered = filtered.filter(m => m.countries.some(c => countries.includes(c)));
+      const years = getActive('yearFilters');
+      if (years.length) filtered = filtered.filter(m =>
+        (years.includes('before2000') && m.year < 2000) ||
+        (years.includes('2000to2010') && m.year >= 2000 && m.year <= 2010) ||
+        (years.includes('2010to2020') && m.year > 2010 && m.year <= 2020) ||
+        (years.includes('after2020') && m.year > 2020));
+      const runtimes = getActive('runtimeFilters');
+      if (runtimes.length) filtered = filtered.filter(m =>
+        (runtimes.includes('short') && m.runtime < 90) ||
+        (runtimes.includes('medium') && m.runtime >= 90 && m.runtime <= 120) ||
+        (runtimes.includes('long') && m.runtime > 120));
+      const ratings = getActive('ratingFilters');
+      if (ratings.length) filtered = filtered.filter(m => {
+        const r = parseFloat(m.rating);
+        return (ratings.includes('high') && r >= 8) || (ratings.includes('medium') && r >= 7 && r < 8) || (ratings.includes('low') && r < 7);
+      });
+      const ages = getActive('ageFilters');
+      if (ages.length) filtered = filtered.filter(m => ages.includes(m.age));
+      const moods = getActive('moodFilters');
+      if (moods.length) filtered = filtered.filter(m => m.moods.some(x => moods.includes(x)));
+      const loads = getActive('loadFilters');
+      if (loads.length) filtered = filtered.filter(m => loads.includes(m.load));
+      const genres = getActive('genreFilters');
+      if (genres.length) filtered = filtered.filter(m => m.genres.some(g => genres.includes(g)));
+      const companies = getActive('companyFilters');
+      if (companies.length) filtered = filtered.filter(m => m.companies.some(c => companies.includes(c)));
+      const settings = getActive('settingFilters');
+      if (settings.length) filtered = filtered.filter(m => m.settings.some(s => settings.includes(s)));
+      const tempos = getActive('tempoFilters');
+      if (tempos.length) filtered = filtered.filter(m => tempos.includes(m.tempo));
+      const tones = getActive('toneFilters');
+      if (tones.length) filtered = filtered.filter(m => m.tones.some(t => tones.includes(t)));
+      const visual = getActive('visualFilters');
+      if (visual.length) filtered = filtered.filter(m => m.visualKeys.some(v => visual.includes(v)));
+
+      sortAndRender(filtered);
+    }
+
+    function sortAndRender(list) {
+      const mode = document.getElementById('sortSelect').value;
+      const sorted = [...list];
+      if (mode === 'rating') sorted.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+      if (mode === 'new') sorted.sort((a, b) => b.year - a.year);
+      if (mode === 'popular') sorted.sort((a, b) => b.votes - a.votes);
+      renderCatalog(sorted);
+    }
+    document.getElementById('sortSelect').addEventListener('change', () => sortAndRender(currentCatalog));
+
+    function resetAllFilters() {
+      document.querySelectorAll('.checkbox-item').forEach(item => { item.classList.remove('active'); const i = item.querySelector('input'); if (i) i.checked = false; });
+      document.querySelectorAll('.filter-toggle').forEach(t => t.classList.remove('active'));
+      renderCatalog(movieData);
+    }
+    function switchFilterTab(tab, btn) {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.filter-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('filter-' + tab).classList.add('active');
+    }
+    function toggleFilterSwitch(el) { el.classList.toggle('active'); }
+    function toggleFilterSection(header) { header.parentElement.classList.toggle('open'); }
+
+    document.getElementById('filterSearchToggle').addEventListener('click', () => {
+      const wrap = document.getElementById('filterSearchWrap');
+      wrap.classList.toggle('active');
+      if (wrap.classList.contains('active')) document.getElementById('filterSearchInput').focus();
+    });
+    document.getElementById('filterSearchInput').addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      document.querySelectorAll('.checkbox-item').forEach(item => {
+        item.style.display = (query === '' || item.textContent.toLowerCase().includes(query)) ? 'flex' : 'none';
+      });
+      if (query !== '') document.querySelectorAll('.filter-section').forEach(s => s.classList.add('open'));
+    });
+
+    loadMovies();
+  </script>
+</body>
+</html>

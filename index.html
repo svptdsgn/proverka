@@ -16,16 +16,13 @@
     --border-color: rgba(255,255,255,0.08);
     --border-light: rgba(255,255,255,0.16);
     --accent: #D4A017;
-    --purple: #A855F7;
     --radius-sm: 14px;
     --radius-md: 22px;
     --radius-lg: 30px;
     --radius-pill: 100px;
     --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   body {
     background: 
       radial-gradient(ellipse at 15% 25%, rgba(200,200,210,0.35) 0%, transparent 50%),
@@ -65,7 +62,6 @@
     text-shadow: -2px 0 rgba(255,0,0,0.7), 2px 0 rgba(0,255,255,0.7), 0 -1px rgba(0,255,0,0.5), 0 1px rgba(255,255,0,0.5);
   }
   .logo sup { font-size: 9px; font-weight: 500; color: var(--text-muted); line-height: 1; margin-top: 2px; text-shadow: none; }
-  
   .search-container { position: relative; flex: 1; max-width: 560px; margin: 0 32px; }
   .search-input {
     width: 100%; height: 52px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.20);
@@ -76,7 +72,6 @@
   .search-input::placeholder { color: rgba(255,255,255,0.6); }
   .search-input:focus { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.35); box-shadow: 0 0 0 4px rgba(255,255,255,0.06); }
   .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: none; stroke: rgba(255,255,255,0.7); stroke-width: 2; pointer-events: none; }
-  
   .header-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
   .glass-plate {
     width: 44px; height: 44px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14);
@@ -98,7 +93,6 @@
 
   .carousel-container { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1200px; position: relative; }
   .carousel-stage { position: relative; width: 100%; height: 440px; display: flex; justify-content: center; align-items: center; }
-  
   .movie-card {
     position: absolute; width: 260px; height: 380px;
     border-radius: var(--radius-md); background-color: var(--surface-dark);
@@ -192,50 +186,6 @@
   .ai-chat-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); transform: translateY(-2px); }
   .ai-chat-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-  /* Аккордеон случайной подборки */
-  .random-accordion { width: 100%; max-width: 760px; margin: 40px auto 60px; padding: 0 20px; }
-  .random-accordion__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-  .random-accordion__title { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
-  .random-accordion__close {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);
-    color: var(--text-main); font-size: 18px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .random-accordion__close:hover { background: rgba(255,255,255,0.12); }
-  .random-accordion__body { display: flex; gap: 16px; align-items: flex-start; }
-  .random-accordion__items { flex: 1; display: flex; flex-direction: column; gap: 12px; }
-
-  .ra-item { background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; transition: border-color 0.2s; }
-  .ra-item:hover { border-color: var(--border-light); }
-  .ra-head { display: flex; align-items: center; gap: 16px; padding: 14px 18px; cursor: pointer; }
-  .ra-poster { width: 64px; height: 96px; border-radius: 12px; background-size: cover; background-position: center; background-color: var(--surface-dark); flex-shrink: 0; border: 1px solid var(--border-color); }
-  .ra-info { flex: 1; min-width: 0; }
-  .ra-title { font-size: 16px; font-weight: 600; }
-  .ra-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-  .ra-rating { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-pill); flex-shrink: 0; }
-  .ra-rating.high { background: rgba(22,163,74,0.9); color: #fff; }
-  .ra-rating.medium { background: rgba(202,138,4,0.9); color: #fff; }
-  .ra-rating.low { background: rgba(239,68,68,0.9); color: #fff; }
-  .ra-chevron { width: 18px; height: 18px; fill: none; stroke: var(--text-muted); stroke-width: 2; transition: transform 0.3s; flex-shrink: 0; }
-  .ra-item.open .ra-chevron { transform: rotate(180deg); }
-  .ra-body { max-height: 0; overflow: hidden; transition: max-height 0.45s cubic-bezier(0.16,1,0.3,1); }
-  .ra-item.open .ra-body { max-height: 340px; }
-  .ra-body-inner { padding: 4px 18px 18px 100px; color: var(--text-muted); font-size: 14px; line-height: 1.6; }
-  .ra-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
-
-  /* Кнопка "Обновить" справа от аккордеона — sticky */
-  .refresh-side-btn {
-    position: sticky; top: 100px; flex-shrink: 0;
-    width: 48px; height: 48px; border-radius: 50%;
-    background: rgba(255,255,255,0.06); border: 1px solid var(--border-light);
-    backdrop-filter: blur(16px); color: var(--text-main);
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s ease;
-  }
-  .refresh-side-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); transform: rotate(180deg); }
-  .refresh-side-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
-
   .overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.75);
     display: flex; justify-content: center; align-items: center;
@@ -245,7 +195,7 @@
   .overlay.active { opacity: 1; pointer-events: all; }
   .modal-window {
     background: rgba(16,16,18,0.8); border: 1px solid var(--border-light);
-    border-radius: var(--radius-lg); width: 90%; max-width: 600px;
+    border-radius: var(--radius-lg); width: 90%; max-width: 640px;
     padding: 32px; position: relative; max-height: 85vh; overflow-y: auto;
     backdrop-filter: blur(32px); box-shadow: 0 40px 90px rgba(0,0,0,0.7);
   }
@@ -297,6 +247,32 @@
   .submit-btn:hover { opacity: 0.9; }
   .reset-btn { width: 100%; background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 12px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 500; font-family: var(--font); cursor: pointer; margin-top: 16px; transition: all 0.2s ease; }
   .reset-btn:hover { background: rgba(255,255,255,0.05); color: var(--text-main); border-color: var(--border-light); }
+
+  /* Аккордеон результатов в модалке */
+  .ai-results-layout { display: flex; gap: 16px; align-items: flex-start; }
+  .ai-results-layout .results-list { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .refresh-side-btn {
+    position: sticky; top: 0; flex-shrink: 0;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border-light);
+    backdrop-filter: blur(16px); color: var(--text-main);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .refresh-side-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); transform: rotate(180deg); }
+  .refresh-side-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+
+  .ra-item { background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; transition: border-color 0.2s; cursor: pointer; }
+  .ra-item:hover { border-color: var(--border-light); }
+  .ra-head { display: flex; align-items: center; gap: 16px; padding: 14px 18px; }
+  .ra-poster { width: 64px; height: 96px; border-radius: 12px; background-size: cover; background-position: center; background-color: var(--surface-dark); flex-shrink: 0; border: 1px solid var(--border-color); }
+  .ra-info { flex: 1; min-width: 0; }
+  .ra-title { font-size: 16px; font-weight: 600; }
+  .ra-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .ra-rating { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-pill); flex-shrink: 0; }
+  .ra-rating.high { background: rgba(22,163,74,0.9); color: #fff; }
+  .ra-rating.medium { background: rgba(202,138,4,0.9); color: #fff; }
+  .ra-rating.low { background: rgba(239,68,68,0.9); color: #fff; }
 
   .catalog-section { padding: 60px 40px; border-top: 1px solid var(--border-color); max-width: 1400px; margin: 0 auto; width: 100%; }
   .catalog-header { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
@@ -381,9 +357,6 @@
     .glass-plate { width: 40px; height: 40px; }
     .hero-section { padding: 120px 20px 20px; }
     .catalog-layout { grid-template-columns: 1fr; }
-    .ra-body-inner { padding-left: 18px; }
-    .refresh-side-btn { width: 44px; height: 44px; top: 80px; }
-    .refresh-side-btn svg { width: 18px; height: 18px; }
   }
 </style>
 </head>
@@ -441,20 +414,6 @@
         </button>
       </div>
     </div>
-
-    <!-- Аккордеон случайной подборки -->
-    <section class="random-accordion" id="randomAccordion" style="display:none;">
-      <div class="random-accordion__header">
-        <h2 class="random-accordion__title">✦ Подобрано для вас</h2>
-        <button class="random-accordion__close" onclick="hideRandomAccordion()" title="Скрыть">×</button>
-      </div>
-      <div class="random-accordion__body">
-        <div class="random-accordion__items" id="randomAccordionItems"></div>
-        <button class="refresh-side-btn" id="refreshSideBtn" title="Обновить подборку">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-        </button>
-      </div>
-    </section>
   </div>
 
   <!-- Модалка случайного подбора с фильтрами -->
@@ -493,7 +452,7 @@
         <div class="filter-group">
           <span class="filter-label">Продолжительность</span>
           <div class="options-row">
-            <div class="option-chip" data-dur="any" onclick="toggleDuration(this)">Любая</div>
+            <div class="option-chip active" data-dur="any" onclick="toggleDuration(this)">Любая</div>
             <div class="option-chip" data-dur="short" onclick="toggleDuration(this)">&lt; 90 мин</div>
             <div class="option-chip" data-dur="medium" onclick="toggleDuration(this)">90–120 мин</div>
             <div class="option-chip" data-dur="long" onclick="toggleDuration(this)">&gt; 120 мин</div>
@@ -515,7 +474,7 @@
     </div>
   </div>
 
-  <!-- Модалка AI-чат с полем ввода -->
+  <!-- Модалка AI-чат -->
   <div class="overlay" id="chatAiOverlay">
     <div class="modal-window chat-container">
       <button class="modal-close" id="closeChatAi">×</button>
@@ -962,13 +921,11 @@
 
   document.getElementById('eyeClose').addEventListener('click', () => eyeOverlay.classList.remove('active'));
   eyeOverlay.addEventListener('click', (e) => { if (e.target === eyeOverlay) eyeOverlay.classList.remove('active'); });
-  document.getElementById('eyeWatchBtn').addEventListener('click', () => {
-    const movieId = document.getElementById('eyeWatchBtn').dataset.movieId;
-    if (movieId) window.location.href = 'movie.html?id=' + movieId;
-  });
+
+  function findMovie(id) { return movieData.find(m => m.id === id); }
 
   function showEyeModal(id) {
-    const movie = movieData.find(m => m.id === id);
+    const movie = findMovie(id);
     if (!movie) return;
     document.getElementById('eyePoster').style.backgroundImage = `url('${movie.poster}')`;
     document.getElementById('eyeTitle').textContent = movie.title;
@@ -983,8 +940,12 @@
       <span class="eye-badge">${movie.format}</span>`;
     eyeOverlay.classList.add('active');
   }
+  document.getElementById('eyeWatchBtn').addEventListener('click', () => {
+    const movieId = document.getElementById('eyeWatchBtn').dataset.movieId;
+    if (movieId) window.location.href = 'movie.html?id=' + movieId;
+  });
 
-  /* ============ УТИЛИТЫ ФИЛЬТРОВ ============ */
+  /* ============ СЛУЧАЙНЫЙ ПОДБОР ============ */
   function toggleChip(chip) { chip.classList.toggle('active'); }
   function toggleDuration(chip) { document.querySelectorAll('.option-chip[data-dur]').forEach(c => c.classList.remove('active')); chip.classList.add('active'); }
   function resetFilters() {
@@ -994,7 +955,6 @@
   function resetToFilters() { document.getElementById('aiFilters').style.display = 'block'; document.getElementById('aiResults').style.display = 'none'; }
   function resetAiSearch() { document.getElementById('aiFilters').style.display = 'block'; document.getElementById('aiResults').style.display = 'none'; }
 
-  /* ============ СЛУЧАЙНЫЙ ПОДБОР ============ */
   function pickRandomMovies() {
     const moods = [...document.querySelectorAll('#aiFilters .option-chip.active[data-mood]')].map(c => c.dataset.mood);
     const formats = [...document.querySelectorAll('#aiFilters .option-chip.active[data-format]')].map(c => c.dataset.format);
@@ -1017,25 +977,15 @@
   function renderRandomResults() {
     const picks = pickRandomMovies();
     document.getElementById('aiResultsList').innerHTML = picks.map(m => `
-      <div class="ra-item">
-        <div class="ra-head" onclick="this.parentElement.classList.toggle('open')">
+      <div class="ra-item" onclick="window.location.href='movie.html?id=${m.id}'">
+        <div class="ra-head">
           <div class="ra-poster" style="background-image:url('${m.poster}')"></div>
           <div class="ra-info">
             <div class="ra-title">${m.title}</div>
             <div class="ra-sub">${m.year} · ${m.runtime} мин · ${m.countries[0] || ''}</div>
           </div>
           <span class="ra-rating ${getRatingClass(m.rating)}">${m.rating}</span>
-          <svg class="ra-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
         </div>
-        <div class="ra-body"><div class="ra-body-inner">
-          ${m.logline}
-          <div class="ra-actions">
-            <button class="action-btn-glass" onclick="window.location.href='movie.html?id=${m.id}'">Смотреть</button>
-            <button class="card-action-btn" onclick="showEyeModal(${m.id})" title="Подробнее" style="width:44px;height:44px;">
-              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-            </button>
-          </div>
-        </div></div>
       </div>`).join('');
   }
 
@@ -1046,47 +996,6 @@
   });
   document.getElementById('refreshResultsBtn').addEventListener('click', () => {
     renderRandomResults();
-  });
-
-  /* ============ АККОРДЕОН НА ГЛАВНОЙ ============ */
-  function renderRandomAccordion(picks) {
-    const wrap = document.getElementById('randomAccordionItems');
-    wrap.innerHTML = picks.map(m => `
-      <div class="ra-item">
-        <div class="ra-head" onclick="this.parentElement.classList.toggle('open')">
-          <div class="ra-poster" style="background-image:url('${m.poster}')"></div>
-          <div class="ra-info">
-            <div class="ra-title">${m.title}</div>
-            <div class="ra-sub">${m.year} · ${m.runtime} мин · ${m.countries[0] || ''}</div>
-          </div>
-          <span class="ra-rating ${getRatingClass(m.rating)}">${m.rating}</span>
-          <svg class="ra-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-        </div>
-        <div class="ra-body"><div class="ra-body-inner">
-          ${m.logline}
-          <div class="ra-actions">
-            <button class="action-btn-glass" onclick="window.location.href='movie.html?id=${m.id}'">Смотреть</button>
-            <button class="card-action-btn" onclick="showEyeModal(${m.id})" title="Подробнее" style="width:44px;height:44px;">
-              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-            </button>
-          </div>
-        </div></div>
-      </div>`).join('');
-  }
-
-  function hideRandomAccordion() { document.getElementById('randomAccordion').style.display = 'none'; }
-
-  document.getElementById('openRandomAiBtn').addEventListener('click', () => {
-    const picks = [...movieData].sort(() => Math.random() - 0.5).slice(0, 3);
-    renderRandomAccordion(picks);
-    const acc = document.getElementById('randomAccordion');
-    acc.style.display = 'block';
-    setTimeout(() => acc.scrollIntoView({ behavior: 'smooth', block: 'center' }), 50);
-  });
-
-  document.getElementById('refreshSideBtn').addEventListener('click', () => {
-    const picks = [...movieData].sort(() => Math.random() - 0.5).slice(0, 3);
-    renderRandomAccordion(picks);
   });
 
   /* ============ AI-ЧАТ ============ */

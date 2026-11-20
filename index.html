@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #030305;
+    --bg: #0a0618;
     --surface: #FAFAFA;
     --surface-dark: #0E0E12;
     --text-main: #FAFAFA;
@@ -25,10 +25,10 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background:
-      radial-gradient(ellipse at 20% 20%, rgba(50,20,90,0.4) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 80%, rgba(20,40,100,0.3) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 50%, rgba(80,10,60,0.2) 0%, transparent 60%),
-      linear-gradient(160deg, #030305 0%, #080810 30%, #0f0518 60%, #030305 100%);
+      radial-gradient(ellipse at 20% 0%, rgba(80,40,140,0.45) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(100,50,160,0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(60,30,120,0.3) 0%, transparent 60%),
+      linear-gradient(180deg, #0a0618 0%, #140a2e 40%, #0a0618 100%);
     background-attachment: fixed;
     color: var(--text-main);
     font-family: var(--font);
@@ -39,12 +39,24 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* ===== HEADER ===== */
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(24px);
+    background: rgba(20,10,46,0.95); border: 1px solid var(--border-light);
+    color: var(--text-main); padding: 14px 24px; border-radius: var(--radius-pill);
+    font-size: 14px; font-weight: 500; opacity: 0; pointer-events: none;
+    transition: all 0.3s ease; z-index: 1000; backdrop-filter: blur(16px);
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast svg { width: 16px; height: 16px; fill: none; stroke: #C084FC; stroke-width: 2; }
+
   .header {
     position: fixed; top: 0; left: 0; right: 0; height: 72px;
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 32px; z-index: 100;
-    background: linear-gradient(to bottom, rgba(3,3,5,0.9), rgba(3,3,5,0.6) 60%, transparent);
+    background: linear-gradient(to bottom, rgba(10,6,24,0.9), rgba(10,6,24,0.6) 60%, transparent);
     backdrop-filter: blur(12px);
   }
   .logo-plate {
@@ -64,8 +76,7 @@
   .search-input {
     width: 100%; height: 52px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
     border-radius: var(--radius-pill); padding: 0 24px 0 56px; color: var(--text-main);
-    font-size: 15px; font-family: var(--font); outline: none;
-    backdrop-filter: blur(20px); transition: all 0.3s ease;
+    font-size: 15px; font-family: var(--font); outline: none; backdrop-filter: blur(20px); transition: all 0.3s ease;
   }
   .search-input::placeholder { color: rgba(255,255,255,0.5); }
   .search-input:focus { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.25); }
@@ -80,7 +91,6 @@
   .glass-plate svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; }
   .glass-plate--avatar { background: var(--surface); border-color: var(--surface); color: var(--text-dark); font-size: 14px; font-weight: 700; }
 
-  /* ===== HERO ===== */
   .hero-section { padding: 150px 40px 30px; text-align: center; max-width: 900px; margin: 0 auto; }
   .hero-title { font-size: clamp(40px, 6vw, 76px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; margin-bottom: 22px; }
   .hero-title .line-1 { display: block; color: rgba(255,255,255,0.4); }
@@ -124,7 +134,7 @@
     cursor: pointer; transition: all 0.2s ease;
   }
   .card-action-btn:hover { color: #fff; background: rgba(255,255,255,0.2); }
-  .card-action-btn.saved { color: var(--accent); background: rgba(212,160,23,0.2); border-color: rgba(212,160,23,0.5); }
+  .card-action-btn.saved { color: #fff; background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.5); }
   .card-action-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.6; }
 
   .movie-info { text-align: center; margin-top: 40px; }
@@ -135,8 +145,7 @@
   .arrow-btn {
     width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.05);
     border: 1px solid var(--border-color); color: var(--text-muted);
-    cursor: pointer; display: flex; justify-content: center; align-items: center;
-    transition: all 0.2s ease;
+    cursor: pointer; display: flex; justify-content: center; align-items: center; transition: all 0.2s ease;
   }
   .arrow-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.12); }
   .action-btn-glass, .ai-chat-btn {
@@ -151,8 +160,9 @@
   /* ===== СЕКЦИЯ РЕЗУЛЬТАТОВ СЛУЧАЙНОГО ПОДБОРА ===== */
   .random-results-section { width: 100%; max-width: 1200px; margin: 40px auto 0; padding: 32px 20px; border-top: 1px solid var(--border-color); display: none; }
   .random-results-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+  .random-results-title-wrap { display: flex; align-items: center; gap: 16px; }
   .random-results-title { font-size: 24px; font-weight: 600; letter-spacing: -0.03em; }
-  .refresh-side-btn {
+  .refresh-side-btn, .close-results-btn {
     width: 48px; height: 48px; border-radius: 50%;
     background: rgba(255,255,255,0.06); border: 1px solid var(--border-light);
     backdrop-filter: blur(16px); color: var(--text-main);
@@ -160,7 +170,8 @@
     transition: all 0.3s ease; flex-shrink: 0;
   }
   .refresh-side-btn:hover { background: rgba(255,255,255,0.12); transform: rotate(180deg); }
-  .refresh-side-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
+  .close-results-btn:hover { background: rgba(255,255,255,0.12); }
+  .refresh-side-btn svg, .close-results-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
   .results-list-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   .ra-item { background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; transition: all 0.2s; cursor: pointer; }
   .ra-item:hover { border-color: var(--border-light); transform: translateY(-4px); }
@@ -181,17 +192,19 @@
   }
   .overlay.active { opacity: 1; pointer-events: all; }
   .modal-window {
-    background: rgba(14,14,18,0.9); border: 1px solid var(--border-light);
+    background: rgba(14,14,18,0.95); border: 1px solid var(--border-light);
     border-radius: var(--radius-lg); width: 90%; max-width: 640px;
     padding: 32px; position: relative; max-height: 85vh; overflow-y: auto;
     backdrop-filter: blur(32px);
   }
   .modal-close {
     position: absolute; top: 18px; right: 18px; width: 36px; height: 36px;
-    background: rgba(255,255,255,0.06); border: 1px solid var(--border-color);
+    background: rgba(255,255,255,0.08); border: 1px solid var(--border-color);
     color: var(--text-main); border-radius: 50%; font-size: 18px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
+    display: flex; align-items: center; justify-content: center; z-index: 10;
+    transition: all 0.2s;
   }
+  .modal-close:hover { background: rgba(255,255,255,0.16); }
   .modal-window h2 { font-size: 22px; font-weight: 600; margin-bottom: 26px; letter-spacing: -0.03em; }
   .filter-group { margin-bottom: 24px; }
   .filter-label { font-size: 14px; font-weight: 500; color: var(--text-muted); margin-bottom: 14px; display: block; }
@@ -200,7 +213,9 @@
   .option-chip:hover { border-color: var(--border-light); color: var(--text-main); }
   .option-chip.active { background: var(--surface); color: var(--text-dark); border-color: var(--surface); font-weight: 500; }
   .submit-btn { width: 100%; background: var(--surface); color: var(--text-dark); border: none; padding: 14px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; font-family: var(--font); cursor: pointer; margin-top: 8px; }
+  .submit-btn:hover { opacity: 0.9; }
   .reset-btn { width: 100%; background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 12px 24px; border-radius: var(--radius-pill); font-size: 14px; font-family: var(--font); cursor: pointer; margin-top: 16px; }
+  .reset-btn:hover { color: var(--text-main); }
 
   .chat-container { max-width: 480px; display: flex; flex-direction: column; height: 500px; }
   .chat-messages { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; max-height: 350px; overflow-y: auto; }
@@ -245,7 +260,7 @@
   .catalog-poster-rating.low { background: rgba(239,68,68,0.9); color: #fff; }
   .catalog-eye-btn, .catalog-save-btn { position: absolute; top: 10px; width: 30px; height: 30px; border-radius: 50%; background: rgba(12,12,14,0.6); border: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: center; align-items: center; cursor: pointer; color: rgba(255,255,255,0.8); opacity: 0; transition: all 0.2s; z-index: 10; }
   .catalog-eye-btn { right: 10px; } .catalog-save-btn { right: 46px; }
-  .catalog-save-btn.saved { color: var(--accent); background: rgba(212,160,23,0.2); border-color: rgba(212,160,23,0.5); }
+  .catalog-save-btn.saved { color: #fff; background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.5); }
   .catalog-eye-btn svg, .catalog-save-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; }
   .catalog-meta-title { font-size: 15px; font-weight: 600; line-height: 1.3; }
   .catalog-meta-info { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -274,22 +289,23 @@
   .checkbox-group { display: flex; flex-direction: column; gap: 6px; padding-bottom: 12px; }
   .checkbox-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; font-size: 13px; color: rgba(255,255,255,0.75); }
   .checkbox-item:hover { background: rgba(255,255,255,0.04); color: var(--text-main); }
-  .checkbox-item.active { background: rgba(212,160,23,0.08); border: 1px solid rgba(212,160,23,0.22); color: var(--accent); }
+  .checkbox-item.active { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.3); color: var(--text-main); }
   .checkbox-item input { display: none; }
   .checkbox-mark { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid rgba(255,255,255,0.22); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .checkbox-item.active .checkbox-mark { background: var(--accent); border-color: var(--accent); }
+  .checkbox-item.active .checkbox-mark { background: var(--surface); border-color: var(--surface); }
   .checkbox-mark svg { width: 10px; height: 10px; fill: none; stroke: #000; stroke-width: 2.5; opacity: 0; }
   .checkbox-item.active .checkbox-mark svg { opacity: 1; }
   .filter-divider { height: 1px; background: var(--border-color); margin: 16px 0; }
   .filter-toggle-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
   .filter-toggle-label { font-size: 13px; color: rgba(255,255,255,0.8); }
   .filter-toggle { position: relative; width: 36px; height: 20px; background: rgba(255,255,255,0.1); border-radius: var(--radius-pill); cursor: pointer; transition: background 0.3s; flex-shrink: 0; }
-  .filter-toggle.active { background: rgba(212,160,23,0.4); }
+  .filter-toggle.active { background: rgba(255,255,255,0.5); }
   .filter-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; background: var(--surface); border-radius: 50%; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
   .filter-toggle.active::after { transform: translateX(16px); }
   .filter-content { display: none; } .filter-content.active { display: block; }
   .filters-apply-btn { width: 100%; background: var(--surface); color: var(--text-dark); border: none; padding: 13px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; font-family: var(--font); cursor: pointer; margin-top: 20px; }
   .reset-filters-btn { width: 100%; background: transparent; color: var(--text-muted); border: none; padding: 11px 24px; font-size: 13px; font-family: var(--font); cursor: pointer; margin-top: 6px; }
+  .reset-filters-btn:hover { color: var(--text-main); }
 
   .loader { display: flex; justify-content: center; align-items: center; padding: 80px 20px; color: var(--text-muted); font-size: 14px; }
   .loader__spinner { width: 24px; height: 24px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--text-main); border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 12px; }
@@ -334,13 +350,20 @@
   </div>
 </div>
 
-<!-- Блок результатов случайного подбора: кнопка "Обновить" НАД сеткой -->
+<!-- Блок результатов случайного подбора с крестиком -->
 <section class="random-results-section" id="randomResultsSection">
   <div class="random-results-header">
-    <h2 class="random-results-title">Вам может понравиться</h2>
-    <button class="refresh-side-btn" id="refreshMainResultsBtn" title="Обновить подборку">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-    </button>
+    <div class="random-results-title-wrap">
+      <h2 class="random-results-title">Вам может понравиться</h2>
+    </div>
+    <div style="display:flex;gap:12px;">
+      <button class="refresh-side-btn" id="refreshMainResultsBtn" title="Обновить подборку">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+      </button>
+      <button class="close-results-btn" id="closeResultsBtn" title="Скрыть раздел">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
   </div>
   <div class="results-list-grid" id="mainResultsList"></div>
 </section>
@@ -349,41 +372,43 @@
 <div class="overlay" id="randomAiOverlay">
   <div class="modal-window">
     <button class="modal-close" id="closeRandomAi">×</button>
-    <h2>Подбери под себя</h2>
-    <div class="filter-group"><span class="filter-label">Какое сегодня настроение?</span>
-      <div class="options-row">
-        <div class="option-chip" data-mood="sad" onclick="toggleChip(this)">😢 Грустное</div>
-        <div class="option-chip" data-mood="happy" onclick="toggleChip(this)">😄 Весёлое</div>
-        <div class="option-chip" data-mood="mystic" onclick="toggleChip(this)">🔮 Мистичное</div>
-        <div class="option-chip" data-mood="anxious" onclick="toggleChip(this)">😰 Тревожное</div>
-        <div class="option-chip" data-mood="romantic" onclick="toggleChip(this)">💕 Романтичное</div>
-        <div class="option-chip" data-mood="thoughtful" onclick="toggleChip(this)">🤔 Задумчивое</div>
+    <div id="aiFilters">
+      <h2>Подбери под себя</h2>
+      <div class="filter-group"><span class="filter-label">Какое сегодня настроение?</span>
+        <div class="options-row">
+          <div class="option-chip" data-mood="sad" onclick="toggleChip(this)">😢 Грустное</div>
+          <div class="option-chip" data-mood="happy" onclick="toggleChip(this)">😄 Весёлое</div>
+          <div class="option-chip" data-mood="mystic" onclick="toggleChip(this)">🔮 Мистичное</div>
+          <div class="option-chip" data-mood="anxious" onclick="toggleChip(this)">😰 Тревожное</div>
+          <div class="option-chip" data-mood="romantic" onclick="toggleChip(this)">💕 Романтичное</div>
+          <div class="option-chip" data-mood="thoughtful" onclick="toggleChip(this)">🤔 Задумчивое</div>
+        </div>
       </div>
-    </div>
-    <div class="filter-group"><span class="filter-label">Формат</span>
-      <div class="options-row">
-        <div class="option-chip" data-format="Фильм" onclick="toggleChip(this)">🎬 Фильм</div>
-        <div class="option-chip" data-format="Мультфильм" onclick="toggleChip(this)">🎨 Мультфильм</div>
-        <div class="option-chip" data-format="Документальный" onclick="toggleChip(this)">📄 Документальный</div>
+      <div class="filter-group"><span class="filter-label">Формат</span>
+        <div class="options-row">
+          <div class="option-chip" data-format="Фильм" onclick="toggleChip(this)">🎬 Фильм</div>
+          <div class="option-chip" data-format="Мультфильм" onclick="toggleChip(this)">🎨 Мультфильм</div>
+          <div class="option-chip" data-format="Документальный" onclick="toggleChip(this)">📄 Документальный</div>
+        </div>
       </div>
-    </div>
-    <div class="filter-group"><span class="filter-label">По характеру</span>
-      <div class="options-row">
-        <div class="option-chip" data-char="popular" onclick="toggleChip(this)">🔥 Популярное</div>
-        <div class="option-chip" data-char="new" onclick="toggleChip(this)">🆕 Новое</div>
-        <div class="option-chip" data-char="classic" onclick="toggleChip(this)">📚 Классика</div>
+      <div class="filter-group"><span class="filter-label">По характеру</span>
+        <div class="options-row">
+          <div class="option-chip" data-char="popular" onclick="toggleChip(this)">🔥 Популярное</div>
+          <div class="option-chip" data-char="new" onclick="toggleChip(this)">🆕 Новое</div>
+          <div class="option-chip" data-char="classic" onclick="toggleChip(this)">📚 Классика</div>
+        </div>
       </div>
-    </div>
-    <div class="filter-group"><span class="filter-label">Продолжительность</span>
-      <div class="options-row">
-        <div class="option-chip active" data-dur="any" onclick="toggleDuration(this)">Любая</div>
-        <div class="option-chip" data-dur="short" onclick="toggleDuration(this)">&lt; 90 мин</div>
-        <div class="option-chip" data-dur="medium" onclick="toggleDuration(this)">90–120 мин</div>
-        <div class="option-chip" data-dur="long" onclick="toggleDuration(this)">&gt; 120 мин</div>
+      <div class="filter-group"><span class="filter-label">Продолжительность</span>
+        <div class="options-row">
+          <div class="option-chip active" data-dur="any" onclick="toggleDuration(this)">Любая</div>
+          <div class="option-chip" data-dur="short" onclick="toggleDuration(this)">&lt; 90 мин</div>
+          <div class="option-chip" data-dur="medium" onclick="toggleDuration(this)">90–120 мин</div>
+          <div class="option-chip" data-dur="long" onclick="toggleDuration(this)">&gt; 120 мин</div>
+        </div>
       </div>
+      <button class="submit-btn" id="generateRandomBtn">Показать 3 фильма</button>
+      <button class="reset-btn" onclick="resetFilters()">↺ Сбросить фильтры</button>
     </div>
-    <button class="submit-btn" id="generateRandomBtn">Показать 3 фильма</button>
-    <button class="reset-btn" onclick="resetFilters()">↺ Сбросить фильтры</button>
   </div>
 </div>
 
@@ -455,6 +480,12 @@
           <div class="filter-divider" style="margin: 12px 0;"></div>
           <div class="filter-toggle-item"><span class="filter-toggle-label">Можно с детьми</span><div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div></div>
         </div></div>
+        <div class="filter-divider"></div>
+        <div class="filter-section open"><div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Дополнительно</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div><div class="filter-section-content"><div class="checkbox-group">
+          <div class="filter-toggle-item"><span class="filter-toggle-label">С субтитрами</span><div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div></div>
+          <div class="filter-toggle-item"><span class="filter-toggle-label">На языке оригинала</span><div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div></div>
+          <div class="filter-toggle-item"><span class="filter-toggle-label">Скрыть просмотренное</span><div class="filter-toggle" onclick="toggleFilterSwitch(this)"></div></div>
+        </div></div></div>
         <button class="filters-apply-btn" onclick="applyFilters()">Применить фильтры</button>
         <button class="reset-filters-btn" onclick="resetAllFilters()">Сбросить все фильтры</button>
       </div>
@@ -530,6 +561,9 @@
     <div class="catalog-grid" id="catalogGrid"></div>
   </div>
 </section>
+
+<!-- Toast уведомление -->
+<div class="toast" id="toast"></div>
 
 <script>
   function clean(obj) {
@@ -614,6 +648,16 @@
   let movieData=[]; let currentIndex=4; const savedMovies=new Set();
   const stage=document.getElementById('stage');
 
+  /* ===== TOAST ===== */
+  var toastTimer;
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>' + msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  }
+
   async function loadMovies() {
     try {
       let data;
@@ -643,7 +687,19 @@
       if(off!==0){ currentIndex+=off; initCarousel(); }
       else window.location.href='movie.html?id='+data.id;
     });
-    card.querySelector('[data-save]').addEventListener('click',(e)=>{ e.stopPropagation(); const id=parseInt(e.currentTarget.dataset.save); savedMovies.has(id)?savedMovies.delete(id):savedMovies.add(id); e.currentTarget.classList.toggle('saved'); });
+    card.querySelector('[data-save]').addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const id=parseInt(e.currentTarget.dataset.save);
+      if(savedMovies.has(id)){
+        savedMovies.delete(id);
+        e.currentTarget.classList.remove('saved');
+        showToast('Убрано из сохранённых');
+      } else {
+        savedMovies.add(id);
+        e.currentTarget.classList.add('saved');
+        showToast('✓ Сохранено');
+      }
+    });
     card.querySelector('[data-eye]').addEventListener('click',(e)=>{ e.stopPropagation(); showEyeModal(parseInt(e.currentTarget.dataset.eye)); });
     return card;
   }
@@ -709,7 +765,7 @@
     document.getElementById('mainResultsList').innerHTML=picks.map(m=>`
       <div class="ra-item" onclick="window.location.href='movie.html?id=${m.id}'">
         <div class="ra-head">
-          <div class="ra-poster" style="background-image:url('${m.poster}')"></div>
+          <div class="ra-poster" style="background-image: url('${m.poster}')"></div>
           <div class="ra-info"><div class="ra-title">${m.title}</div><div class="ra-sub">${m.year} · ${m.runtime} мин · ${m.countries[0]||''}</div></div>
           <span class="ra-rating ${getRatingClass(m.rating)}">${m.rating}</span>
         </div>
@@ -723,6 +779,9 @@
     setTimeout(()=>document.getElementById('randomResultsSection').scrollIntoView({behavior:'smooth',block:'start'}),100);
   });
   document.getElementById('refreshMainResultsBtn').addEventListener('click',renderRandomResults);
+  document.getElementById('closeResultsBtn').addEventListener('click',()=>{
+    document.getElementById('randomResultsSection').style.display='none';
+  });
 
   const chatInput=document.getElementById('chatInput'), chatMessages=document.getElementById('chatMessages');
   function addMessage(t,u){const m=document.createElement('div');m.className='message '+(u?'user':'ai');m.textContent=t;chatMessages.appendChild(m);chatMessages.scrollTop=chatMessages.scrollHeight;}
@@ -745,14 +804,30 @@
       item.innerHTML=`
         <div class="catalog-poster-wrap" style="background-image:url('${m.poster}')" data-id="${m.id}">
           <div class="catalog-poster-rating ${getRatingClass(m.rating)}">${m.rating}</div>
-          <button class="catalog-save-btn ${savedMovies.has(m.id)?'saved':''}" data-save="${m.id}"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></button>
-          <button class="catalog-eye-btn" data-eye="${m.id}"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+          <button class="catalog-save-btn ${savedMovies.has(m.id)?'saved':''}" data-save="${m.id}" title="Сохранить">
+            <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+          </button>
+          <button class="catalog-eye-btn" data-eye="${m.id}" title="Подробнее">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </button>
           <div class="catalog-poster-overlay"><div class="catalog-poster-vibe">${m.vibe}</div></div>
         </div>
         <div class="catalog-meta"><div class="catalog-meta-title">${m.title}</div><div class="catalog-meta-info"><span>${m.year}</span><span class="dot"></span><span>${m.runtime} мин</span><span class="dot"></span><span>${m.countries[0]||''}</span></div></div>`;
       grid.appendChild(item);
     });
-    grid.querySelectorAll('.catalog-save-btn').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();const id=parseInt(b.dataset.save);savedMovies.has(id)?savedMovies.delete(id):savedMovies.add(id);b.classList.toggle('saved');}));
+    grid.querySelectorAll('.catalog-save-btn').forEach(b=>b.addEventListener('click',e=>{
+      e.stopPropagation();
+      const id=parseInt(b.dataset.save);
+      if(savedMovies.has(id)){
+        savedMovies.delete(id);
+        b.classList.remove('saved');
+        showToast('Убрано из сохранённых');
+      } else {
+        savedMovies.add(id);
+        b.classList.add('saved');
+        showToast('✓ Сохранено');
+      }
+    }));
     grid.querySelectorAll('.catalog-eye-btn').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();showEyeModal(parseInt(b.dataset.eye));}));
     grid.querySelectorAll('.catalog-poster-wrap').forEach(w=>w.addEventListener('click',()=>{window.location.href='movie.html?id='+w.dataset.id;}));
   }

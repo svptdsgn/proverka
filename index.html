@@ -7,12 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #08080a;
+    --bg: #030305;
     --surface: #FAFAFA;
-    --surface-dark: #0E0E0F;
+    --surface-dark: #0E0E12;
     --text-main: #FAFAFA;
     --text-dark: #050505;
-    --text-muted: #8A8A8A;
+    --text-muted: #8A8A9A;
     --border-color: rgba(255,255,255,0.08);
     --border-light: rgba(255,255,255,0.16);
     --accent: #D4A017;
@@ -23,14 +23,14 @@
     --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  /* ГЛУБОКИЙ АТМОСФЕРНЫЙ ФОН */
   body {
     background: 
-      radial-gradient(ellipse at 15% 25%, rgba(200,200,210,0.35) 0%, transparent 50%),
-      radial-gradient(ellipse at 85% 75%, rgba(160,160,170,0.25) 0%, transparent 55%),
-      radial-gradient(ellipse at 50% 90%, rgba(220,220,230,0.20) 0%, transparent 45%),
-      radial-gradient(ellipse at 30% 60%, rgba(180,180,190,0.18) 0%, transparent 40%),
-      radial-gradient(ellipse at 70% 40%, rgba(140,140,150,0.15) 0%, transparent 50%),
-      linear-gradient(135deg, #050507 0%, #1a1a1e 20%, #0a0a0c 40%, #222226 60%, #0a0a0c 80%, #050507 100%);
+      radial-gradient(ellipse at 20% 20%, rgba(50, 20, 90, 0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(20, 40, 100, 0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(80, 10, 60, 0.2) 0%, transparent 60%),
+      linear-gradient(160deg, #030305 0%, #080810 30%, #0f0518 60%, #030305 100%);
     background-attachment: fixed;
     color: var(--text-main);
     font-family: var(--font);
@@ -45,8 +45,8 @@
     position: fixed; top: 0; left: 0; right: 0; height: 72px;
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 32px; z-index: 100;
-    background: linear-gradient(to bottom, rgba(5,5,10,0.85) 0%, rgba(5,5,10,0.6) 60%, transparent 100%);
-    backdrop-filter: blur(8px);
+    background: linear-gradient(to bottom, rgba(3,3,5,0.9) 0%, rgba(3,3,5,0.7) 60%, transparent 100%);
+    backdrop-filter: blur(12px);
   }
   .logo-plate {
     display: inline-flex; align-items: center; padding: 10px 20px;
@@ -59,38 +59,37 @@
   .logo {
     font-size: 17px; font-weight: 700; color: #fff; letter-spacing: 0.04em; text-transform: uppercase;
     display: inline-flex; align-items: flex-start; gap: 3px; white-space: nowrap;
-    text-shadow: -2px 0 rgba(255,0,0,0.7), 2px 0 rgba(0,255,255,0.7), 0 -1px rgba(0,255,0,0.5), 0 1px rgba(255,255,0,0.5);
+    text-shadow: -2px 0 rgba(255,0,0,0.5), 2px 0 rgba(0,255,255,0.5);
   }
   .logo sup { font-size: 9px; font-weight: 500; color: var(--text-muted); line-height: 1; margin-top: 2px; text-shadow: none; }
   .search-container { position: relative; flex: 1; max-width: 560px; margin: 0 32px; }
   .search-input {
-    width: 100%; height: 52px; background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.20);
+    width: 100%; height: 52px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
     border-radius: var(--radius-pill); padding: 0 24px 0 56px; color: var(--text-main);
     font-size: 15px; font-weight: 400; font-family: var(--font); outline: none;
     backdrop-filter: blur(20px) saturate(140%); transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
   }
-  .search-input::placeholder { color: rgba(255,255,255,0.6); }
-  .search-input:focus { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.35); box-shadow: 0 0 0 4px rgba(255,255,255,0.06); }
-  .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: none; stroke: rgba(255,255,255,0.7); stroke-width: 2; pointer-events: none; }
+  .search-input::placeholder { color: rgba(255,255,255,0.5); }
+  .search-input:focus { background: rgba(255,255,255,0.10); border-color: rgba(255,255,255,0.25); box-shadow: 0 0 0 4px rgba(255,255,255,0.04); }
+  .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; fill: none; stroke: rgba(255,255,255,0.6); stroke-width: 2; pointer-events: none; }
   .header-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
   .glass-plate {
-    width: 44px; height: 44px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.14);
+    width: 44px; height: 44px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
     border-radius: 50%; backdrop-filter: blur(16px) saturate(140%); color: rgba(255,255,255,0.85);
     display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.25s ease;
   }
-  .glass-plate:hover { color: var(--text-main); background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.28); }
+  .glass-plate:hover { color: var(--text-main); background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.25); }
   .glass-plate svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; }
   .glass-plate--avatar { background: var(--surface); border-color: var(--surface); color: var(--text-dark); font-size: 14px; font-weight: 700; }
   .glass-plate--avatar:hover { background: #fff; border-color: #fff; transform: scale(1.05); }
 
   .hero-section { padding: 160px 40px 40px; text-align: center; max-width: 900px; margin: 0 auto; }
   .hero-title { font-size: clamp(40px, 6vw, 76px); font-weight: 600; letter-spacing: -0.04em; line-height: 1.04; margin-bottom: 22px; }
-  .hero-title .line-1 { display: block; color: rgba(255,255,255,0.4); }
+  .hero-title .line-1 { display: block; color: rgba(255,255,255,0.5); }
   .hero-title .line-2 { display: block; color: var(--text-main); }
   .hero-subtitle { font-size: 16px; color: var(--text-muted); font-weight: 400; line-height: 1.6; max-width: 640px; margin: 0 auto; }
 
   .main-content { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px 20px 60px; }
-
   .carousel-container { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 1200px; position: relative; }
   .carousel-stage { position: relative; width: 100%; height: 440px; display: flex; justify-content: center; align-items: center; }
   .movie-card {
@@ -137,7 +136,7 @@
     width: 100%; max-width: 900px; height: 460px;
     transform: translateX(0) scale(1) !important; opacity: 1 !important; filter: brightness(1) !important;
     z-index: 50; cursor: default; display: flex; flex-direction: row;
-    background: rgba(14,14,16,0.95) !important; border: 1px solid var(--border-light);
+    background: rgba(14,14,18,0.95) !important; border: 1px solid var(--border-light);
     border-radius: var(--radius-lg); overflow: hidden; backdrop-filter: blur(24px);
   }
   .carousel-stage.has-expanded .movie-card:not(.expanded) { opacity: 0; pointer-events: none; }
@@ -187,14 +186,14 @@
   .ai-chat-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
 
   .overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+    position: fixed; inset: 0; background: rgba(0,0,0,0.8);
     display: flex; justify-content: center; align-items: center;
     z-index: 200; opacity: 0; pointer-events: none;
     transition: opacity 0.4s ease; backdrop-filter: blur(16px);
   }
   .overlay.active { opacity: 1; pointer-events: all; }
   .modal-window {
-    background: rgba(16,16,18,0.8); border: 1px solid var(--border-light);
+    background: rgba(14,14,18,0.9); border: 1px solid var(--border-light);
     border-radius: var(--radius-lg); width: 90%; max-width: 640px;
     padding: 32px; position: relative; max-height: 85vh; overflow-y: auto;
     backdrop-filter: blur(32px); box-shadow: 0 40px 90px rgba(0,0,0,0.7);
@@ -248,31 +247,40 @@
   .reset-btn { width: 100%; background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 12px 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 500; font-family: var(--font); cursor: pointer; margin-top: 16px; transition: all 0.2s ease; }
   .reset-btn:hover { background: rgba(255,255,255,0.05); color: var(--text-main); border-color: var(--border-light); }
 
-  /* Аккордеон результатов в модалке */
-  .ai-results-layout { display: flex; gap: 16px; align-items: flex-start; }
-  .ai-results-layout .results-list { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  /* НОВЫЙ БЛОК РЕЗУЛЬТАТОВ НА ГЛАВНОЙ */
+  .random-results-section { padding: 40px 0; border-top: 1px solid var(--border-color); }
+  .random-results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; max-width: 1400px; margin-left: auto; margin-right: auto; padding: 0 40px; }
   .refresh-side-btn {
-    position: sticky; top: 0; flex-shrink: 0;
     width: 48px; height: 48px; border-radius: 50%;
     background: rgba(255,255,255,0.06); border: 1px solid var(--border-light);
     backdrop-filter: blur(16px); color: var(--text-main);
     cursor: pointer; display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s ease;
+    transition: all 0.3s ease; flex-shrink: 0;
   }
   .refresh-side-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.3); transform: rotate(180deg); }
   .refresh-side-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-  .ra-item { background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; transition: border-color 0.2s; cursor: pointer; }
-  .ra-item:hover { border-color: var(--border-light); }
-  .ra-head { display: flex; align-items: center; gap: 16px; padding: 14px 18px; }
+  .results-list-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 20px; 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    padding: 0 40px; 
+  }
+  .ra-item { 
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; transition: border-color 0.2s, transform 0.2s; cursor: pointer; 
+  }
+  .ra-item:hover { border-color: var(--border-light); transform: translateY(-4px); }
+  .ra-head { display: flex; align-items: center; gap: 16px; padding: 16px; }
   .ra-poster { width: 64px; height: 96px; border-radius: 12px; background-size: cover; background-position: center; background-color: var(--surface-dark); flex-shrink: 0; border: 1px solid var(--border-color); }
   .ra-info { flex: 1; min-width: 0; }
-  .ra-title { font-size: 16px; font-weight: 600; }
+  .ra-title { font-size: 16px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .ra-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-  .ra-rating { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-pill); flex-shrink: 0; }
-  .ra-rating.high { background: rgba(22,163,74,0.9); color: #fff; }
-  .ra-rating.medium { background: rgba(202,138,4,0.9); color: #fff; }
-  .ra-rating.low { background: rgba(239,68,68,0.9); color: #fff; }
+  .ra-rating { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-pill); flex-shrink: 0; color: #fff; }
+  .ra-rating.high { background: rgba(22,163,74,0.9); }
+  .ra-rating.medium { background: rgba(202,138,4,0.9); }
+  .ra-rating.low { background: rgba(239,68,68,0.9); }
 
   .catalog-section { padding: 60px 40px; border-top: 1px solid var(--border-color); max-width: 1400px; margin: 0 auto; width: 100%; }
   .catalog-header { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; }
@@ -323,7 +331,7 @@
   .filter-section-arrow { width: 16px; height: 16px; fill: none; stroke: var(--text-muted); stroke-width: 2; transition: transform 0.3s ease; }
   .filter-section.open .filter-section-arrow { transform: rotate(180deg); }
   .filter-section-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16,1,0.3,1); }
-  .filter-section.open .filter-section-content { max-height: 1000px; }
+  .filter-section.open .filter-section-content { max-height: 2000px; }
   .checkbox-group { display: flex; flex-direction: column; gap: 6px; padding-bottom: 12px; }
   .checkbox-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: transparent; border: 1px solid transparent; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; font-size: 13px; color: rgba(255,255,255,0.75); }
   .checkbox-item:hover { background: rgba(255,255,255,0.04); color: var(--text-main); }
@@ -357,6 +365,8 @@
     .glass-plate { width: 40px; height: 40px; }
     .hero-section { padding: 120px 20px 20px; }
     .catalog-layout { grid-template-columns: 1fr; }
+    .random-results-header { padding: 0 20px; flex-direction: column; align-items: flex-start; gap: 16px; }
+    .results-list-grid { padding: 0 20px; }
   }
 </style>
 </head>
@@ -381,7 +391,7 @@
   <section class="hero-section">
     <h1 class="hero-title">
       <span class="line-1">Иногда</span>
-      <span class="line-2">Иногда фильм находит нас сам </span>
+      <span class="line-2">фильм находит нас сам</span>
     </h1>
     <p class="hero-subtitle">Но чтобы это случилось, нужно прислушаться к себе. Какое сейчас состояние? Выберите эмоцию, а мы подберем то, что стоит включить</p>
   </section>
@@ -415,6 +425,17 @@
       </div>
     </div>
   </div>
+
+  <!-- НОВЫЙ БЛОК: Результаты случайного подбора на главной странице -->
+  <section id="random-results-section" class="random-results-section" style="display: none;">
+    <div class="random-results-header">
+      <h2 class="catalog-title">Вам может понравиться</h2>
+      <button class="refresh-side-btn" id="refreshMainResultsBtn" title="Обновить подборку">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+      </button>
+    </div>
+    <div class="results-list-grid" id="mainResultsList"></div>
+  </section>
 
   <!-- Модалка случайного подбора с фильтрами -->
   <div class="overlay" id="randomAiOverlay">
@@ -460,16 +481,6 @@
         </div>
         <button class="submit-btn" id="generateRandomBtn" style="margin-top: 24px;">Показать 3 фильма</button>
         <button class="reset-btn" onclick="resetFilters()">↺ Сбросить фильтры</button>
-      </div>
-      <div id="aiResults" style="display: none;">
-        <h2>Вам может понравиться</h2>
-        <div class="ai-results-layout">
-          <div class="results-list" id="aiResultsList"></div>
-          <button class="refresh-side-btn" id="refreshResultsBtn" title="Обновить подборку">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-          </button>
-        </div>
-        <button class="submit-btn" style="margin-top: 24px; background: transparent; border: 1px solid var(--border-color); color: var(--text-main);" onclick="resetAiSearch()">Изменить параметры</button>
       </div>
     </div>
   </div>
@@ -620,7 +631,7 @@
           <div class="filter-section">
             <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Компания</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
             <div class="filter-section-content"><div class="checkbox-group" id="companyFilters">
-              <label class="checkbox-item"><input type="checkbox" value="alone"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🛋️ Одному </label>
+              <label class="checkbox-item"><input type="checkbox" value="alone"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🛋️ Одному</label>
               <label class="checkbox-item"><input type="checkbox" value="date"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>💕 На свидание</label>
               <label class="checkbox-item"><input type="checkbox" value="friends"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎉 С друзьями</label>
               <label class="checkbox-item"><input type="checkbox" value="family"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>👨‍👩‍👧 Семейный</label>
@@ -630,12 +641,21 @@
           <div class="filter-section">
             <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Сеттинг</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
             <div class="filter-section-content"><div class="checkbox-group" id="settingFilters">
-              <label class="checkbox-item"><input type="checkbox" value="90s"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>📼 90-е бандитские</label>
+              <label class="checkbox-item"><input type="checkbox" value="space"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🚀 Космос</label>
+              <label class="checkbox-item"><input type="checkbox" value="racing"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🏎️ Гонки и скорость</label>
+              <label class="checkbox-item"><input type="checkbox" value="pursuit"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🏃 Преследование / Смерть</label>
               <label class="checkbox-item"><input type="checkbox" value="house"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🏚️ Неладное в доме</label>
-              <label class="checkbox-item"><input type="checkbox" value="war"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>⚔️ Романтичное</label>
-              <label class="checkbox-item"><input type="checkbox" value="journey"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🧭 Космос</label>
-              <label class="checkbox-item"><input type="checkbox" value="city"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🌆 Про машины</label>
+              <label class="checkbox-item"><input type="checkbox" value="city"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🌆 Город</label>
               <label class="checkbox-item"><input type="checkbox" value="art"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎭 Искусство и книги</label>
+            </div></div>
+          </div>
+          <div class="filter-divider"></div>
+          <div class="filter-section">
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Сюжетные тропы</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="tropeFilters">
+              <label class="checkbox-item"><input type="checkbox" value="unexpected_ending"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🔄 Неожиданный финал</label>
+              <label class="checkbox-item"><input type="checkbox" value="timeloop"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>⏳ Петля времени</label>
+              <label class="checkbox-item"><input type="checkbox" value="deception"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎭 Обман и иллюзия</label>
             </div></div>
           </div>
           <div class="filter-divider"></div>
@@ -652,19 +672,18 @@
             <div class="filter-section-content"><div class="checkbox-group" id="toneFilters">
               <label class="checkbox-item"><input type="checkbox" value="dark"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🌑 Мрачное</label>
               <label class="checkbox-item"><input type="checkbox" value="light"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>☀️ Светлое</label>
-              
-            
+              <label class="checkbox-item"><input type="checkbox" value="inspiring"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>✨ Вдохновляющее</label>
+              <label class="checkbox-item"><input type="checkbox" value="ironic"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>😏 Ироничное</label>
             </div></div>
           </div>
           <div class="filter-divider"></div>
           <div class="filter-section">
-            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Визуальный стиль</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
-            <div class="filter-section-content"><div class="checkbox-group" id="visualFilters">
-              <label class="checkbox-item"><input type="checkbox" value="bw"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>⚫ Чёрно-белый</label>
-              <label class="checkbox-item"><input type="checkbox" value="color"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎨 Цветной</label>
-              <label class="checkbox-item"><input type="checkbox" value="square"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>📺 Почти квадратный кадр (4:3)</label>
-              <label class="checkbox-item"><input type="checkbox" value="wide"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎬 Широкий экран (2.35:1)</label>
-              <label class="checkbox-item"><input type="checkbox" value="standard"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>📽️ Стандартный (1.85:1)</label>
+            <div class="filter-section-header" onclick="toggleFilterSection(this)"><span class="filter-section-title">Для эстетов</span><svg class="filter-section-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="filter-section-content"><div class="checkbox-group" id="aestheticFilters">
+              <label class="checkbox-item"><input type="checkbox" value="niche"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎯 Специфичное / Не для всех</label>
+              <label class="checkbox-item"><input type="checkbox" value="visual"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>🎨 Визуальный шедевр</label>
+              <label class="checkbox-item"><input type="checkbox" value="cult"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>📼 Культовое</label>
+              <label class="checkbox-item"><input type="checkbox" value="bw"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>⚫ Чёрно-белый стиль</label>
             </div></div>
           </div>
           <button class="filters-apply-btn" onclick="applyFilters()">Применить фильтры</button>
@@ -743,12 +762,25 @@
     if (/иронич|сатирич|юмор/.test(mood)) tones.push('ironic');
 
     const settings = [];
-    if (/90-х|девяност/.test(text)) settings.push('90s');
+    if (/космос|космическ|планет|астронавт|орбит/.test(text)) settings.push('space');
+    if (/преследован|умирает|убивает|маньяк|жертв/.test(text)) settings.push('pursuit');
+    if (/гонк|скорост|машин|ралли|драйв/.test(text)) settings.push('racing');
     if (/дом|семь|загородн|родител|брат|сестр|мать|отец/.test(text)) settings.push('house');
-    if (/войн|чум|фронт|конфликт/.test(text)) settings.push('war');
-    if (/дорог|экспедиц|путешеств|путь|уезжа/.test(text)) settings.push('journey');
     if (/париж|рим|нью-йорк|лос-анджелес|город|улиц/.test(text)) settings.push('city');
     if (/искусств|книг|кинематограф|съёмк|фильм о|художник|писател/.test(text)) settings.push('art');
+
+    const tropes = [];
+    if (/неожиданн|финал|твист|концовк/.test(text)) tropes.push('unexpected_ending');
+    if (/петл|повтор|день сурка|параллельн/.test(text)) tropes.push('timeloop');
+    if (/обман|лож|тайн|секрет|предательств/.test(text)) tropes.push('deception');
+
+    const aesthetics = [];
+    if (/специфичн|нишев|артхаус|не для всех|странн/.test(text)) aesthetics.push('niche');
+    if (/визуальн|шедевр|оператор|красив/.test(text)) aesthetics.push('visual');
+    if (/культов|классик/.test(text)) aesthetics.push('cult');
+    
+    const color = (m.details?.color || '').toLowerCase();
+    if (color.includes('чёрн') || color.includes('черн')) aesthetics.push('bw');
 
     const companies = [];
     if (/созерцат|философ|одиночеств|сосредоточенн/.test(mood)) companies.push('alone');
@@ -756,16 +788,7 @@
     if (/дружб|компани|скейт|сотрудничеств/.test(text)) companies.push('friends');
     if (/семейн|дет|родител|брат|сестр/.test(text)) companies.push('family');
 
-    const color = (m.details?.color || '').toLowerCase();
-    const ar = (m.details?.aspect_ratio || '');
-    const visualKeys = [];
-    if (color.includes('чёрн')) visualKeys.push('bw');
-    if (color.includes('цветн')) visualKeys.push('color');
-    if (ar === '1.33:1' || ar === '1.37:1' || ar === '4:3') visualKeys.push('square');
-    if (ar === '2.35:1' || ar === '2.39:1') visualKeys.push('wide');
-    if (ar === '1.85:1') visualKeys.push('standard');
-
-    return { moods, load, tones, settings, companies, visualKeys };
+    return { moods, load, tones, settings, tropes, aesthetics, companies };
   }
 
   function transformMovie(raw) {
@@ -953,7 +976,6 @@
     document.querySelectorAll('.option-chip[data-dur="any"]').forEach(c => c.classList.add('active'));
   }
   function resetToFilters() { document.getElementById('aiFilters').style.display = 'block'; document.getElementById('aiResults').style.display = 'none'; }
-  function resetAiSearch() { document.getElementById('aiFilters').style.display = 'block'; document.getElementById('aiResults').style.display = 'none'; }
 
   function pickRandomMovies() {
     const moods = [...document.querySelectorAll('#aiFilters .option-chip.active[data-mood]')].map(c => c.dataset.mood);
@@ -974,28 +996,43 @@
     return shuffled.slice(0, Math.min(3, shuffled.length));
   }
 
-  function renderRandomResults() {
-    const picks = pickRandomMovies();
-    document.getElementById('aiResultsList').innerHTML = picks.map(m => `
+  // Рендер результатов НА ГЛАВНОЙ СТРАНИЦЕ
+  function renderMainRandomResults(picks) {
+    const container = document.getElementById('mainResultsList');
+    container.innerHTML = picks.map(m => `
       <div class="ra-item" onclick="window.location.href='movie.html?id=${m.id}'">
         <div class="ra-head">
-          <div class="ra-poster" style="background-image:url('${m.poster}')"></div>
+          <div class="ra-poster" style="background-image: url('${m.poster}')"></div>
           <div class="ra-info">
             <div class="ra-title">${m.title}</div>
             <div class="ra-sub">${m.year} · ${m.runtime} мин · ${m.countries[0] || ''}</div>
           </div>
           <span class="ra-rating ${getRatingClass(m.rating)}">${m.rating}</span>
         </div>
-      </div>`).join('');
+      </div>
+    `).join('');
   }
 
+  // Обработчик кнопки "Показать 3 фильма" в модалке
   document.getElementById('generateRandomBtn').addEventListener('click', () => {
-    renderRandomResults();
-    document.getElementById('aiFilters').style.display = 'none';
-    document.getElementById('aiResults').style.display = 'block';
+    const picks = pickRandomMovies();
+    renderMainRandomResults(picks);
+    
+    randomAiOverlay.classList.remove('active');
+    resetToFilters();
+    
+    // Плавная прокрутка к блоку результатов
+    const resultsSection = document.getElementById('random-results-section');
+    resultsSection.style.display = 'block';
+    setTimeout(() => {
+      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   });
-  document.getElementById('refreshResultsBtn').addEventListener('click', () => {
-    renderRandomResults();
+
+  // Обработчик кнопки "Обновить" рядом с аккордеоном на главной
+  document.getElementById('refreshMainResultsBtn').addEventListener('click', () => {
+    const picks = pickRandomMovies();
+    renderMainRandomResults(picks);
   });
 
   /* ============ AI-ЧАТ ============ */
@@ -1080,7 +1117,8 @@
     const cf = document.getElementById('countryFilters');
     cf.innerHTML = countries.map(c => `<label class="checkbox-item"><input type="checkbox" value="${c}"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>${c}</label>`).join('');
 
-    const genres = [...new Set(movieData.flatMap(m => m.genres))];
+    // Сортировка жанров по алфавиту
+    const genres = [...new Set(movieData.flatMap(m => m.genres))].sort((a, b) => a.localeCompare(b, 'ru'));
     const gf = document.getElementById('genreFilters');
     gf.innerHTML = genres.map(g => `<label class="checkbox-item"><input type="checkbox" value="${g}"><span class="checkbox-mark"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>${GENRE_LABELS[g] || g}</label>`).join('');
 
@@ -1136,12 +1174,14 @@
     if (companies.length) filtered = filtered.filter(m => m.companies.some(c => companies.includes(c)));
     const settings = getActive('settingFilters');
     if (settings.length) filtered = filtered.filter(m => m.settings.some(s => settings.includes(s)));
+    const tropes = getActive('tropeFilters');
+    if (tropes.length) filtered = filtered.filter(m => m.tropes.some(t => tropes.includes(t)));
+    const aesthetics = getActive('aestheticFilters');
+    if (aesthetics.length) filtered = filtered.filter(m => m.aesthetics.some(a => aesthetics.includes(a)));
     const tempos = getActive('tempoFilters');
     if (tempos.length) filtered = filtered.filter(m => tempos.includes(m.tempo));
     const tones = getActive('toneFilters');
     if (tones.length) filtered = filtered.filter(m => m.tones.some(t => tones.includes(t)));
-    const visual = getActive('visualFilters');
-    if (visual.length) filtered = filtered.filter(m => m.visualKeys.some(v => visual.includes(v)));
 
     renderCatalog(filtered);
   }

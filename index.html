@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -20,6 +21,7 @@
     --purple-dark: #7C3AED;
     --green: #16A34A;
     --danger: #EF4444;
+    --blue: #2563EB;
     --radius-sm: 14px;
     --radius-md: 22px;
     --radius-lg: 30px;
@@ -45,7 +47,7 @@
   a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
   a:hover { color: #EAB308; }
 
-  /* ===== HEADER (как в movie.html) ===== */
+  /* ===== HEADER ===== */
   .header {
     position: fixed; top: 0; left: 0; right: 0; height: 72px;
     display: flex; align-items: center; justify-content: space-between;
@@ -242,6 +244,32 @@
   .catalog-section { padding: 60px 40px; border-top: 1px solid var(--border-color); max-width: 1400px; margin: 0 auto; width: 100%; }
   .catalog-title { font-size: 28px; font-weight: 600; letter-spacing: -0.03em; margin-bottom: 32px; }
   .catalog-layout { display: grid; grid-template-columns: 340px 1fr; gap: 40px; }
+
+  /* ===== ТУЛБАР СОРТИРОВКИ ===== */
+  .catalog-toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; }
+  .sort-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-muted); }
+  .sort-dropdown { position: relative; }
+  .sort-trigger {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.08); border: 1px solid var(--border-light);
+    color: var(--text-main); padding: 11px 20px; border-radius: var(--radius-pill);
+    font-family: var(--font); font-size: 14px; font-weight: 500; cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .sort-trigger:hover { background: rgba(255,255,255,0.14); }
+  .sort-trigger svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform 0.25s ease; }
+  .sort-trigger.open svg { transform: rotate(180deg); }
+  .sort-menu {
+    position: absolute; top: calc(100% + 8px); left: 0; min-width: 230px;
+    background: rgba(10,10,14,0.98); border: 1px solid var(--border-light);
+    border-radius: 16px; padding: 6px; display: none; z-index: 60;
+    backdrop-filter: blur(20px); box-shadow: 0 20px 44px rgba(0,0,0,0.55);
+  }
+  .sort-menu.open { display: block; }
+  .sort-option { padding: 11px 16px; border-radius: 10px; font-size: 14px; color: var(--text-muted); cursor: pointer; transition: all 0.15s ease; }
+  .sort-option:hover { background: rgba(255,255,255,0.07); color: var(--text-main); }
+  .sort-option.active { background: var(--blue); color: #fff; font-weight: 500; }
+
   .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 32px 24px; }
   .catalog-item { display: flex; flex-direction: column; gap: 12px; }
   .catalog-poster-wrap { position: relative; border-radius: var(--radius-md); overflow: hidden; cursor: pointer; transition: transform 0.4s cubic-bezier(0.16,1,0.3,1); aspect-ratio: 2/3; background-size: cover; background-position: center; background-color: var(--surface-dark); border: 1px solid rgba(255,255,255,0.05); }
@@ -563,7 +591,26 @@
         <button class="reset-filters-btn" onclick="resetAllFilters()">Сбросить все фильтры</button>
       </div>
     </aside>
-    <div class="catalog-grid" id="catalogGrid"></div>
+
+    <div class="catalog-right">
+      <!-- СОРТИРОВКА -->
+      <div class="catalog-toolbar">
+        <span class="sort-label">Сортировать</span>
+        <div class="sort-dropdown" id="sortDropdown">
+          <button class="sort-trigger" id="sortTrigger">
+            <span id="sortTriggerLabel">По соответствию</span>
+            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="sort-menu" id="sortMenu">
+            <div class="sort-option active" data-sort="relevance">По соответствию</div>
+            <div class="sort-option" data-sort="rating">По рейтингу</div>
+            <div class="sort-option" data-sort="new">По новизне</div>
+            <div class="sort-option" data-sort="popular">По популярности</div>
+          </div>
+        </div>
+      </div>
+      <div class="catalog-grid" id="catalogGrid"></div>
+    </div>
   </div>
 </section>
 
@@ -650,6 +697,7 @@
   }
 
   let movieData=[]; let currentIndex=4; const savedMovies=new Set();
+  let filteredMovies=[]; let currentSort='relevance';
   const stage=document.getElementById('stage');
 
   var toastTimer;
@@ -669,9 +717,37 @@
       const cleaned=clean(data);
       movieData=(cleaned.movies||[]).map(transformMovie);
       currentIndex=Math.min(4, movieData.length-1);
-      initCarousel(); renderCatalog(movieData); renderDynamicFilters(); setupCheckboxHandlers(); applyQueryParams();
+      initCarousel(); filteredMovies=movieData; renderSorted(); renderDynamicFilters(); setupCheckboxHandlers(); applyQueryParams();
     } catch(err) { console.error(err); stage.innerHTML='<div class="loader">Ошибка загрузки movies.json. Запустите через Live Server или GitHub Pages.</div>'; }
   }
+
+  /* ===== СОРТИРОВКА ===== */
+  function sortList(list) {
+    const arr=[...list];
+    if(currentSort==='rating')arr.sort((a,b)=>parseFloat(b.rating)-parseFloat(a.rating));
+    else if(currentSort==='new')arr.sort((a,b)=>b.year-a.year);
+    else if(currentSort==='popular')arr.sort((a,b)=>b.votes-a.votes);
+    return arr; // relevance — исходный порядок
+  }
+  function renderSorted(){ renderCatalog(sortList(filteredMovies)); }
+
+  const sortTrigger=document.getElementById('sortTrigger');
+  const sortMenu=document.getElementById('sortMenu');
+  sortTrigger.addEventListener('click',(e)=>{
+    e.stopPropagation();
+    sortMenu.classList.toggle('open');
+    sortTrigger.classList.toggle('open');
+  });
+  document.addEventListener('click',()=>{ sortMenu.classList.remove('open'); sortTrigger.classList.remove('open'); });
+  document.querySelectorAll('.sort-option').forEach(opt=>opt.addEventListener('click',()=>{
+    currentSort=opt.dataset.sort;
+    document.querySelectorAll('.sort-option').forEach(o=>o.classList.remove('active'));
+    opt.classList.add('active');
+    document.getElementById('sortTriggerLabel').textContent=opt.textContent;
+    sortMenu.classList.remove('open');
+    sortTrigger.classList.remove('open');
+    renderSorted();
+  }));
 
   function createCard(data, offset) {
     const card=document.createElement('div');
@@ -850,10 +926,11 @@
     const tones=getActive('toneFilters'); if(tones.length)f=f.filter(m=>m.tones.some(t=>tones.includes(t)));
     const visual=getActive('visualFilters'); if(visual.length)f=f.filter(m=>m.visualKeys.some(v=>visual.includes(v)));
     const aesthetics=getActive('aestheticFilters'); if(aesthetics.length)f=f.filter(m=>m.aesthetics.some(a=>aesthetics.includes(a)));
-    renderCatalog(f);
+    filteredMovies=f;
+    renderSorted();
   }
 
-  function resetAllFilters(){document.querySelectorAll('.checkbox-item').forEach(i=>{i.classList.remove('active');const inp=i.querySelector('input');if(inp)inp.checked=false;});document.querySelectorAll('.filter-toggle').forEach(t=>t.classList.remove('active'));renderCatalog(movieData);}
+  function resetAllFilters(){document.querySelectorAll('.checkbox-item').forEach(i=>{i.classList.remove('active');const inp=i.querySelector('input');if(inp)inp.checked=false;});document.querySelectorAll('.filter-toggle').forEach(t=>t.classList.remove('active'));filteredMovies=movieData;renderSorted();}
   function switchFilterTab(tab,btn){document.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.filter-content').forEach(c=>c.classList.remove('active'));btn.classList.add('active');document.getElementById('filter-'+tab).classList.add('active');}
   function toggleFilterSwitch(el){el.classList.toggle('active');}
   function toggleFilterSection(h){h.parentElement.classList.toggle('open');}
